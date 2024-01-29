@@ -23,5 +23,5 @@ if ($result) {
 }
 
 // Close database connection
-mysqli_close($connection);
+mysqli_close($sellphone);
 ?>
