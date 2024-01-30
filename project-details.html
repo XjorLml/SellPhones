@@ -16,7 +16,9 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -36,55 +38,56 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-    <style>
-      body {
-          font-family: Arial, sans-serif;
-          margin: 20px;
-      }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
 
-      .container {
-          max-width:800px;
-          margin: auto;
-          padding: 20px;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-      form {
-          max-width: 400px;
-          margin: auto;
-      }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
 
-      label {
-          display: block;
-          margin-bottom: 8px;
-      }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
 
-      input, select {
-          width: 100%;
-          padding: 8px;
-          margin-bottom: 16px;
-          box-sizing: border-box;
-      }
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
 
-      button {
-          background-color: #4CAF50;
-          color: white;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-      }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-      button:hover {
-          background-color: #45a049;
-      }
+    button:hover {
+      background-color: #45a049;
+    }
 
-      .choices-container {
-          margin-top: 20px;
-      }
-  </style>  
+    .choices-container {
+      margin-top: 20px;
+    }
+  </style>
 
 </head>
 
@@ -107,7 +110,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="contact.html">About</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="reserved.html">Reserved</a></li>
+          <li><a href="shoppingCart.html">Reserved</a></li>
           <li><a href="login.html">Login</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -154,66 +157,66 @@
 
           <div class="choices-container container">
             <h4>Phone Options</h4>
-    
+
             <label for="modelChoice">Model:</label>
             <select id="modelChoice" onchange="updateReservation('model', this.value)">
-                <option value="iPhone">IPhone 13</option>
+              <option value="iPhone">IPhone 13</option>
             </select>
-    
+
             <label for="colorChoice">Color:</label>
             <select id="colorChoice" onchange="updateReservation('color', this.value)">
-                <option value="Black">Starlight</option>
-                <option value="White">White</option>
-                <option value="Silver">Silver</option>
+              <option value="Black">Starlight</option>
+              <option value="White">White</option>
+              <option value="Silver">Silver</option>
             </select>
-    
+
             <label for="ramChoice">RAM:</label>
             <select id="ramChoice" onchange="updateReservation('ram', this.value)">
-                <option value="4GB">4GB</option>
-                <option value="8GB">8GB</option>
-                <option value="16GB">16GB</option>
+              <option value="4GB">4GB</option>
+              <option value="8GB">8GB</option>
+              <option value="16GB">16GB</option>
             </select>
-    
+
             <label for="romChoice">ROM:</label>
             <select id="romChoice" onchange="updateReservation('rom', this.value)">
-                <option value="256GB">256GB</option>
-                <option value="128GB">128GB</option>
-                <option value="64GB">64GB</option>
+              <option value="256GB">256GB</option>
+              <option value="128GB">128GB</option>
+              <option value="64GB">64GB</option>
             </select>
-    
+
             <!-- You can add more options for prices or any other details -->
-    
+
           </div>
           <div class="row justify-content-between gy-4 mt-4">
-        <div class="container">
-            <form id="reservationForm" onsubmit="submitForm(event)">
+            <div class="container">
+              <form id="reservationForm" onsubmit="submitForm(event)">
                 <h4>Reservation Form</h4>
                 <label for="phoneCount">Phone Count:</label>
                 <input type="number" id="phoneCount" name="phoneCount" required>
                 <label for="calendar">Claim Date:</label>
                 <input type="date" id="calendar" name="calendar" required>
                 <label for="price">Total:</label>
-                <input type="text" id="phoneCount" value='₱40,000'name="phoneCount" required>
+                <input type="text" id="phoneCount" value='₱40,000' name="phoneCount" required>
                 <button type="submit">Submit Reservation</button>
-            </form>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
     </section><!-- End Projet Details Section -->
 
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-    <script>
-      function updateForm() {
-          const model = document.getElementById("phoneModel").value;
-          const color = document.getElementById("phoneColor").value;
-          const ram = document.getElementById("phoneRAM").value;
-          const rom = document.getElementById("phoneROM").value;
+  <script>
+    function updateForm() {
+      const model = document.getElementById("phoneModel").value;
+      const color = document.getElementById("phoneColor").value;
+      const ram = document.getElementById("phoneRAM").value;
+      const rom = document.getElementById("phoneROM").value;
 
-          // Update the reservation form with the selected choices
-          const reservationForm = document.getElementById("reservationForm");
-          reservationForm.innerHTML = `
+      // Update the reservation form with the selected choices
+      const reservationForm = document.getElementById("reservationForm");
+      reservationForm.innerHTML = `
               <label for="phoneCount">Phone Count:</label>
               <input type="number" id="phoneCount" name="phoneCount" required>
 
@@ -232,19 +235,32 @@
               <label for="calendar">Claim Date:</label>
               <input type="date" id="calendar" name="calendar" required>
           `;
-      }
+    }
+    function submitForm(event) {
+      event.preventDefault();
 
-      function submitForm(event) {
-          event.preventDefault();
+      // You can add additional validation logic here before redirecting
 
-          // You can add additional validation logic here before submitting the form
+      alert("Reservation submitted successfully!");
 
-          alert("Reservation submitted successfully!");
-          document.getElementById("reservationForm").reset();
-      }
+      // Redirect to reserved.html
+      window.location.href = "reserved.html";
+
+    }
+    function updateReservation(category, value) {
+      // Add your logic to update the reservation based on the selected category and value
+      console.log(`Updating reservation for ${category} with value: ${value}`);
+    }
+
+    function updateForm() {
+      // Your existing updateForm function code
+    }
+
+
   </script>
 
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <div id="preloader"></div>
 
@@ -261,4 +277,5 @@
   <script src="assets/js/main.js"></script>
 
 </body>
+
 </html>
