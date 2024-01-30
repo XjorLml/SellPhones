@@ -43,7 +43,7 @@
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="adminDashboard.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -52,11 +52,11 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="contact.html" class="active">Contact</a></li>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="reserved.html">Reserved</a></li>
-          <li><a href="login.html">Log In</a></li>
+          <li><a href="adminDashboard.html">Home</a></li>
+          <li><a href="adminReservation.php" class="active">Reservations</a></li>
+          <li><a href="inventory">Inventory</a></li>
+          <li><a href="UserManagement">User Management</a></li>
+          <li><a href="reservations.html">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -66,66 +66,27 @@
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
-      
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
     </div><!-- End Breadcrumbs -->
 
     <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-          <div class="col-lg-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-map"></i>
-              <h3>Our Address</h3>
-              <p>Pasig City, Metro Manila</p>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-envelope"></i>
-              <h3>Email Us</h3>
-              <p>sellphones@gmail.com</p>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-telephone"></i>
-              <h3>Call Us</h3>
-              <p>+63 9276638359</p>
-            </div>
-          </div><!-- End Info Item -->
-
-        </div>
-
-        <div class="row gy-4 mt-1">
-
-          <div class="col-lg-6 ">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1365.1368554692845!2d121.09414402791519!3d14.58824044012215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c7f63e699475%3A0x91965ac65f4092da!2sBahay%20ni%20Jeremy!5e0!3m2!1sen!2sph!4v1705658156754!5m2!1sen!2sph"frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
-          </div><!-- End Google Maps -->
-
-          <div class="col-lg-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-map"></i>
-              <h3>Social Media</h3>
-              <p>Fb.com/pogisilemnuel</p>
-              <p>yt.com/pogisilemnuel</p>
-              <p>tiktok.com/pogisilemnuel</p>
-            </div>
-          </div><!-- End Info Item -->
-        </div>
-        
-
-      </div>
-    </section><!-- End Contact Section -->
-
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <!-- End Footer -->
+    <table>
+    <thead>
+      <tr>
+        <th>Reservation ID</th>
+        <th>Phone ID</th>
+        <th>Reservation Date</th>
+        <th>Pickup Date</th>
+      </tr>
+    </thead>
+      <tbody>
+        <?php
+        // Include the PHP file with the database query
+        include 'fetchReservations.php';
+        ?>
+      </tbody>
+    </table>
+    </main><!-- End #main -->
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
