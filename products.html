@@ -28,28 +28,15 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: UpConstruction
-  * Updated: Jan 09 2024 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
       <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
       </a>
-
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
@@ -57,171 +44,160 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="products.html" class="active">Products</a></li>
-          <li><a href="reserved.html">Reserved</a></li>
+          <li><a href="shoppingCart.html">Reserved</a></li>
           <li><a href="login.html">Log In</a></li>
         </ul>
-      </nav><!-- .navbar -->
-
+      </nav>
     </div>
-  </header><!-- End Header -->
+  </header>
 
   <main id="main">
-
-    <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
-
         <h2>PRODUCTS</h2>
         <ol>
           <li><a href="index.html">Home</a></li>
-          <li>Projects</li>
+          <li>Cellphones</li>
         </ol>
-
       </div>
-    </div><!-- End Breadcrumbs -->
+    </div>
 
-    <!-- ======= Our Projects Section ======= -->
     <section id="projects" class="projects">
       <div class="container" data-aos="fade-up">
-
         <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order">
-
           <ul class="portfolio-flters" data-aos="fade-up" data-aos-delay="100">
             <li data-filter="*" class="filter-active">All</li>
             <li data-filter=".filter-apple">Apple</li>
-            <li data-filter=".filter-samsung">Samsung</li>
-            <li data-filter=".filter-xiaomi">Xiaomi</li>
-            <li data-filter=".filter-oppo">OPPO</li>
-            <li data-filter=".filter-nokia">Nokia</li>
-            <li data-filter=".filter-vivo">Vivo</li>
-            <li data-filter=".filter-realme">Realme</li>
-            <li data-filter=".filter-lenovo">Lenovo</li>
-          </ul><!-- End Projects Filters -->
+            <!-- Add other filter categories as needed -->
+          </ul>
 
           <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+            <script>
+              var phones = [
+                {
+                  brand: "Apple",
+                  model: "Iphone 13",
+                  price: "40000",
+                  ram: "4gb",
+                  storage: "256gb",
+                  color: "Pink",
+                  image: "assets/img/projects/images/Iphone13.png"
+                },
+                {
+                  brand: "Samsung",
+                  model: "Galaxy S21",
+                  price: "15000",
+                  ram: "8gb",
+                  storage: "256gb",
+                  color: "Phantom Gray",
+                  image: "assets/img/projects/images/SamsungGalaxyS215G.png"
+                },
+                {
+                  brand: "Samsung",
+                  model: "Z Fold 3",
+                  price: "95990",
+                  ram: "8gb",
+                  storage: "256gb",
+                  color: "Phantom Green",
+                  image: "assets/img/projects/images/ZFold3.png"
+                },
+                {
+                  brand: "Xiaomi ",
+                  model: "Redmi Note 10",
+                  price: "12990",
+                  ram: "8gb",
+                  storage: "256gb",
+                  color: "Glacier Blue",
+                  image: "assets/img/projects/images/RedmiNote10.png"
+                },
+                {
+                  brand: "Nokia",
+                  model: "8.3",
+                  price: "35530",
+                  ram: "8gb",
+                  storage: "128gb",
+                  color: "Polar Night",
+                  image: "assets/img/projects/images/Nokia8.3.png"
+                },
+                {
+                  brand: "Huawei ",
+                  model: "P40 Pro",
+                  price: "50990",
+                  ram: "8gb",
+                  storage: "256gb",
+                  color: "Deep Sea Blue",
+                  image: "assets/img/projects/images/HuaweiP40Pro.png"
+                },
+                {
+                  brand: "Realme ",
+                  model: "8",
+                  price: "12990",
+                  ram: "8gb",
+                  storage: "128gb",
+                  color: "Cyber Black",
+                  image: "assets/img/projects/images/Realme8.png"
+                },
+                {
+                  brand: "Vivo",
+                  model: "Y20",
+                  price: "9990",
+                  ram: "6gb",
+                  storage: "128gb",
+                  color: "Purist Blue",
+                  image: "assets/img/projects/images/VivoY20.png"
+                },
+                {
+                  brand: "Oppo",
+                  model: "Oppo A74",
+                  price: "10990",
+                  ram: "6gb",
+                  storage: "128gb",
+                  color: "Prism Blue",
+                  image: "assets/img/projects/images/OPPOF19.png"
+                },
+                {
+                  brand: "Lenovo",
+                  model: "Legion Phone Duel 2",
+                  price: "49990",
+                  ram: "16gb",
+                  storage: "512gb",
+                  color: "Titanium White",
+                  image: "assets/img/projects/images/LenovoLegionPhoneDuel2.png"
+                },
 
-            <div class="col-lg-4 col-md-6 portfolio-item filter-apple">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/Iphone13.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Iphone 13</h4>
-                  <p>₱40,000 | 4gb | 256gb | Starlight</p>
-                  <a href="assets/img/projects/images/Iphone13.png" title="Iphone 13" data-gallery="portfolio-gallery-apple" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
+                
+                // Add similar objects for other phones
+              ];
 
-            <div class="col-lg-4 col-md-6 portfolio-item filter-construction">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/SamsungGalaxyS215G.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Samsung Galaxy S21 5G</h4>
-                  <p>₱15,000 | 8gb | 256gb | Phantom Gray</p>
-                  <a href="assets/img/projects/images/SamsungGalaxyS215G.png" title="Samsung Galaxy S21 5G" data-gallery="portfolio-gallery-samsung" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
+              function generatePhoneHTML(phone) {
+                return `
+                  <div class="col-lg-4 col-md-6 portfolio-item filter-${phone.brand.toLowerCase()}">
+                    <div class="portfolio-content h-100">
+                      <img src="${phone.image}" class="img-fluid" alt="">
+                      <div class="portfolio-info">
+                        <h4>${phone.model}</h4>
+                        <p>${phone.price} | ${phone.ram} | ${phone.storage} | ${phone.color}</p>
+                        <a href="${phone.image}" title="${phone.model}" data-gallery="portfolio-gallery-${phone.brand.toLowerCase()}" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                        <a href="reserveProduct.html?brand=${phone.brand}&model=${phone.model}&price=${phone.price}&ram=${phone.ram}&storage=${phone.storage}&color=${phone.color}&image=${phone.image}" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
+                      </div>
+                    </div>
+                  </div>`;
+              }
 
-            <div class="col-lg-4 col-md-6 portfolio-item filter-xiaomi">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/RedmiNote10.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Redmi Note 10</h4>
-                  <p>₱12,990 | 8gb | 256gb | Glacier Blue</p>
-                  <a href="assets/img/projects/images/RedmiNote10.png" title="Xiaomi Redmi Note 10" data-gallery="portfolio-gallery-xiaomi" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-oppo">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/OPPOF19.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>OPPO F19</h4>
-                  <p>₱10,990 | 6gb | 128gb | Prism Blue</p>
-                  <a href="assets/img/projects/images/OPPOF19.png" title="OPPO F19" data-gallery="portfolio-gallery-oppo" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-nokia">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/Nokia8.3.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Nokia 8.3</h4>
-                  <p>₱35,530 | 8gb | 128gb | Polar Night</p>
-                  <a href="assets/img/projects/images/Nokia8.3.png" title="Nokia 8.3" data-gallery="portfolio-gallery-Nokia" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-vivo">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/VivoY20.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Vivo Y20</h4>
-                  <p>₱9,999 | 6gb | 128gb | Purist Blue</p>
-                  <a href="assets/img/projects/images/VivoY20.png" title="Vivo Y20" data-gallery="portfolio-gallery-vivo" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-realme">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/Realme8.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Realme 8</h4>
-                  <p>₱12,990 | 8gb | 128gb | Cyber Black</p>
-                  <a href="assets/img/projects/images/Realme8.png" title="Realme 8" data-gallery="portfolio-gallery-realme" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-samsung">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/ZFold3.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>ZFold 3</h4>
-                  <p>₱95,990 | 12gb | 512gb | Phantom Green</p>
-                  <a href="assets/img/projects/images/ZFold3.png" title="ZFold 3" data-gallery="portfolio-gallery-samsung" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-lenovo">
-              <div class="portfolio-content h-100">
-                <img src="assets/img/projects/images/LenovoLegionPhoneDuel2.png" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Legion Phone Duel 2</h4>
-                  <p>₱49,990 | 16gb | 512gb | Titanium White</p>
-                  <a href="assets/img/projects/images/LenovoLegionPhoneDuel2.png" title="Legion Phone Duel 2" data-gallery="portfolio-gallery-lenovo" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="project-details.html" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
-                </div>
-              </div>
-            </div><!-- End Projects Item -->
-
-          </div><!-- End Projects Container -->
-
+              for (var i = 0; i < phones.length; i++) {
+                document.write(generatePhoneHTML(phones[i]));
+              }
+            </script>
+          </div>
         </div>
-
       </div>
-    </section><!-- End Our Projects Section -->
+    </section>
+  </main>
 
-  </main><!-- End #main -->
+  <!-- ... (scroll-top, preloader, and other HTML content remains unchanged) ... -->
 
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- ... (vendor JS files and main JS file remain unchanged) ... -->
 
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -229,10 +205,7 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>
