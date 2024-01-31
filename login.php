@@ -1,6 +1,13 @@
 <?php
+    require "functions.php";
 
+    if(isset($_POST['submit'])){
+        $response = loginUser($_POST['email'], $_POST['password']);
+        echo $response; // For testing purposes, display the response
+    }
 ?>
+
+
 
 
 <head>
@@ -76,19 +83,19 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h2 class="text-center mb-4">Login</h2>
-                                            <form>
+                                            <form action="login.php" method="post">
                                                 <!-- Email input -->
                                                 <div class="mb-3">
                                                     <label for="loginEmail" class="form-label">Email</label>
-                                                    <input type="email" id="loginEmail" class="form-control" />
+                                                    <input type="email" name="email" id="loginEmail" class="form-control" value="<?php echo @$_POST['email']; ?>"/>
                                                 </div>
-                        
+
                                                 <!-- Password input -->
                                                 <div class="mb-3">
                                                     <label for="loginPassword" class="form-label">Password</label>
-                                                    <input type="password" id="loginPassword" class="form-control" />
+                                                    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
                                                 </div>
-                        
+
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
@@ -98,16 +105,15 @@
                                                             <label class="form-check-label" for="loginCheck" style="font-size: 13px;"> Remember me </label>
                                                         </div>
                                                     </div>
-                        
+
                                                     <div class="col-md-6">
                                                         <a href="#!" class="d-block" style="font-size: 13px;">Forgot password?</a>
                                                     </div>
-                                                    
                                                 </div>
                                                 <!-- Submit button -->
-                                                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                                                <button type="submit" name="submit">Log In</button>
                                             </form>
-                        
+
                                             <div class="text-center mt-3">
                                                 <p>Not a member? <a href="signup.php">Sign Up</a></p>
                                             </div>

@@ -132,7 +132,7 @@
                                             ?>
     
                                             <div class="text-center mt-3">
-                                                <p>Already a member? <a href="signup.php">Log In</a></p>
+                                                <p>Already a member? <a href="login.php">Log In</a></p>
                                             </div>
                                         </div>
                                     </div>
