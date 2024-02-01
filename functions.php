@@ -16,6 +16,7 @@ function connect() {
 }
 
 
+
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword) {
 
     $mysqli = connect();
@@ -69,13 +70,48 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     $stmt->bind_param("sssss", $email, $fname, $lname, $phoneNumber, $hashed_password);
 
     if ($stmt->execute()) {
+        header("Location: login.php");
         return "User registered successfully";
     } else {
         return "Error: " . $stmt->error;
     }
 }
 
-function loginUser(){}
+function loginUser($email, $password) {
+    $mysqli = connect();
+
+    $email = trim($email);
+    $password = trim($password);
+
+    if($email == "" || $password == "") {
+        return "Both fields are required";
+    }
+
+    $email = filter_var($email, FILTER_SANITIZE_STRING);
+    $password = filter_var($password, FILTER_SANITIZE_STRING);
+
+    // Convert email to lowercase for a case-insensitive comparison
+    $email = strtolower($email);
+
+    $sql = "SELECT email, password FROM userTbl WHERE LOWER(email) = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    if($data == NULL){
+        return "Wrong Email or password";
+    }
+
+    if(password_verify($password, $data["password"]) == FALSE){
+        return "Wrong Email or password";
+    } else {
+        $_SESSION["email"] = $data["email"]; // Store the lowercase email in the session
+        header("Location: products.html");
+        exit();
+    }
+}
 
 function logoutUser(){}
 
