@@ -28,6 +28,15 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+
+
+  <style>
+    .phone-image {
+      height: 300px; /* Set the desired fixed height for the images */
+      object-fit: cover; /* Ensure the image covers the specified height */
+      width: 100%; /* Ensure the image takes the full width of its container */
+    }
+  </style>
 </head>
 
 <body>
@@ -42,10 +51,10 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="products.html" class="active">Products</a></li>
           <li><a href="shoppingCart.html">Reserved</a></li>
-          <li><a href="login.html">Log In</a></li>
+          <li><a href="login.php">Log In</a></li>
         </ul>
       </nav>
     </div>
@@ -68,6 +77,14 @@
           <ul class="portfolio-flters" data-aos="fade-up" data-aos-delay="100">
             <li data-filter="*" class="filter-active">All</li>
             <li data-filter=".filter-apple">Apple</li>
+            <li data-filter=".filter-samsung">Samsung</li>
+            <li data-filter=".filter-xiaomi">Xiaomi</li>
+            <li data-filter=".filter-nokia">Nokia</li>
+            <li data-filter=".filter-lenovo">Lenovo</li>
+            <li data-filter=".filter-realme">Realme</li>
+            <li data-filter=".filter-huawei">Huawei</li>
+            <li data-filter=".filter-vivo">Vivo</li>
+
             <!-- Add other filter categories as needed -->
           </ul>
 
@@ -173,10 +190,10 @@
                 return `
                   <div class="col-lg-4 col-md-6 portfolio-item filter-${phone.brand.toLowerCase()}">
                     <div class="portfolio-content h-100">
-                      <img src="${phone.image}" class="img-fluid" alt="">
+                      <img src="${phone.image}" class="img-fluid phone-image" alt="">
                       <div class="portfolio-info">
                         <h4>${phone.model}</h4>
-                        <p>${phone.price} | ${phone.ram} | ${phone.storage} | ${phone.color}</p>
+                        <p>₱${phone.price} | ${phone.ram} | ${phone.storage} | ${phone.color}</p>
                         <a href="${phone.image}" title="${phone.model}" data-gallery="portfolio-gallery-${phone.brand.toLowerCase()}" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                         <a href="reserveProduct.html?brand=${phone.brand}&model=${phone.model}&price=${phone.price}&ram=${phone.ram}&storage=${phone.storage}&color=${phone.color}&image=${phone.image}" title="More Details" class="details-link"><i class="bi bi-cart"></i></a>
                       </div>
@@ -194,6 +211,72 @@
     </section>
   </main>
 
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content position-relative">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>SellPhone</h3>
+              <p>
+                Vicente Cruz Street, Sampaloc <br>
+                Manila, Philippines<br><br>
+                <strong>Phone:</strong> +1 5589 55488 55<br>
+                <strong>Email:</strong> sellphone@gmail.com<br>
+              </p>
+              <div class="social-links d-flex mt-3">
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div><!-- End footer info column-->
+
+          <div class="col-lg-2 col-md-3 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="products.html">Products</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+            </ul>
+          </div><!-- End footer links column-->
+
+          <div class="col-lg-6 col-md-3 footer-links">
+            <h4>About Us</h4>
+            <p>
+              Welcome to SellPhone, your go-to destination for streamlined phone reservation and monitoring. At SellPhone, we're dedicated to simplifying your journey to secure the latest smartphones. Discover, reserve, and stay updated on phone availability effortlessly. Whether you're a tech enthusiast or seeking a reliable device, SellPhone is your one-click solution. Innovation meets simplicity at SellPhone – where your dream phone is just a click away.</p>
+          </div><!-- End footer links column-->
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal text-center position-relative">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>SellPhone</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
+          Designed by Power PUP Bois</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
   <!-- ... (scroll-top, preloader, and other HTML content remains unchanged) ... -->
 
   <!-- ... (vendor JS files and main JS file remain unchanged) ... -->
