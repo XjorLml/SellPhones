@@ -14,6 +14,6 @@ if ( isset( $_GET['userID']) ) {
     $conn->query($sql);
 }
 
-header("location: /phpxampptutorial/userManagement.php");
+header("location: userManagement.php");
 exit;
 ?>
