@@ -16,6 +16,7 @@ function connect() {
 
 
 
+
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
     $mysqli = connect();
@@ -63,6 +64,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
     $stmt->execute();
 
+
     if ($stmt->affected_rows != 1) {
         return "An error occured. Please Try Again";
     } else {
@@ -70,6 +72,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
         return "Success ";
     }
 }
+
 
 function loginUser($email, $password, $userType) {
     $mysqli = connect();

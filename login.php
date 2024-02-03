@@ -2,10 +2,13 @@
     require "functions.php";
 
     if(isset($_POST['submit'])){
+
         $response = loginUser($_POST['email'], $_POST['password'], $_POST['userType']);
 
     }
     ?>
+
+
 
 
 <head>
@@ -80,6 +83,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h2 class="text-center mb-4">Login</h2>
+
                                             <form action="" method="post" autocomplete="off">
                                                 <!-- Email input -->
                                                 <div class="mb-3">
@@ -110,6 +114,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- Submit button -->
+
                                                 <button type="submit" name="submit" class="btn btn-primary btn-block">Log In</button>
 
                                             <p class="error"><?php echo @$response ?></p>
@@ -118,6 +123,7 @@
                                             </form>
 
                                             
+
                                             <div class="text-center mt-3">
                                                 <p>Not a member? <a href="signup.php">Sign Up</a></p>
                                             </div>
