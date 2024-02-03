@@ -1,3 +1,19 @@
+<?php
+// Start the session at the beginning of your PHP file
+
+
+// Check if reservation data is in the session
+if (isset($_SESSION['reservation'])) {
+    $reservation = $_SESSION['reservation'];
+    // Clear the reservation data from the session to avoid duplicates
+    unset($_SESSION['reservation']);
+} else {
+    // No reservation data found, handle accordingly
+    echo "No reservation data found.";
+    exit(); // Stop execution if there's no reservation data
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,90 +44,6 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <script>
-    // Function to delete a reserved item from local storage
-    function deleteItem(index) {
-      // Retrieve reservations from local storage
-      const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-
-      // Remove the item at the specified index
-      reservations.splice(index, 1);
-
-      // Update local storage with the modified reservations
-      localStorage.setItem('reservations', JSON.stringify(reservations));
-
-      // Refresh the page to reflect the changes
-      location.reload();
-    }
-
-    // Function to update reserve date and quantity
-    function updateItem(index) {
-      // Retrieve reservations from local storage
-      const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-
-      // Prompt the user to enter a new reserve date
-      const newDate = prompt('Enter new reserve date (YYYY-MM-DD):');
-
-      // Prompt the user to enter a new quantity
-      const newQuantity = prompt('Enter new quantity:');
-
-      // Update the reservation at the specified index
-      if (newDate && newQuantity) {
-        reservations[index].claimDate = newDate;
-        reservations[index].phoneCount = newQuantity;
-
-        // Update local storage with the modified reservations
-        localStorage.setItem('reservations', JSON.stringify(reservations));
-
-        // Refresh the page to reflect the changes
-        location.reload();
-      }
-    }
-
-    // Function to open the editing container
-    function openEditContainer(index) {
-      // Retrieve reservations from local storage
-      const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-
-      // Get the reservation at the specified index
-      const reservation = reservations[index];
-
-      // Display the editing container
-      const editContainer = document.getElementById('editContainer');
-      editContainer.style.display = 'block';
-
-      // Populate the editing container with the reservation details
-     
-      document.getElementById('editQuantity').value = reservation.phoneCount;
-      document.getElementById('editDate').value = reservation.claimDate;
-
-      // Set the index as a data attribute for later use
-      editContainer.setAttribute('data-index', index);
-    }
-
-    // Function to save edited data
-    function saveEditedData() {
-      // Retrieve reservations from local storage
-      const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-
-      // Retrieve the index from the data attribute
-      const index = parseInt(document.getElementById('editContainer').getAttribute('data-index'));
-
-      // Update the reservation with edited data
-
-      reservations[index].phoneCount = document.getElementById('editQuantity').value;
-      reservations[index].claimDate = document.getElementById('editDate').value;
-
-      // Update local storage with the modified reservations
-      localStorage.setItem('reservations', JSON.stringify(reservations));
-
-      // Hide the editing container
-      document.getElementById('editContainer').style.display = 'none';
-
-      // Refresh the page to reflect the changes
-      location.reload();
-    }
-  </script>
   <!-- Custom Styles -->
   <style>
     body {
@@ -203,62 +135,25 @@
     </div>
     <!-- End Breadcrumbs -->
 
-    <!-- ======= Shopping Cart Section ======= -->
     <section id="shopping-cart" class="shopping-cart">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <!-- Retrieve reserved items from local storage -->
-        <div id="reservedItems">
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-              const reservedItemsContainer = document.getElementById('reservedItems');
-
-              reservations.forEach((reservation, index) => {
-                const reservedItem = document.createElement('div');
-                reservedItem.classList.add('reserved-item');
-
-                const image = document.createElement('img');
-                image.src = reservation.image;
-                image.alt = reservation.model;
-                reservedItem.appendChild(image);
-
-                const itemDetails = document.createElement('div');
-                itemDetails.classList.add('item-details');
-
-                const details = `
-        <h4>${reservation.brand} ${reservation.model}</h4>
-        <p>Price: ₱${reservation.price}</p>
-        <p>Ram: ${reservation.ram}</p>
-        <p>Storage: ${reservation.storage}</p>
-        <p>Color: ${reservation.color}</p>
-        <p>Quantity: ${reservation.phoneCount}</p>
-        <p>Claim Date: ${reservation.claimDate}</p>
-        <div>
-          <button onclick="deleteItem(${index})">Delete</button>
-          <button onclick="openEditContainer(${index})">Edit</button>
+        <!-- Display the fetched reservation data -->
+        <div id="reservationDetails">
+          <h2>Reservation Details</h2>
+          <p>Phone ID: <?php echo $reservation['phoneId']; ?></p>
+          <p>Phone Count: <?php echo $reservation['phoneCount']; ?></p>
+          <p>Claim Date: <?php echo $reservation['claimDate']; ?></p>
         </div>
-      `;
-                itemDetails.innerHTML = details;
 
-                reservedItem.appendChild(itemDetails);
-                reservedItemsContainer.appendChild(reservedItem);
-              });
-
-              // Display total
-              const totalContainer = document.createElement('div');
-              totalContainer.classList.add('total');
-
-              // Calculate total price
-              const totalPrice = reservations.reduce((acc, reservation) => acc + (parseInt(reservation.price) * parseInt(reservation.phoneCount)), 0);
-
-              totalContainer.textContent = `Total: ₱${totalPrice}`;
-              reservedItemsContainer.appendChild(totalContainer);
-            });
-          </script>
+        <!-- Display reserved items using getReservedItems() -->
+        <div id="reservedItems">
+          <!-- The JavaScript code to display reserved items as before... -->
         </div>
       </div>
-    </section><!-- End Shopping Cart Section -->
+    </section>
+    <!-- End Shopping Cart Section -->
+
 
       <!-- Editing Container -->
   <div id="editContainer">

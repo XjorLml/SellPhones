@@ -8,5 +8,5 @@ define('email', '');
 define('PASSWORD', '');
 define('phoneNumber', '');
 define('userType', '');
-define('DATABASE', 'sellphones');
 
+define('DATABASE', 'sellphonesdb');

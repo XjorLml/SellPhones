@@ -1,3 +1,55 @@
+<?php
+  require "functions.php";
+
+  // Get phone ID from URL parameter
+  $phoneId = isset($_GET['id']) ? $_GET['id'] : null;
+
+  // Check if phone ID is provided
+  if ($phoneId === null) {
+      echo "Phone ID is not provided.";
+      exit;
+  }
+
+  // Fetch phone details from the database
+  $phoneDetails = getPhoneDetailsById($phoneId);
+
+  // Check if phone details are found
+  if ($phoneDetails === null) {
+      echo "Phone details not found.";
+      exit;
+  }
+
+ // Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Check if form fields are set
+  if (isset($_POST['phoneCount']) && isset($_POST['calendar'])) {
+      // Get reservation details
+      $phoneCount = $_POST['phoneCount'];
+      $claimDate = $_POST['calendar'];
+
+      // Check if the reservation date is not later than the current date and no more than 2 days in the future
+      $currentDate = date('Y-m-d');
+      $maxReservationDate = date('Y-m-d', strtotime($currentDate . ' + 2 days'));
+
+      if ($claimDate < $currentDate || $claimDate > $maxReservationDate) {
+          echo "Invalid reservation date. Please choose a date within the next 2 days.";
+          exit;
+      }
+
+      // Call the reservePhone function
+      $result = reservePhone($phoneId, $phoneCount, $claimDate);
+
+      // Output the result
+      echo $result;
+      exit;
+  } else {
+      echo "Invalid form data.";
+      exit;
+  }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,7 +165,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="shoppingCart.html">Reserved</a></li>
+          <li><a href="shoppingCart.php">Reserved</a></li>
           <li><a href="login.php">Login</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -139,44 +191,30 @@
     <section id="project-details" class="project-details">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div id="selectedPhoneDetails">
-          <script>
-            const urlParams = new URLSearchParams(window.location.search);
-            const brand = urlParams.get('brand');
-            const model = urlParams.get('model');
-            const price = urlParams.get('price');
-            const ram = urlParams.get('ram');
-            const storage = urlParams.get('storage');
-            const color = urlParams.get('color');
-            const image = urlParams.get('image');
-          
-            // Now you have these variables, and you can use them as needed in your HTML.
-            document.write(`
-              <img src="${image}" alt="${model}">
-              <h2>${brand} ${model}</h2>
-              <p>Price: ${price}</p>
-              <p>Ram: ${ram}</p>
-              <p>Storage: ${storage}</p>
-              <p>Color: ${color}</p>
-            `);
-          </script>
-        </div>
-
-        <!-- Reservation Form -->
-        <div class="row justify-content-between gy-4 mt-4">
-          <div class="container-res">
-            <form id="reservationForm" onsubmit="submitForm(event)">
-              <h4>Reservation Form</h4>
-              <label for="phoneCount">Phone Count:</label>
-              <input type="number" id="phoneCount" name="phoneCount" required>
-              <label for="calendar">Reservation Date:</label>
-              <input type="date" id="calendar" name="calendar" required>
-              <button type="submit">Submit Reservation</button>
-            </form>
-          </div>
-        </div>
-
+      <div id="selectedPhoneDetails">
+          <?php
+            // Display phone details
+            echo '<img src="data:image/jpeg;base64,' . base64_encode($phoneDetails['phoneImage']) . '" alt="' . $phoneDetails['phoneModel'] . '" style="max-width: 100%; height: auto;">';
+            echo '<h2>' . $phoneDetails['phoneBrand'] . ' ' . $phoneDetails['phoneModel'] . '</h2>';
+            echo '<p>Price: ₱' . $phoneDetails['phonePrice'] . '</p>';
+            echo '<p>Storage: ' . $phoneDetails['phoneStorage'] . '</p>';
+            echo '<p>Color: ' . $phoneDetails['phoneColor'] . '</p>';
+          ?>
       </div>
+      <!-- Reservation Form -->
+      <div class="row justify-content-between gy-4 mt-4">
+        <div class="container">
+          <form id="reservationForm" method="POST">
+            <h4>Reservation Form</h4>
+            <label for="phoneCount">Phone Count:</label>
+            <input type="number" id="phoneCount" name="phoneCount" required>
+            <label for="calendar">Reservation Date:</label>
+            <input type="date" id="calendar" name="calendar" required>
+            <button type="submit">Submit Reservation</button>
+          </form>
+        </div>
+      </div>
+        
     </section><!-- End Projet Details Section -->
 
   </main><!-- End #main -->
@@ -219,8 +257,8 @@
   
       alert("Reservation submitted successfully!");
   
-      // Redirect to shoppingCart.html
-      window.location.href = "shoppingCart.html";
+      // Redirect to shoppingCart.php
+      window.location.href = "shoppingCart.php";
     }
   </script>
 
