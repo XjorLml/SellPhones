@@ -2,10 +2,11 @@
     require "functions.php";
 
     if(isset($_POST['submit'])){
-        $response = loginUser($_POST['email'], $_POST['password']);
-        echo $response; // For testing purposes, display the response
+
+        $response = loginUser($_POST['email'], $_POST['password'], $_POST['userType']);
+
     }
-?>
+    ?>
 
 
 
@@ -68,8 +69,7 @@
         <!-- ======= Breadcrumbs ======= -->
         <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
         </div>
-
-
+   
     <section id="contact" class="contact">
         <div class="info d-flex align-items-center">
             <div class="container">
@@ -83,18 +83,21 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h2 class="text-center mb-4">Login</h2>
-                                            <form action="login.php" method="post">
+
+                                            <form action="" method="post" autocomplete="off">
                                                 <!-- Email input -->
                                                 <div class="mb-3">
                                                     <label for="loginEmail" class="form-label">Email</label>
-                                                    <input type="email" name="email" id="loginEmail" class="form-control" value="<?php echo @$_POST['email']; ?>"/>
+                                                    <input type="text" name="email" id="loginEmail" class="form-control" value="<?php echo @$_POST['email']; ?>"/>
                                                 </div>
 
                                                 <!-- Password input -->
-                                                <div class="mb-3">
-                                                    <label for="loginPassword" class="form-label">Password</label>
-                                                    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
-                                                </div>
+                                                <!-- Password input -->
+<div class="mb-3">
+    <label for="loginPassword" class="form-label">Password</label>
+    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+</div>
+
 
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
@@ -111,8 +114,15 @@
                                                     </div>
                                                 </div>
                                                 <!-- Submit button -->
-                                                <button type="submit" name="submit">Log In</button>
+
+                                                <button type="submit" name="submit" class="btn btn-primary btn-block">Log In</button>
+
+                                            <p class="error"><?php echo @$response ?></p>
+
+
                                             </form>
+
+                                            
 
                                             <div class="text-center mt-3">
                                                 <p>Not a member? <a href="signup.php">Sign Up</a></p>
@@ -147,4 +157,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eAq2B5BzUjg3a0vTA2o49fgJrj2u9vAT9GTO4+m9PqEjLh6j8wtg1W6lgF5wo5JX" crossorigin="anonymous"></script>
 </body>
 </html>
-

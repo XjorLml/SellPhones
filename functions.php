@@ -3,7 +3,6 @@ require "config.php";
 
 function connect() {
     $mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DATABASE);
-
     if ($mysqli->connect_errno != 0) {
         $error = $mysqli->connect_error;
         $error_date = date("F j, Y, g:i a");
@@ -96,7 +95,8 @@ function getReservedItems() {
     }
 }
 
-function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword) {
+
+function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
     $mysqli = connect();
     $args = func_get_args();
@@ -105,7 +105,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
         return trim($value);
     }, $args);
     
-    foreach ($args as $key => $value){
+    foreach ($args as $value){
         if(empty($value)){
             return "All Fields are required";
         }
@@ -126,75 +126,87 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
-    
-    if($data != null){
+    if($data != NULL){
         return "Email already exists, please use a different Email";
     }
 
-    if(strlen($password) < 8){
-        return "Password too short";      
+    if(strlen($password) > 50){
+        return "Password too long";      
     }
 
     if($password != $registerRepeatPassword){
         return "Passwords don't match";
     }
-    
-
-
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $mysqli->prepare("INSERT INTO userTbl (email, fName, lName, phoneNumber, password, userType) VALUES (?, ?, ?, ?, ?, 'user')");
-    
-    // Updated bind_param to include the data types for each parameter
-    $stmt->bind_param("sssss", $email, $fname, $lname, $phoneNumber, $hashed_password);
+    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType) VALUES (?, ?, ?, ?, ?, 'user')");
+    $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
+    $stmt->execute();
 
-    if ($stmt->execute()) {
-        header("Location: login.php");
-        return "User registered successfully";
+
+    if ($stmt->affected_rows != 1) {
+        return "An error occured. Please Try Again";
     } else {
-        return "Error: " . $stmt->error;
+        header("Location: login.php");
+        return "Success ";
     }
 }
 
-function loginUser($email, $password) {
-    $mysqli = connect();
 
+function loginUser($email, $password, $userType) {
+    $mysqli = connect();
     $email = trim($email);
     $password = trim($password);
+    $userType = trim($userType);
 
     if($email == "" || $password == "") {
         return "Both fields are required";
     }
 
-    $email = filter_var($email, FILTER_SANITIZE_STRING);
-    $password = filter_var($password, FILTER_SANITIZE_STRING);
+    $email = filter_var($email, FILTER_UNSAFE_RAW);
+    $password = filter_var($password, FILTER_UNSAFE_RAW);
 
-    // Convert email to lowercase for a case-insensitive comparison
-    $email = strtolower($email);
-
-    $sql = "SELECT email, password FROM userTbl WHERE LOWER(email) = ?";
+    $sql = "SELECT email, password, userType FROM userTBL WHERE email = ?";
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("s", $email);    
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
 
-    if($data == NULL){
-        return "Wrong Email or password";
-    }
+    var_dump($data);  
+    var_dump($password);  
+    var_dump($userType); 
+    
+   // In loginUser function
+if ($result->num_rows === 1 && password_verify($password, $data["password"])) {
+    // If authentication is successful,
+    // set the user session and redirect to the appropriate dashboard.
+    $_SESSION["userType"] = $data["userType"];
 
-    if(password_verify($password, $data["password"]) == FALSE){
-        return "Wrong Email or password";
-    } else {
-        $_SESSION["email"] = $data["email"]; // Store the lowercase email in the session
+    if ($_SESSION["userType"] === 'admin') {
+        // Admin routes
+        header("Location: adminDashboard.php");
+        exit();
+    } elseif ($_SESSION["userType"] === 'user') {
+        // User routes
         header("Location: products.html");
         exit();
     }
 }
+ else {
+        
+        header('Location: login.php');
+        echo "Please log in or Wrong username or password";
+    }
+}
 
-function logoutUser(){}
+
+function logoutUser(){
+    session_destroy();
+    header("location: login.php");
+    exit();
+}
 
 function passwordReset(){}
 
 function deleteAccount(){}
-

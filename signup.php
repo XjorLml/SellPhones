@@ -4,13 +4,11 @@
     if(isset($_POST['submit'])){
         $response = registerUser($_POST['email'], $_POST['fName'], $_POST['lName'], $_POST['phoneNumber'], $_POST['password'], $_POST['registerRepeatPassword']);
     }
-
-    
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
@@ -107,7 +105,7 @@
                                                     <!-- Re-type Password input -->
                                                     <div class="col-md-6">
                                                         <label for="registerRepeatPassword" class="form-label">Re-type Password</label>
-                                                        <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control"  />
+                                                        <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" value="<?php echo @$_POST['registerRepeatPassword']; ?>" />
                                                     </div>
                                                 </div>
     
@@ -118,18 +116,21 @@
                                                         I have read and agree to the terms
                                                     </label>
                                                 </div>
-    
                                                 <!-- Submit button -->
                                                 <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
 
-                                        
-
-                                            </form>
-                                            <?php 
-                                            if (!empty($response) && $response !== "User registered successfully") {
-                                            echo '<div class="error-message">' . $response . '</div>';
+                                                <?php 
+                                            if(@$response == "success"){
+                                                ?>
+                                                <p class="success"> Registered Successfully</p>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                    <p class="error"><?php echo@$response; ?></p>
+                                                    <?php
                                             }
                                             ?>
+                                            </form>
     
                                             <div class="text-center mt-3">
                                                 <p>Already a member? <a href="login.php">Log In</a></p>

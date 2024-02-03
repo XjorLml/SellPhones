@@ -39,76 +39,88 @@
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="adminDashboard.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
       </a>
-
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="products.php">Products</a></li>
-          <li><a href="shoppingCart.html">Reserved</a></li>
-          <li><a href="login.php">Log In</a></li>
-          <li><a href="reserved.html">Reserved</a></li>
-          <li><a href="login.php">Log In</a></li>
+          <li><a href="adminDashboard.html">Home</a></li>
+          <li><a href="adminReservation.php">Reservations</a></li>
+          <li><a href="inventory">Inventory</a></li>
+          <li><a href="userManagement.php" class="active">User Management</a></li>
+          <li><a href="reservations.html">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 
     </div>
   </header><!-- End Header -->
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="hero">
+   <!-- ======= Breadcrumbs ======= -->
+   <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
+    </div><!-- End Breadcrumbs -->
 
-    <div class="info d-flex align-items-center">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6 text-center">
-            <h2 data-aos="fade-down">Welcome to <span>Sellphone</span></h2>
-            <p data-aos="fade-up"></p>
-            
-          </div>
-        </div>
-      </div>
+  <div class="container my-5">
+        <h2>User Managment</h2>
+        <a class ="btn btn-primary" href="userCreate.php" role="button">New Client</a>
+        <br>
+        <table class= "table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sellphone";
+
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Connection failed". $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM usertbl ";
+                $result = $conn->query($sql);
+
+                if (!$result) {
+                    die("Invalid query". $conn->connect_error);
+                }
+
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <tr>
+                        <td>$row[userID]</td>
+                        <td>$row[fName]</td>
+                        <td>$row[lName]</td>
+                        <td>$row[email]</td>
+                        <td>$row[phoneNumber]</td>
+                        <td>
+                            <a class='btn btn-primary btn-sm' href='userEdit.php?userID=$row[userID]'>Edit</a>
+                            <a class='btn btn-danger btn-sm' href='delete.php?userID=$row[userID]'>Delete</a>
+                        </td>
+                    </tr>
+                    ";
+                }        
+                ?>     
+            </tbody>
+        </table>
     </div>
-
-    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-
-      <div class="carousel-item active">
-        <img src="https://images.samsung.com/ph/smartphones/galaxy-z-flip4/images/galaxy-z-flip4_highlights_kv.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-2.jpg)">
-        <img src="https://cdn.britannica.com/09/241709-050-149181B1/apple-iphone-11-2019.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="https://www.gizchina.com/wp-content/uploads/images/2023/08/Flagship-Phones-1200x675.jpg" class="d-block w-100" alt="...">
-      </div>
-
-      <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-      </a>
-
-      <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-      </a>
-
-    </div>
-
-  </section><!-- End Hero Section -->
-
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

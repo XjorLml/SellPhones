@@ -1,3 +1,19 @@
+<?php 
+require "functions.php";
+
+   
+      if (!isset($_SESSION["userType"]) || $_SESSION["userType"] !== 'admin') {
+      header("location: login.php");
+      exit();
+      }
+
+
+    if(isset($_GET['logout'])){
+      logoutUser();
+    }
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +72,7 @@
           <li><a href="adminReservation.php">Reservations</a></li>
           <li><a href="inventory">Inventory</a></li>
           <li><a href="UserManagement">User Management</a></li>
-          <li><a href="reservations.html">Log out</a></li>
+          <li><a href="?logout">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 
