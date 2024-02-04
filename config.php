@@ -9,4 +9,4 @@ define('PASSWORD', '');
 define('phoneNumber', '');
 define('userType', '');
 
-define('DATABASE', 'sellphonesdb');
+define('DATABASE', 'sellphone');

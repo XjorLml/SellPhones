@@ -1,17 +1,16 @@
 <?php
-// Start the session at the beginning of your PHP file
+session_start();
 
-
-// Check if reservation data is in the session
+// Check if reservation details are available in the session
 if (isset($_SESSION['reservation'])) {
     $reservation = $_SESSION['reservation'];
-    // Clear the reservation data from the session to avoid duplicates
-    unset($_SESSION['reservation']);
 } else {
-    // No reservation data found, handle accordingly
-    echo "No reservation data found.";
-    exit(); // Stop execution if there's no reservation data
+    $reservation = null;
 }
+
+// You can also implement the logic to retrieve and display reserved items from the database here
+// ...
+
 ?>
 
 <!DOCTYPE html>
@@ -43,55 +42,18 @@ if (isset($_SESSION['reservation'])) {
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- Custom Styles -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
+      .footer {
+      background-color: #333; /* Change this to your desired background color */
+      color: #fff; /* Change this to your desired font color */
     }
 
-    .reserved-item {
-      border-bottom: 1px solid #ddd;
-      padding: 15px 0;
-      display: flex;
-      align-items: center;
+    .footer a {
+      color: #fff; /* Change this to your desired link color */
     }
 
-    .reserved-item img {
-      max-width: 100px;
-      margin-right: 20px;
-    }
-
-    .item-details {
-      flex: 1;
-    }
-
-    .total {
-      text-align: right;
-      font-weight: bold;
-    }
-
-    /* Styles for the editing container */
-    #editContainer {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-
-    /* Close button for the editing container */
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
+    .footer a:hover {
+      color: #bbb; /* Change this to your desired link color on hover */
     }
   </style>
 </head>
@@ -112,8 +74,8 @@ if (isset($_SESSION['reservation'])) {
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="shoppingCart.html">Reserved</a></li>
+          <li><a href="products.php">Products</a></li>
+          <li><a href="shoppingCart.php">Reserved</a></li>
           <li><a href="login.php">Login</a></li>
         </ul>
       </nav><!-- .navbar -->
@@ -128,46 +90,70 @@ if (isset($_SESSION['reservation'])) {
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
         <h2>SHOPPING CART</h2>
         <ol>
-          <li><a href="products.html">Products</a></li>
+          <li><a href="products.php">Products</a></li>
           <li>Reserve </li>
         </ol>
       </div>
     </div>
     <!-- End Breadcrumbs -->
 
-    <section id="shopping-cart" class="shopping-cart">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <section id="shopping-cart dark" class="shopping-cart dark">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <!-- Display the fetched reservation data -->
         <div id="reservationDetails">
-          <h2>Reservation Details</h2>
-          <p>Phone ID: <?php echo $reservation['phoneId']; ?></p>
-          <p>Phone Count: <?php echo $reservation['phoneCount']; ?></p>
-          <p>Claim Date: <?php echo $reservation['claimDate']; ?></p>
+            <h2>Reservation Details</h2>
+            <?php if ($reservation) : ?>
+                <p>Phone ID: <?php echo $reservation['phoneId']; ?></p>
+                <p>Phone Count: <?php echo $reservation['phoneCount']; ?></p>
+                <p>Claim Date: <?php echo $reservation['claimDate']; ?></p>
+                <!-- Button to delete reservation -->
+                <button onclick="deleteReservation()">Delete Reservation</button>
+            <?php else : ?>
+                <p>No reservation found.</p>
+            <?php endif; ?>
         </div>
 
         <!-- Display reserved items using getReservedItems() -->
         <div id="reservedItems">
-          <!-- The JavaScript code to display reserved items as before... -->
+            <!-- The JavaScript code to display reserved items as before... -->
         </div>
-      </div>
-    </section>
-    <!-- End Shopping Cart Section -->
+    </div>
+</section>
 
+<script>
+    function deleteReservation() {
+        // Assuming you have the reservation ID stored in a variable, e.g., $reservation['id']
+        var reservationId = <?php echo $reservation['id']; ?>;
 
-      <!-- Editing Container -->
-  <div id="editContainer">
-    <span class="close-btn" onclick="document.getElementById('editContainer').style.display='none'">&times;</span>
-    <h2>Edit Reservation</h2>
-    <form>
-      
-      <label for="editQuantity">Quantity:</label>
-      <input type="number" id="editQuantity" required>
-      <label for="editDate">Claim Date:</label>
-      <input type="date" id="editDate" placeholder="YYYY-MM-DD" required>
-      <button type="button" onclick="saveEditedData()">Save</button>
-    </form>
-  </div>
+        // Perform an AJAX request to delete the reservation from the database
+        // Adjust the URL and other parameters based on your server-side script
+        // (e.g., create a separate PHP script to handle deletion)
+
+        // Example using jQuery for simplicity
+        $.ajax({
+            url: 'deleteReservation.php',
+            type: 'POST',
+            data: { reservationId: reservationId },
+            success: function (response) {
+                // Check the response from the server and handle it accordingly
+                if (response === 'success') {
+                    // Remove the reservation details from the display
+                    document.getElementById('reservationDetails').innerHTML = '<p>No reservation found.</p>';
+                    
+                    // Unset the reservation details from the session
+                    <?php unset($_SESSION['reservation']); ?>;
+                } else {
+                    // Handle the error case
+                    alert('Error deleting reservation.');
+                }
+            },
+            error: function () {
+                alert('Error connecting to the server.');
+            }
+        });
+    }
+</script>
 
   </main><!-- End #main -->
 
@@ -226,7 +212,7 @@ if (isset($_SESSION['reservation'])) {
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
-            Designed by Power PUP Bois</a>
+            Published by Power PUP Bois</a>
           </div>
         </div>
       </div>

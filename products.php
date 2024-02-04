@@ -1,6 +1,6 @@
 <?php
   require "functions.php";
-  $phones = getPhoneData();
+  $phones = getPhoneData();  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,10 +36,23 @@
 
   <style>
     .phone-image {
-      height: 300px; /* Set the desired fixed height for the images */
-      object-fit: cover; /* Ensure the image covers the specified height */
+      max-height: 300px; /* Set the maximum height for the images */
+      object-fit: contain; /* Use 'contain' to maintain aspect ratio without cropping */
       width: 100%; /* Ensure the image takes the full width of its container */
     }
+    .footer {
+      background-color: #333; /* Change this to your desired background color */
+      color: #fff; /* Change this to your desired font color */
+    }
+
+    .footer a {
+      color: #fff; /* Change this to your desired link color */
+    }
+
+    .footer a:hover {
+      color: #bbb; /* Change this to your desired link color on hover */
+    }
+
   </style>
   <script>
   function redirectToDetails(phoneData) {
@@ -73,7 +86,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="products.html" class="active">Products</a></li>
-          <li><a href="shoppingCart.html">Reserved</a></li>
+          <li><a href="shoppingCart.php">Reserved</a></li>
           <li><a href="login.php">Log In</a></li>
         </ul>
       </nav>
@@ -91,10 +104,10 @@
       </div>
     </div>
     <section id="projects" class="projects">
-        <div class="container" data-aos="fade-up">
-            <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order">
-                <ul class="portfolio-flters" data-aos="fade-up" data-aos-delay="100">
-                  <li data-filter="*" class="filter-active">All</li>
+    <div class="container" data-aos="fade-up">
+      <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order">
+        <ul class="portfolio-flters" data-aos="fade-up" data-aos-delay="100">
+        <li data-filter="*" class="filter-active">All</li>
                   <li data-filter=".filter-apple">Apple</li>
                   <li data-filter=".filter-samsung">Samsung</li>
                   <li data-filter=".filter-xiaomi">Xiaomi</li>
@@ -103,26 +116,25 @@
                   <li data-filter=".filter-realme">Realme</li>
                   <li data-filter=".filter-huawei">Huawei</li>
                   <li data-filter=".filter-vivo">Vivo</li>
-                </ul>
-
-                <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                <?php
-                  foreach ($phones as $phone) {
-                      echo '<div class="col-lg-4 col-md-6 portfolio-item filter-' . strtolower($phone['phoneBrand']) . '">';
-                      echo '<div class="portfolio-content h-100">';
-                      echo '<img src="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" class="img-fluid phone-image" alt="">';
-                      echo '<div class="portfolio-info">';
-                      echo '<h4>' . $phone['phoneModel'] . '</h4>';
-                      echo '<p>₱' . $phone['phonePrice'] . ' | ' . $phone['phoneStorage'] . ' | ' .  ' | ' . $phone['phoneColor'] . '</p>';
-                      echo '<a href="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" title="' . $phone['phoneModel'] . '" data-gallery="portfolio-gallery-' . strtolower($phone['phoneBrand']) . '" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>';
-                      echo '<a href="reserveProduct.php? id=' . $phone['phoneID'] . '" title="More Details" class="details-link" onclick="redirectToDetails(' . htmlspecialchars(json_encode($phone), ENT_QUOTES, 'UTF-8') . ')"><i class="bi bi-cart"></i></a>';
-                      echo '</div></div></div>';
-                  }
-                ?>
-                </div>
-            </div>
+        </ul>
+        <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+          <?php
+            foreach ($phones as $phone) {
+              echo '<div class="col-lg-4 col-md-6 portfolio-item filter-' . strtolower($phone['phoneBrand']) . '">';
+              echo '<div class="portfolio-content h-100">';
+              echo '<img src="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" class="img-fluid phone-image" alt="">';
+              echo '<div class="portfolio-info">';
+              echo '<h4>' . $phone['phoneModel'] . '</h4>';
+              echo '<p>₱' . $phone['phonePrice'] . ' | ' . $phone['phoneStorage'] .  ' | ' . $phone['phoneColor'] . '</p>';
+              echo '<a href="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" title="' . $phone['phoneModel'] . '" data-gallery="portfolio-gallery-' . strtolower($phone['phoneBrand']) . '" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>';
+              echo '<a href="reserveProduct.php? id=' . $phone['phoneID'] . '" title="More Details" class="details-link" onclick="redirectToDetails(' . htmlspecialchars(json_encode($phone), ENT_QUOTES, 'UTF-8') . ')"><i class="bi bi-cart"></i></a>';
+              echo '</div></div></div>';
+            }
+          ?>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
    
   </main>
 
@@ -181,13 +193,14 @@
           <!-- You can delete the links only if you purchased the pro version. -->
           <!-- Licensing information: https://bootstrapmade.com/license/ -->
           <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
-          Designed by Power PUP Bois</a>
+          Published by Power PUP Bois</a>
         </div>
       </div>
     </div>
 
   </footer>
   <!-- End Footer -->
+  
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

@@ -1,54 +1,63 @@
 <?php
-  require "functions.php";
+require "functions.php";
 
-  // Get phone ID from URL parameter
-  $phoneId = isset($_GET['id']) ? $_GET['id'] : null;
+// Get phone ID from URL parameter
+$phoneId = isset($_GET['id']) ? $_GET['id'] : null;
 
-  // Check if phone ID is provided
-  if ($phoneId === null) {
-      echo "Phone ID is not provided.";
-      exit;
-  }
-
-  // Fetch phone details from the database
-  $phoneDetails = getPhoneDetailsById($phoneId);
-
-  // Check if phone details are found
-  if ($phoneDetails === null) {
-      echo "Phone details not found.";
-      exit;
-  }
-
- // Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Check if form fields are set
-  if (isset($_POST['phoneCount']) && isset($_POST['calendar'])) {
-      // Get reservation details
-      $phoneCount = $_POST['phoneCount'];
-      $claimDate = $_POST['calendar'];
-
-      // Check if the reservation date is not later than the current date and no more than 2 days in the future
-      $currentDate = date('Y-m-d');
-      $maxReservationDate = date('Y-m-d', strtotime($currentDate . ' + 2 days'));
-
-      if ($claimDate < $currentDate || $claimDate > $maxReservationDate) {
-          echo "Invalid reservation date. Please choose a date within the next 2 days.";
-          exit;
-      }
-
-      // Call the reservePhone function
-      $result = reservePhone($phoneId, $phoneCount, $claimDate);
-
-      // Output the result
-      echo $result;
-      exit;
-  } else {
-      echo "Invalid form data.";
-      exit;
-  }
+// Check if phone ID is provided
+if ($phoneId === null) {
+    echo "Phone ID is not provided.";
+    exit;
 }
 
+// Fetch phone details from the database
+$phoneDetails = getPhoneDetailsById($phoneId);
 
+// Check if phone details are found
+if ($phoneDetails === null) {
+    echo "Phone details not found.";
+    exit;
+}
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if form fields are set
+    if (isset($_POST['phoneCount']) && isset($_POST['calendar'])) {
+        // Get reservation details
+        $phoneCount = $_POST['phoneCount'];
+        $claimDate = $_POST['calendar'];
+
+        // Check if the reservation date is not later than the current date and no more than 2 days in the future
+        $currentDate = date('Y-m-d');
+        $maxReservationDate = date('Y-m-d', strtotime($currentDate . ' + 2 days'));
+
+        if ($claimDate < $currentDate || $claimDate > $maxReservationDate) {
+            echo "Invalid reservation date. Please choose a date within the next 2 days.";
+            exit;
+        }
+
+        // Call the reservePhone function
+        $result = reservePhone($phoneId, $phoneCount, $claimDate);
+
+        // Check if the reservation was successful
+        if ($result === "Reservation successful") {
+            // Store reservation details in session or database for later retrieval
+            $_SESSION['reservation'] = [
+                'phoneId' => $phoneId,
+                'phoneCount' => $phoneCount,
+                'claimDate' => $claimDate,
+            ];
+
+            // Redirect to shoppingCart.php
+            header("Location: shoppingCart.php");
+            exit;
+        } else {
+            // Output the result
+            echo $result;
+            exit;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,6 +154,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   #reservationForm button:hover {
     background-color: #0056b3;
   }
+  .footer {
+    background-color: #333; /* Change this to your desired background color */
+    color: #fff; /* Change this to your desired font color */
+  }
+
+  .footer a {
+    color: #fff; /* Change this to your desired link color */
+  }
+
+  .footer a:hover {
+    color: #bbb; /* Change this to your desired link color on hover */
+  } 
   </style>
 </head>
 
@@ -164,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="products.html">Products</a></li>
+          <li><a href="products.php">Products</a></li>
           <li><a href="shoppingCart.php">Reserved</a></li>
           <li><a href="login.php">Login</a></li>
         </ul>
@@ -218,49 +239,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section><!-- End Projet Details Section -->
 
   </main><!-- End #main -->
-
-  <script>
-    function submitForm(event) {
-      event.preventDefault();
-  
-      // Get reservation details
-      const phoneCount = document.getElementById("phoneCount").value;
-      const claimDate = document.getElementById("calendar").value;
-  
-      // Get phone details from the URL (you can also use local storage to store these details)
-      const urlParams = new URLSearchParams(window.location.search);
-      const brand = urlParams.get('brand');
-      const model = urlParams.get('model');
-      const price = urlParams.get('price');
-      const ram = urlParams.get('ram');
-      const storage = urlParams.get('storage');
-      const color = urlParams.get('color');
-      const image = urlParams.get('image');
-  
-      // Combine reservation and phone details
-      const reservationDetails = {
-        brand,
-        model,
-        price,
-        ram,
-        storage,
-        color,
-        image,
-        phoneCount,
-        claimDate,
-      };
-  
-      // Store the reservation in local storage
-      const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-      reservations.push(reservationDetails);
-      localStorage.setItem('reservations', JSON.stringify(reservations));
-  
-      alert("Reservation submitted successfully!");
-  
-      // Redirect to shoppingCart.php
-      window.location.href = "shoppingCart.php";
-    }
-  </script>
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
@@ -322,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <!-- You can delete the links only if you purchased the pro version. -->
           <!-- Licensing information: https://bootstrapmade.com/license/ -->
           <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
-          Designed by Power PUP Bois</a>
+          Published by Power PUP Bois</a>
         </div>
       </div>
     </div>
