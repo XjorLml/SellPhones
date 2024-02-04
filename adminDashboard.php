@@ -68,11 +68,11 @@ require "functions.php";
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="adminDashboard.html" class="active">Home</a></li>
+        <li><a href="adminDashboard.php" class="active">Home</a></li>
           <li><a href="adminReservation.php">Reservations</a></li>
-          <li><a href="inventory">Inventory</a></li>
-          <li><a href="UserManagement">User Management</a></li>
-          <li><a href="?logout">Log out</a></li>
+          <li><a href="inventory.php" >Inventory</a></li>
+          <li><a href="userManagement.php">User Management</a></li>
+          <li><a href="reservations.html">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 

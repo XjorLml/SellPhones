@@ -1,13 +1,71 @@
+<?php
+require "functions.php";
+
+// Get phone ID from URL parameter
+$phoneId = isset($_GET['id']) ? $_GET['id'] : null;
+
+// Check if phone ID is provided
+if ($phoneId === null) {
+    echo "Phone ID is not provided.";
+    exit;
+}
+
+// Fetch phone details from the database
+$phoneDetails = getPhoneDetailsById($phoneId);
+
+// Check if phone details are found
+if ($phoneDetails === null) {
+    echo "Phone details not found.";
+    exit;
+}
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if form fields are set
+    if (isset($_POST['phoneCount']) && isset($_POST['calendar'])) {
+        // Get reservation details
+        $phoneCount = $_POST['phoneCount'];
+        $claimDate = $_POST['calendar'];
+
+        // Check if the reservation date is not later than the current date and no more than 2 days in the future
+        $currentDate = date('Y-m-d');
+        $maxReservationDate = date('Y-m-d', strtotime($currentDate . ' + 2 days'));
+
+        if ($claimDate < $currentDate || $claimDate > $maxReservationDate) {
+            echo "Invalid reservation date. Please choose a date within the next 2 days.";
+            exit;
+        }
+
+        // Call the reservePhone function
+        $result = reservePhone($phoneId, $phoneCount, $claimDate);
+
+        // Check if the reservation was successful
+        if ($result === "Reservation successful") {
+            // Store reservation details in session or database for later retrieval
+            $_SESSION['reservation'] = [
+                'phoneId' => $phoneId,
+                'phoneCount' => $phoneCount,
+                'claimDate' => $claimDate,
+            ];
+
+            // Redirect to shoppingCart.php
+            header("Location: shoppingCart.php");
+            exit;
+        } else {
+            // Output the result
+            echo $result;
+            exit;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>SELLPHONE</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>SELLPHONE - Reserve Product</title>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -28,7 +86,74 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
   <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    #selectedPhoneDetails img {
+      max-width: 100%;
+      height: auto;
+      max-height: 400px; /* Add a maximum height to control the size */
+      margin: auto; /* Center the image */
+      display: block; /* Remove extra space beneath the image */
+      
+    }
+
+    #selectedPhoneDetails img {
+      max-width: 100%;
+      height: auto;
+      
+    }
+    #selectedPhoneDetails {
+      text-align: center;
+      margin-top: 20px; /* Add some margin at the top for better spacing */
+    }
+    #reservationForm {
+    max-width: 400px;
+    margin: auto;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #reservationForm h4 {
+    text-align: center;
+    color: #495057;
+  }
+
+  #reservationForm label {
+    display: block;
+    margin: 10px 0;
+    color: #495057;
+  }
+
+  #reservationForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+
+  #reservationForm button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  #reservationForm button:hover {
+    background-color: #0056b3;
+  }
   .footer {
     background-color: #333; /* Change this to your desired background color */
     color: #fff; /* Change this to your desired font color */
@@ -40,29 +165,29 @@
 
   .footer a:hover {
     color: #bbb; /* Change this to your desired link color on hover */
-  }
+  } 
   </style>
 </head>
 
 <body>
+
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
       </a>
+
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="contact.html" class="active">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="products.php">Products</a></li>
           <li><a href="shoppingCart.php">Reserved</a></li>
-          <li><a href="login.php">Log In</a></li>
+          <li><a href="login.php">Login</a></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -71,66 +196,55 @@
 
   <main id="main">
 
+    <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
-        <h2>Contacts</h2>
+        <h2>RESERVE PRODUCT</h2>
+        <ol>
+          <li><a href="products.html">Products</a></li>
+          <li>Specifications</li>
+        </ol>
       </div>
     </div>
+    <!-- End Breadcrumbs -->
 
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
+    <!-- ======= Projet Details Section ======= -->
+    <section id="project-details" class="project-details">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row gy-4">
-          <div class="col-lg-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-map"></i>
-              <h3>Our Address</h3>
-              <p>Pasig City, Metro Manila</p>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-envelope"></i>
-              <h3>Email Us</h3>
-              <p>sellphones@gmail.com</p>
-            </div>
-          </div><!-- End Info Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-telephone"></i>
-              <h3>Call Us</h3>
-              <p>+63 9276638359</p>
-            </div>
-          </div><!-- End Info Item -->
-
-        </div>
-
-        <div class="row gy-4 mt-1">
-
-          <div class="col-lg-6 ">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1365.1368554692845!2d121.09414402791519!3d14.58824044012215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c7f63e699475%3A0x91965ac65f4092da!2sBahay%20ni%20Jeremy!5e0!3m2!1sen!2sph!4v1705658156754!5m2!1sen!2sph"frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
-          </div><!-- End Google Maps -->
-
-          <div class="col-lg-6">
-            <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-map"></i>
-              <h3>Social Media</h3>
-              <p>Fb.com/pogisilemnuel</p>
-              <p>yt.com/pogisilemnuel</p>
-              <p>tiktok.com/pogisilemnuel</p>
-            </div>
-          </div><!-- End Info Item -->
-        </div>
-        
-
+      <div id="selectedPhoneDetails">
+          <?php
+            // Display phone details
+            echo '<img src="data:image/jpeg;base64,' . base64_encode($phoneDetails['phoneImage']) . '" alt="' . $phoneDetails['phoneModel'] . '" style="max-width: 100%; height: auto;">';
+            echo '<h2>' . $phoneDetails['phoneBrand'] . ' ' . $phoneDetails['phoneModel'] . '</h2>';
+            echo '<p>Price: ₱' . $phoneDetails['phonePrice'] . '</p>';
+            echo '<p>Storage: ' . $phoneDetails['phoneStorage'] . '</p>';
+            echo '<p>Color: ' . $phoneDetails['phoneColor'] . '</p>';
+          ?>
       </div>
-    </section><!-- End Contact Section -->
+      <!-- Reservation Form -->
+      <div class="row justify-content-between gy-4 mt-4">
+        <div class="container">
+          <form id="reservationForm" method="POST">
+            <h4>Reservation Form</h4>
+            <label for="phoneCount">Phone Count:</label>
+            <input type="number" id="phoneCount" name="phoneCount" required>
+            <label for="calendar">Reservation Date:</label>
+            <input type="date" id="calendar" name="calendar" required>
+            <button type="submit">Submit Reservation</button>
+          </form>
+        </div>
+      </div>
+        
+    </section><!-- End Projet Details Section -->
 
   </main><!-- End #main -->
-  
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
 
@@ -193,10 +307,6 @@
 
   </footer>
   <!-- End Footer -->
-
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
