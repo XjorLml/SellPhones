@@ -43,58 +43,39 @@ function getPhoneDetailsById($phoneId) {
         return null; // Or handle the error as needed
     }
 }
-
-function reservePhone($phoneId, $phoneCount, $claimDate) {
+function reservePhone($phoneId, $quantity, $reserveDate) {
     $mysqli = connect();
 
-    $phoneId = filter_var($phoneId, FILTER_VALIDATE_INT, array('options' => array('min_range' => 1)));
-    $phoneCount = filter_var($phoneCount, FILTER_VALIDATE_INT, array('options' => array('min_range' => 1)));
+    // Fetch phone details from the database
+    $phoneDetails = getPhoneDetailsById($phoneId);
 
-    if (!$phoneId || !$phoneCount) {
-        return "Invalid data provided for reservation.";
+    // Check if phone details are found
+    if ($phoneDetails === null) {
+        echo "Phone details not found.";
+        exit;
     }
 
-    // Calculate pickup date (claim date + 3 days)
-    $pickupDate = date('Y-m-d', strtotime($claimDate . ' +3 days'));
+    // Calculate total price
+    $totalPrice = $phoneDetails['phonePrice'] * $quantity;
 
-    // Insert reservation data into reservetbl
-    $stmt = $mysqli->prepare("INSERT INTO reservetbl (phoneID, phoneCount, reserveDate, pickupDate) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiss", $phoneId, $phoneCount, $claimDate, $pickupDate);
+    // Calculate claim date (reserveDate + 3 days)
+    $claimDate = date('Y-m-d H:i:s', strtotime($reserveDate . ' + 3 days'));
 
-    if ($stmt->execute()) {
-        return "Reservation successful.";
-    } else {
-        return "Error: " . $stmt->error;
-    }
+    // Now, you can use $totalPrice and $claimDate in your database insertion logic
+
+    // For example, you can use an SQL query to insert data into your 'reservetbl' table
+    $sql = "INSERT INTO reservetbl (phoneID, phoneCount, totalPrice, reserveDate, pickupDate) VALUES (?, ?, ?, ?, ?)";
+    
+    // Use prepared statement to prevent SQL injection
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("iiiss", $phoneId, $quantity, $totalPrice, $reserveDate, $claimDate);
+    
+    // Execute the statement
+    $stmt->execute();
+    
+    // Close the statement
+    $stmt->close();
 }
-
-function getReservedItems() {
-    $mysqli = connect();
-
-    // Check if the user is logged in (email is stored in the session)
-    if (isset($_SESSION['email'])) {
-        $email = $_SESSION['email'];
-
-        // Retrieve reserved items for the logged-in user
-        $stmt = $mysqli->prepare("SELECT r.*, p.* FROM reservetbl r JOIN phonetbl p ON r.phoneID = p.phoneID WHERE r.email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result) {
-            $reservedItems = array();
-            while ($row = $result->fetch_assoc()) {
-                $reservedItems[] = $row;
-            }
-            return $reservedItems;
-        } else {
-            return "Error: " . $mysqli->error;
-        }
-    } else {
-        return "User not logged in.";
-    }
-}
-
 
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
@@ -189,7 +170,7 @@ if ($result->num_rows === 1 && password_verify($password, $data["password"])) {
         exit();
     } elseif ($_SESSION["userType"] === 'user') {
         // User routes
-        header("Location: products.html");
+        header("Location: products.php");
         exit();
     }
 }
