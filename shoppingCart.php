@@ -1,18 +1,3 @@
-<?php
-session_start();
-
-// Check if reservation details are available in the session
-if (isset($_SESSION['reservation'])) {
-    $reservation = $_SESSION['reservation'];
-} else {
-    $reservation = null;
-}
-
-// You can also implement the logic to retrieve and display reserved items from the database here
-// ...
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,20 +27,6 @@ if (isset($_SESSION['reservation'])) {
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-  <style>
-      .footer {
-      background-color: #333; /* Change this to your desired background color */
-      color: #fff; /* Change this to your desired font color */
-    }
-
-    .footer a {
-      color: #fff; /* Change this to your desired link color */
-    }
-
-    .footer a:hover {
-      color: #bbb; /* Change this to your desired link color on hover */
-    }
-  </style>
 </head>
 
 <body>
@@ -97,63 +68,73 @@ if (isset($_SESSION['reservation'])) {
     </div>
     <!-- End Breadcrumbs -->
 
-    <section id="shopping-cart dark" class="shopping-cart dark">
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="container my-5">
+    <div class="container my-5">
+        <h2>Manage Cart</h2>
+        <a class ="btn btn-primary" href="products.php" role="button">New Reservation</a>
+        <br>
+        <table class= "table">
+            <thead>
+                <tr>
+                    <th>Phone Brand</th>
+                    <th>Phone Model</th>
+                    <th>Phone Storage</th>
+                    <th>Phone Color</th>
+                    <th>Reserve Count</th>
+                    <th>Pickup Date</th>
+                    <th>Reservation Status</th>
+                    <th>Total Price</th>
+                    <th>Phone Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sellphone";
 
-        <!-- Display the fetched reservation data -->
-        <div id="reservationDetails">
-            <h2>Reservation Details</h2>
-            <?php if ($reservation) : ?>
-                <p>Phone ID: <?php echo $reservation['phoneId']; ?></p>
-                <p>Phone Count: <?php echo $reservation['phoneCount']; ?></p>
-                <p>Claim Date: <?php echo $reservation['claimDate']; ?></p>
-                <!-- Button to delete reservation -->
-                <button onclick="deleteReservation()">Delete Reservation</button>
-            <?php else : ?>
-                <p>No reservation found.</p>
-            <?php endif; ?>
-        </div>
+                $conn = new mysqli($servername, $username, $password, $dbname);
 
-        <!-- Display reserved items using getReservedItems() -->
-        <div id="reservedItems">
-            <!-- The JavaScript code to display reserved items as before... -->
-        </div>
-    </div>
-</section>
-
-<script>
-    function deleteReservation() {
-        // Assuming you have the reservation ID stored in a variable, e.g., $reservation['id']
-        var reservationId = <?php echo $reservation['id']; ?>;
-
-        // Perform an AJAX request to delete the reservation from the database
-        // Adjust the URL and other parameters based on your server-side script
-        // (e.g., create a separate PHP script to handle deletion)
-
-        // Example using jQuery for simplicity
-        $.ajax({
-            url: 'deleteReservation.php',
-            type: 'POST',
-            data: { reservationId: reservationId },
-            success: function (response) {
-                // Check the response from the server and handle it accordingly
-                if (response === 'success') {
-                    // Remove the reservation details from the display
-                    document.getElementById('reservationDetails').innerHTML = '<p>No reservation found.</p>';
-                    
-                    // Unset the reservation details from the session
-                    <?php unset($_SESSION['reservation']); ?>;
-                } else {
-                    // Handle the error case
-                    alert('Error deleting reservation.');
+                if ($conn->connect_error) {
+                    die("Connection failed". $conn->connect_error);
                 }
-            },
-            error: function () {
-                alert('Error connecting to the server.');
-            }
-        });
-    }
-</script>
+
+                $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId;";
+                $result = $conn->query($sql);
+
+                if (!$result) {
+                    die("Invalid query". $conn->connect_error);
+                }
+
+                while ($row = $result->fetch_assoc()) {
+                  $truncatedDescription = strlen($row['phoneDescription']) > 50 ? substr($row['phoneDescription'], 0, 50) . '...' : $row['phoneDescription'];
+              
+                  // Display "Reserved" if reservationStatus is 0, otherwise display "Claimed"
+                  $reservationStatus = ($row['reservationStatus'] == 0) ? "Reserved" : "Claimed";
+              
+                  echo "
+                  <tr>
+                      <td>$row[phoneBrand]</td>
+                      <td>$row[phoneModel]</td>
+                      <td>$row[phoneStorage]</td>
+                      <td>$row[phoneColor]</td>
+                      <td>$row[phoneCount]</td>
+                      <td>$row[pickupDate]</td>
+                      <td>$reservationStatus</td>
+                      <td>₱$row[totalPrice]</td>
+                      <td><img src='data:image/jpeg;base64," . base64_encode($row['phoneImage']) . "' width='50', 'height='50' /></td>
+                      <td>
+                          <a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=$row[reserveID]'>Delete</a>
+                      </td>
+                  </tr>
+                  ";
+              }
+               
+                ?>     
+            </tbody>
+        </table>
+    </div>
 
   </main><!-- End #main -->
 
