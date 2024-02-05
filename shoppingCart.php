@@ -81,7 +81,7 @@
                     <th>Phone Storage</th>
                     <th>Phone Color</th>
                     <th>Reserve Count</th>
-                    <th>Pickup Date</th>
+                    <th>Pickup Date Until</th>
                     <th>Reservation Status</th>
                     <th>Total Price</th>
                     <th>Phone Image</th>

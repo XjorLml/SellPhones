@@ -33,6 +33,12 @@
         // Perform the reservation and insert data into the database
         $currentTime = date("Y-m-d H:i:s");
         reservePhone($phoneId, $quantity, $currentTime);
+        // Assuming you have successfully reserved a phone
+        $phoneId = $_POST['phone_id']; // Assuming you get this from the form
+        $reservedQuantity = $_POST['quantity']; // Assuming you get this from the form
+
+// Call the function to update phone quantity
+updatePhoneQuantity($phoneId, $reservedQuantity);
 
         // Redirect to a confirmation page or any other desired page
         header("Location: shoppingCart.php");
@@ -43,4 +49,5 @@
         header("Location: products.php");
         exit;
     }
+    
 ?>

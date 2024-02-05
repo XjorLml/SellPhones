@@ -76,7 +76,43 @@ function reservePhone($phoneId, $quantity, $reserveDate) {
     // Close the statement
     $stmt->close();
 }
+function updatePhoneQuantity($phoneId, $reservedQuantity) {
+    $mysqli = connect();
 
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
+    }
+
+    // SQL query to update phone quantity
+    $sql = "UPDATE phonetbl SET phoneQuantity = phoneQuantity - $reservedQuantity WHERE phoneId = $phoneId";
+
+    if ($mysqli->query($sql) === TRUE) {
+        echo "Phone quantity updated successfully";
+    } else {
+        echo "Error updating phone quantity: " . $mysqli->error;
+    }
+
+    $mysqli->close();
+}
+function addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity) {
+    $mysqli = connect();
+    
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
+    }
+
+    // Update phone quantity
+    $sql = "UPDATE phonetbl SET phoneQuantity = phoneQuantity + $reservedQuantity WHERE phoneId = $phoneId";
+    $result = $mysqli->query($sql);
+
+    // Check for errors
+    if (!$result) {
+        echo "Error adding back phone quantity: " . $mysqli->error;
+    }
+
+    // Close connection
+    $mysqli->close();
+}
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
     $mysqli = connect();
