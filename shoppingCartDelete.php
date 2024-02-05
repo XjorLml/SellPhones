@@ -1,46 +1,49 @@
 <?php
-// shoppingCartDelete.php
+    // shoppingCartDelete.php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "sellphone";
+    // Include the function definition
+    require_once "functions.php";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "sellphone";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-if (isset($_GET['reserveID'])) {
-    $reserveID = $_GET['reserveID'];
-
-    // Use prepared statements to prevent SQL injection
-    $deleteSql = "DELETE FROM reservetbl WHERE reserveID = ?";
-
-    $stmt = $conn->prepare($deleteSql);
-
-    if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    $stmt->bind_param("i", $reserveID);
+    if (isset($_GET['reserveID'])) {
+        $reserveID = $_GET['reserveID'];
 
-    if ($stmt->execute()) {
-        echo "Record deleted successfully from reservetbl";
+        // Get the reserved phone ID and quantity before deleting the reservation
+        $getReservationSql = "SELECT phoneId, phoneCount FROM reservetbl WHERE reserveID = ?";
+        $stmt = $conn->prepare($getReservationSql);
+        $stmt->bind_param("i", $reserveID);
+        $stmt->execute();
+        $stmt->bind_result($phoneId, $reservedQuantity);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Delete the reservation
+        $deleteSql = "DELETE FROM reservetbl WHERE reserveID = ?";
+        $stmt = $conn->prepare($deleteSql);
+        $stmt->bind_param("i", $reserveID);
+        $stmt->execute();
+        $stmt->close();
+
+        // Add back the reserved quantity to phoneQuantity
+        addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity);
 
         // Redirect to shoppingCart.php after successful deletion
         header("Location: shoppingCart.php");
-        exit(); // Ensure that no further code is executed after the redirect
+        exit();
     } else {
-        echo "Error deleting record from reservetbl: " . $stmt->error;
+        echo "reserveID not set in GET parameters.";
     }
 
-    $stmt->close();
-} else {
-    echo "reserveID not set in GET parameters.";
-}
-
-$conn->close();
+    $conn->close();
 ?>
