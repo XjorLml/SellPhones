@@ -10,6 +10,8 @@
   if (isset($_GET['logout'])) {
       logoutUser();
   }
+  // Get the userID of the currently logged-in user
+  $userID = $_SESSION["userID"];
 ?>
 
 <!DOCTYPE html>
@@ -103,74 +105,51 @@
       </div>
     </div>
     <!-- End Breadcrumbs -->
-
     <div class="container my-5">
-    <div class="container my-5">
-        <h2>Manage Cart</h2>
-        <a class ="btn btn-primary" href="products.php" role="button">New Reservation</a>
-        <br>
-        <table class= "table">
-            <thead>
-                <tr>
-                    <th>Phone Brand</th>
-                    <th>Phone Model</th>
-                    <th>Phone Storage</th>
-                    <th>Phone Color</th>
-                    <th>Reserve Count</th>
-                    <th>Pickup Date Until</th>
-                    <th>Reservation Status</th>
-                    <th>Total Price</th>
-                    <th>Phone Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "sellphone";
+            <h2>Manage Cart</h2>
+            <a class="btn btn-primary" href="products.php" role="button">New Reservation</a>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Phone Brand</th>
+                        <th>Phone Model</th>
+                        <th>Phone Storage</th>
+                        <th>Phone Color</th>
+                        <th>Reserve Count</th>
+                        <th>Pickup Date Until</th>
+                        <th>Reservation Status</th>
+                        <th>Total Price</th>
+                        <th>Phone Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Fetch reservations of the currently logged-in user from the database
+                    $reservations = getReservationsByUserID($userID);
 
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Connection failed". $conn->connect_error);
-                }
-
-                $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId;";
-                $result = $conn->query($sql);
-
-                if (!$result) {
-                    die("Invalid query". $conn->connect_error);
-                }
-
-                while ($row = $result->fetch_assoc()) {
-                  $truncatedDescription = strlen($row['phoneDescription']) > 50 ? substr($row['phoneDescription'], 0, 50) . '...' : $row['phoneDescription'];
-              
-                  // Display "Reserved" if reservationStatus is 0, otherwise display "Claimed"
-                  $reservationStatus = ($row['reservationStatus'] == 0) ? "Reserved" : "Claimed";
-              
-                  echo "
-                  <tr>
-                      <td>$row[phoneBrand]</td>
-                      <td>$row[phoneModel]</td>
-                      <td>$row[phoneStorage]</td>
-                      <td>$row[phoneColor]</td>
-                      <td>$row[phoneCount]</td>
-                      <td>$row[pickupDate]</td>
-                      <td>$reservationStatus</td>
-                      <td>₱$row[totalPrice]</td>
-                      <td><img src='data:image/jpeg;base64," . base64_encode($row['phoneImage']) . "' width='50', 'height='50' /></td>
-                      <td>
-                          <a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=$row[reserveID]'>Delete</a>
-                      </td>
-                  </tr>
-                  ";
-              }
-               
-                ?>     
-            </tbody>
-        </table>
-    </div>
+                    // Loop through each reservation
+                    foreach ($reservations as $reservation) {
+                        // Display reservation details
+                        echo "<tr>";
+                        echo "<td>" . $reservation['phoneBrand'] . "</td>";
+                        echo "<td>" . $reservation['phoneModel'] . "</td>";
+                        echo "<td>" . $reservation['phoneStorage'] . "</td>";
+                        echo "<td>" . $reservation['phoneColor'] . "</td>";
+                        echo "<td>" . $reservation['phoneCount'] . "</td>";
+                        echo "<td>" . $reservation['pickupDate'] . "</td>";
+                        echo "<td>" . ($reservation['reservationStatus'] == 0 ? 'Reserved' : 'Claimed') . "</td>";
+                        echo "<td>₱" . $reservation['totalPrice'] . "</td>";
+                        echo "<td><img src='data:image/jpeg;base64," . base64_encode($reservation['phoneImage']) . "' width='50' height='50' /></td>";
+                        echo "<td><a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=" . $reservation['reserveID'] . "'>Delete</a></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    
 
   </main><!-- End #main -->
 

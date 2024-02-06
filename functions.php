@@ -127,6 +127,34 @@ function addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity) {
     // Close connection
     $mysqli->close();
 }
+function getReservationsByUserID($userID) {
+    $mysqli = connect();
+    
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
+    }
+
+    // Prepare SQL statement to fetch reservations by userID
+    $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId WHERE userID = $userID";
+    $result = $mysqli->query($sql);
+
+    // Check if query executed successfully
+    if ($result === false) {
+        die("Error executing query: " . $mysqli->error);
+    }
+
+    $reservations = array();
+
+    // Fetch reservations from the result set
+    while ($row = $result->fetch_assoc()) {
+        $reservations[] = $row;
+    }
+
+    // Close connection
+    $mysqli->close();
+
+    return $reservations;
+}
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
     $mysqli = connect();
