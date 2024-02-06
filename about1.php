@@ -19,7 +19,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>About</title>
+  <title>SELLPHONE</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -62,7 +62,7 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="index1.php" class="logo d-flex align-items-center">
         <h1>SELLPHONE<span>.</span></h1>
       </a>
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -91,7 +91,7 @@
     <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
       <h2>About Us</h2>
       <ol>
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index1.php">Home</a></li>
         <li>Learn More</li>
       </ol>
     </div>

@@ -83,10 +83,10 @@
 
 <body>
 
-<header id="header" class="header d-flex align-items-center">
+  <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="index1.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -118,7 +118,7 @@
       <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
         <h2>PRODUCTS</h2>
         <ol>
-          <li><a href="index.html">Home</a></li>
+          <li><a href="index1.php">Home</a></li>
           <li>Cellphones</li>
         </ol>
       </div>
