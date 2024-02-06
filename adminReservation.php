@@ -1,3 +1,18 @@
+<?php 
+
+require "functions.php";
+
+if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
+  header("location: login.php");
+  exit();
+  }
+
+if (isset($_GET['logout'])) {
+    logoutUser();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +58,7 @@
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="adminDashboard.html" class="logo d-flex align-items-center">
+      <a href="adminDashboard.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -52,16 +67,22 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="adminDashboard.html">Home</a></li>
+          <li><a href="adminDashboard.php">Home</a></li>
           <li><a href="adminReservation.php" class="active">Reservations</a></li>
-          <li><a href="inventory">Inventory</a></li>
-          <li><a href="UserManagement">User Management</a></li>
-          <li><a href="reservations.html">Log out</a></li>
+          <li><a href="inventory.php">Inventory</a></li>
+          <li><a href="userManagement.php">User Management</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profile.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .navbar -->
 
     </div>
-  </header><!-- End Header -->
+</header>
 
   <main id="main">
 

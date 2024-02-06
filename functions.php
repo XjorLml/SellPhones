@@ -1,6 +1,19 @@
 <?php  
 require "config.php";
 
+
+function includeBootstrap() {
+    echo '
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS (Popper.js and jQuery required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    ';
+}
+
 function connect() {
     $mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DATABASE);
     if ($mysqli->connect_errno != 0) {
@@ -170,11 +183,11 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
 }
 
 
-function loginUser($email, $password, $userType) {
+function loginUser($email, $password, $userID) {
     $mysqli = connect();
     $email = trim($email);
     $password = trim($password);
-    $userType = trim($userType);
+    $userID = trim($userID);
 
     if($email == "" || $password == "") {
         return "Both fields are required";
@@ -183,35 +196,31 @@ function loginUser($email, $password, $userType) {
     $email = filter_var($email, FILTER_UNSAFE_RAW);
     $password = filter_var($password, FILTER_UNSAFE_RAW);
 
-    $sql = "SELECT email, password, userType FROM userTBL WHERE email = ?";
+    $sql = "SELECT email, password, userType, userID FROM userTBL WHERE email = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $email);    
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
 
-    var_dump($data);  
-    var_dump($password);  
-    var_dump($userType); 
-    
-   // In loginUser function
-if ($result->num_rows === 1 && password_verify($password, $data["password"])) {
-    // If authentication is successful,
-    // set the user session and redirect to the appropriate dashboard.
-    $_SESSION["userType"] = $data["userType"];
+    // Check if the user exists and the password is correct
+    if ($result->num_rows === 1 && password_verify($password, $data["password"])) {
+        // If authentication is successful,
+        // set the user session and redirect to the appropriate dashboard.
+        $_SESSION["userID"] = $data["userID"];
+        $_SESSION["userType"] = $data["userType"];
 
-    if ($_SESSION["userType"] === 'admin') {
-        // Admin routes
-        header("Location: adminDashboard.php");
-        exit();
-    } elseif ($_SESSION["userType"] === 'user') {
-        // User routes
-        header("Location: products.php");
-        exit();
-    }
-}
- else {
-        
+        if ($_SESSION["userType"] === "admin" ) {
+            // Admin routes
+            header("Location: adminDashboard.php");
+            exit();
+        } elseif ($_SESSION["userType"] === "user") {
+            // User routes
+            header("Location: products.php");
+            exit();
+        }
+    } else {
+        // If authentication fails, redirect to login page with an error message.
         header('Location: login.php');
         echo "Please log in or Wrong username or password";
     }
@@ -224,6 +233,52 @@ function logoutUser(){
     exit();
 }
 
-function passwordReset(){}
+function passwordReset($email){
+    $mysqli = connect();
+    $email = trim($email);
 
-function deleteAccount(){}
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "Email is not Valid";
+    }
+
+    $stmt = $mysqli->prepare("SELECT email FROM userTbl WHERE email= ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+    if($data == NULL){
+        return "Email doesn't exist in the database";
+    }
+
+    $str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    $password_length = 7;
+    $shuffled_str = str_shuffle($str);
+    $new_pass = substr($shuffled_str, 0, $password_length);
+
+    $subject = "Password Recovery";
+    $body = "You can log in with your new password: <br>";
+    $body .= $new_pass;
+
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-Type: text/html;charset=UTF-8" . "\r\n"; // Corrected
+    $headers .= "From: Admin" . "\r\n"; // Appended correctly
+
+    $send = mail($email, $subject, $body, $headers);
+    if($send === FALSE){
+        return "Email not sent. Try Again";
+    }else{
+        $hashed_password = password_hash($new_pass, PASSWORD_DEFAULT);
+
+        $stmt = $mysqli->prepare("UPDATE userTbl SET password = ? WHERE email = ?");
+        $stmt->bind_param("ss", $hashed_password, $email);
+        $stmt->execute();
+        if($stmt->affected_rows != 1){
+            return "Connection Error. Try again";
+        }else{
+            return "success";
+        }
+    }
+}
+
+

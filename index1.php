@@ -1,16 +1,15 @@
-<?php 
+<?php
+  require "functions.php";
+  $phones = getPhoneData();  
 
-require "functions.php";
-
-if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
-  header("location: login.php");
-  exit();
+  if (!isset($_SESSION["userID"])) {
+    header("location: login.php");
+    exit();
+    }
+  
+  if (isset($_GET['logout'])) {
+      logoutUser();
   }
-
-if (isset($_GET['logout'])) {
-    logoutUser();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -54,74 +53,76 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body>
+
   <!-- ======= Header ======= -->
   <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="adminDashboard.php" class="logo d-flex align-items-center">
+      <a href="index.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
       </a>
+
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="adminDashboard.php" class="active">Home</a></li>
-          <li><a href="adminReservation.php">Reservations</a></li>
-          <li><a href="inventory.php">Inventory</a></li>
-          <li><a href="userManagement.php">User Management</a></li>
+        <li><a href="index1.php" class="active" >Home</a></li>
+          <li><a href="about1.php">About</a></li>
+          <li><a href="products.php">Products</a></li>
+          <li><a href="shoppingCart.php">Reserved</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="profile.php">Profile</a></li>
+              <li><a href="profileUser.php">Profile</a></li>
               <li><a href="?logout">Logout</a></li>
             </ul>
-          </li>
+          
         </ul>
       </nav><!-- .navbar -->
 
     </div>
-</header>
+  </header><!-- End Header -->
 
-  <main id="main">
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
-    </div><!-- End Breadcrumbs -->
-
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="row gy-4">
-            <h1 class="text-center">NOTIFICATIONS</h1>
-            <div class="col-lg-6">
-              <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-                <i class="bi bi-map"></i>
-                <h2>RESERVATIONS</h2>
-                <p>Pasig City, Metro Manila</p>
-                <p>Fb.com/pogisilemnuel</p>
-                <?php 
-                echo "Welcome $_SESSION[userType], <p>yt.com/pogisilemnuel</p>";
-              ?>
-
-                <p>tiktok.com/pogisilemnuel</p>
-              </div>
-            </div>
+    <div class="info d-flex align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2 data-aos="fade-down">Welcome to <span>Sellphone</span></h2>
+            <p data-aos="fade-up"></p>
             
-            <div class="col-lg-6">
-                <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-                  <i class="bi bi-map"></i>
-                  <h2>INVENTORY</h2>
-                  <p>Fb.com/pogisilemnuel</p>
-                  <p>yt.com/pogisilemnuel</p>
-                  <p>tiktok.com/pogisilemnuel</p>
-                </div>
-              </div>
           </div>
         </div>
-      </section>
-  </main><!-- End #main -->
+      </div>
+    </div>
+
+    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+
+      <div class="carousel-item active">
+        <img src="https://images.samsung.com/ph/smartphones/galaxy-z-flip4/images/galaxy-z-flip4_highlights_kv.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-2.jpg)">
+        <img src="https://cdn.britannica.com/09/241709-050-149181B1/apple-iphone-11-2019.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://www.gizchina.com/wp-content/uploads/images/2023/08/Flagship-Phones-1200x675.jpg" class="d-block w-100" alt="...">
+      </div>
+
+      <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+      </a>
+
+      <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+      </a>
+
+    </div>
+
+  </section><!-- End Hero Section -->
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

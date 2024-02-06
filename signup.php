@@ -3,7 +3,12 @@
 
     if(isset($_POST['submit'])){
         $response = registerUser($_POST['email'], $_POST['fName'], $_POST['lName'], $_POST['phoneNumber'], $_POST['password'], $_POST['registerRepeatPassword']);
-    }
+        
+        }
+
+        
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +35,23 @@
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
+
+    <!-- JavaScript for password visibility toggle -->
+<script>
+    function togglePasswordVisibility(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        var visibilityButton = document.querySelector(`#${inputId} + .input-group .btn`);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            visibilityButton.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            visibilityButton.textContent = "Show";
+        }
+    }
+</script>
+
 </head>
 <body>
 
@@ -49,92 +71,98 @@
 
     <!-- Registration Section -->
     <section id="contact" class="contact">
-        <div class="info d-flex align-items-center">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6 text-center">
-                        <div class="container mt-5">
-                            <div class="row justify-content-center">
-                                <div class="col-md-9">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h2 class="text-center mb-5">SignUp</h2>
-                                            <form action="signup.php" method="post" autocomplete="off">
+    <div class="info d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h2 class="text-center mb-5">SignUp</h2>
+                                        <!-- Alert for Empty Mobile Number -->
+                                        <?php
+                                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                            $phoneNumber = $_POST["phoneNumber"];
 
-    
-                                                <!-- First Column -->
-                                                <div class="row mb-3">
-                                                    
-                                                    <!-- First Name input -->
-                                                    <div class="col-md-6">
-                                                        <label for="fName" class="form-label">First Name</label>
-                                                        <input type="text" id="fName" name="fName" class="form-control" value="<?php echo @$_POST['fName']; ?>" />
-                                                    </div>
-    
-                                                    <!-- Last Name input -->
-                                                    <div class="col-md-6">
-                                                        <label for="lName" class="form-label">Last Name</label>
-                                                        <input type="text" id="lName" name="lName" class="form-control" value="<?php echo @$_POST['lName']; ?>" />
-                                                    </div>
+                                            if (empty($phoneNumber)) {
+                                                echo '<div class="alert alert-danger" role="alert">Mobile Number field is empty...!!!!!!</div>';
+                                            } elseif (!preg_match("/^09\d{9}$/", $phoneNumber)) {
+                                                echo '<div class="alert alert-danger" role="alert">Invalid Mobile Number. Please enter a valid 11-digit number starting with 09</div>';
+                                            }
+                                        }
+                                        ?>
+                                        <form action="signup.php" method="post" autocomplete="off">
+
+                                            <!-- First Name and Last Name inputs -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="fName" class="form-label">First Name</label>
+                                                    <input type="text" id="fName" name="fName" class="form-control" value="<?php echo @$_POST['fName']; ?>" />
                                                 </div>
-    
-                                                <!-- Second Column -->
-                                                <div class="row mb-3">
-    
-                                                    <!-- Email input -->
-                                                    <div class="col-md-4">
-                                                        <label for="email" class="form-label">Email</label>
-                                                        <input type="email" id="email" name="email" class="form-control" value="<?php echo @$_POST['email']; ?>" />
-                                                    </div>
-    
-                                                    <!-- Mobile Number input -->
-                                                    <div class="col-md-4">
-                                                        <label for="phoneNumber" class="form-label">Mobile Number</label>
-                                                        <input type="text" id="phoneNumber" name="phoneNumber" class="form-control text-center" placeholder="09*-****-****" value="<?php echo @$_POST['phoneNumber']; ?>" />
-                                                    </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="lName" class="form-label">Last Name</label>
+                                                    <input type="text" id="lName" name="lName" class="form-control" value="<?php echo @$_POST['lName']; ?>" />
                                                 </div>
-    
-                                                <!-- Third Column -->
+                                            </div>
+
+                                            <!-- Email and Mobile Number inputs -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" id="email" name="email" class="form-control" value="<?php echo @$_POST['email']; ?>" />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="phoneNumber" class="form-label">Mobile Number</label>
+                                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="09*-****-****" pattern="\d{11}" title="Please enter a valid 11-digit number starting with 09" value="<?php echo @$_POST['phoneNumber']; ?>" required />
+                                                  </div>
+
+                                            </div>
+
+                                            <!-- Password and Re-type Password inputs -->
+                                            <!-- Password input with visibility toggle -->
+                                           <!-- Password and Re-type Password inputs with visibility toggle -->
                                                 <div class="row mb-3">
-                                                    <!-- Password input -->
                                                     <div class="col-md-6">
                                                         <label for="password" class="form-label">Password</label>
-                                                        <input type="password" id="password" name="password" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                                                        <div class="input-group">
+                                                            <input type="password" id="password" name="password" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                                                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('password')">Show</button>
+                                                        </div>
                                                     </div>
-    
-                                                    <!-- Re-type Password input -->
+
                                                     <div class="col-md-6">
                                                         <label for="registerRepeatPassword" class="form-label">Re-type Password</label>
-                                                        <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" value="<?php echo @$_POST['registerRepeatPassword']; ?>" />
+                                                        <div class="input-group">
+                                                            <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" value="<?php echo @$_POST['registerRepeatPassword']; ?>" />
+                                                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('registerRepeatPassword')">Show</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-    
-                                                <!-- Checkbox -->
-                                                <div class="form-check mb-3">
-                                                    <input class="form-check-input" type="checkbox" value="" id="registerCheck" checked />
-                                                    <label class="form-check-label" for="registerCheck">
-                                                        I have read and agree to the terms
-                                                    </label>
-                                                </div>
-                                                <!-- Submit button -->
-                                                <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
 
-                                                <?php 
+
+
+                                            <!-- Submit button -->
+                                            <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
+
+                                            <?php 
                                             if(@$response == "success"){
-                                                ?>
-                                                <p class="success"> Registered Successfully</p>
-                                                <?php
+                                            ?>
+                                            <p class="success"> Registered Successfully</p>
+                                            <?php
                                             }else{
-                                                ?>
-                                                    <p class="error"><?php echo@$response; ?></p>
-                                                    <?php
+                                            ?>
+                                            <p class="error"><?php echo@$response; ?></p>
+                                            <?php
                                             }
                                             ?>
-                                            </form>
-    
-                                            <div class="text-center mt-3">
-                                                <p>Already a member? <a href="login.php">Log In</a></p>
-                                            </div>
+                                        </form>
+
+                                        <div class="text-center mt-3">
+                                            <p>Already a member? <a href="login.php">Log In</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,4 +172,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+

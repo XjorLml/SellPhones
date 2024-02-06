@@ -1,4 +1,16 @@
 <?php
+ 
+require "functions.php";
+
+if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
+  header("location: login.php");
+  exit();
+  }
+
+if (isset($_GET['logout'])) {
+    logoutUser();
+}
+
 
 $servername= "localhost";
 $username= "root";
@@ -13,7 +25,7 @@ $phoneBrand = "";
 $phoneModel = "";
 $phoneStorage = "";
 $phoneColor = "";
-$phoneAvailability = "";
+$phoneStatus = "";
 $phoneQuantity = "";
 $phonePrice = "";
 $phoneImage = "";
@@ -28,7 +40,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
     $phoneModel = $_POST["phoneModel"];
     $phoneStorage = $_POST["phoneStorage"];
     $phoneColor = $_POST["phoneColor"];
-    $phoneAvailability = $_POST["phoneAvailability"];
+    $phoneStatus = $_POST["phoneStatus"];
     $phoneQuantity = $_POST["phoneQuantity"];
     $phonePrice = $_POST["phonePrice"];
     $phoneImage = $_POST["phoneImage"];
@@ -40,8 +52,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
             break;
         }
 
-        $sql = "INSERT INTO phonetbl (phoneBrand, phoneModel, phoneStorage, phoneColor, phoneAvailability, phoneQuantity, phonePrice, phoneImage, phoneDescription) " .
-            "VALUES ('$phoneBrand','$phoneModel', '$phoneStorage', '$phoneColor' , '$phoneAvailability' , '$phoneQuantity' , '$phonePrice' , '$phoneImage' , '$phoneDescription')";
+        $sql = "INSERT INTO phonetbl (phoneBrand, phoneModel, phoneStorage, phoneColor, phoneStatus, phoneQuantity, phonePrice, phoneImage, phoneDescription) " .
+            "VALUES ('$phoneBrand','$phoneModel', '$phoneStorage', '$phoneColor' , '$phoneStatus' , '$phoneQuantity' , '$phonePrice' , '$phoneImage' , '$phoneDescription')";
         $result = $conn->query($sql);
 
         if (!$result) {
@@ -53,7 +65,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
         $phoneModel = "";
         $phoneStorage = "";
         $phoneColor = "";
-        $phoneAvailability = "";
+        $phoneStatus = "";
         $phoneQuantity = "";
         $phonePrice = "";
         $phoneImage = "";
@@ -109,10 +121,10 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
 </head>
 <body>
       <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center">
+      <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="adminDashboard.html" class="logo d-flex align-items-center">
+      <a href="adminDashboard.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -121,16 +133,22 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="adminDashboard.html">Home</a></li>
+          <li><a href="adminDashboard.php">Home</a></li>
           <li><a href="adminReservation.php">Reservations</a></li>
           <li><a href="inventory.php" class="active">Inventory</a></li>
           <li><a href="userManagement.php">User Management</a></li>
-          <li><a href="reservations.html">Log out</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profile.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .navbar -->
 
     </div>
-  </header><!-- End Header -->
+</header>
 
    <!-- ======= Breadcrumbs ======= -->
    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
@@ -175,9 +193,9 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
                 </div>
             </div>
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">phoneAvailability</label>
+                <label class="col-sm-3 col-form-label">phoneStatus</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="phoneAvailability" value="<?php echo $phoneAvailability; ?>">
+                    <input type="text" class="form-control" name="phoneStatus" value="<?php echo $phoneStatus; ?>">
                 </div>
             </div>
             <div class="row mb-3">
