@@ -105,6 +105,7 @@ if (isset($_GET['logout'])) {
             </thead>
             <tbody>
                 <?php
+                
                 $servername = "localhost";
                 $username = "root";
                 $password = "";
@@ -125,6 +126,7 @@ if (isset($_GET['logout'])) {
 
                 while ($row = $result->fetch_assoc()) {
                     $truncatedDescription = strlen($row['phoneDescription']) > 50 ? substr($row['phoneDescription'], 0, 50) . '...' : $row['phoneDescription'];
+                    $imagePath = $row['phoneImage'];
                     echo "
                     <tr>
                         <td>$row[phoneID]</td>
@@ -135,7 +137,8 @@ if (isset($_GET['logout'])) {
                         <td>$row[phoneStatus]</td>
                         <td>$row[phoneQuantity]</td>
                         <td>$row[phonePrice]</td>
-                        <td><img src='data:image/jpeg;base64," . base64_encode($row['phoneImage']) . "' width='50', 'height='50' /></td>
+                         <td>$row[phonePrice]</td>
+                        <td><img src='$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>
                         <td title='{$row['phoneDescription']}'>$truncatedDescription</td>
                         <td>
                             <a class='btn btn-primary btn-sm' href='inventoryEdit.php?phoneID=$row[phoneID]'>Edit</a>
@@ -143,8 +146,9 @@ if (isset($_GET['logout'])) {
                         </td>
                     </tr>
                     ";
-                }        
-                ?>     
+                }    
+                ?>  
+                
             </tbody>
         </table>
     </div>

@@ -78,6 +78,14 @@ else {
             break;
         }
 
+        if ($_FILES['phoneImage']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['phoneImage']['tmp_name'];
+            $img_name = $_FILES['phoneImage']['name'];
+            $img_path = "assets/" . $img_name; // Adjust the path as per your requirement
+            move_uploaded_file($tmp_name, $img_path);
+            $_SESSION['phoneImage'] = $img_path;
+        }
+
         $sql =  "UPDATE phonetbl " .
                 "SET phoneBrand = '$phoneBrand', phoneModel = '$phoneModel', phoneStorage = '$phoneStorage', phoneColor = '$phoneColor', phoneStatus = '$phoneStatus', phoneQuantity = '$phoneQuantity', phonePrice = '$phonePrice', phoneImage = '$phoneImage', phoneDescription = '$phoneDescription' " .
                 "WHERE phoneID = $phoneID";
@@ -185,7 +193,7 @@ else {
         }
         ?>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="phoneID" value="<?php echo $phoneID; ?>">
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">phoneBrand</label>
@@ -232,9 +240,11 @@ else {
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">phoneImage</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="phoneImage" value="<?php echo $phoneImage; ?>">
+                    <input type="file" class="form-control" name="phoneImage">
                 </div>
             </div>
+            <td><img src='<?php echo $row['phoneImage']; ?>' width='50' height='50' /></td>
+
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">phoneDescription</label>
                 <div class="col-sm-6">
