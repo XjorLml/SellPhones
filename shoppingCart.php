@@ -42,6 +42,20 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 </head>
+<style>
+  .footer {
+      background-color: #333; /* Change this to your desired background color */
+      color: #fff; /* Change this to your desired font color */
+    }
+
+    .footer a {
+      color: #fff; /* Change this to your desired link color */
+    }
+
+    .footer a:hover {
+      color: #bbb; /* Change this to your desired link color on hover */
+    }
+</style>
 
 <body>
 

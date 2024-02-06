@@ -57,6 +57,7 @@ function getPhoneDetailsById($phoneId) {
     }
 }
 function reservePhone($phoneId, $quantity, $reserveDate) {
+    $userID = $_SESSION["userID"];
     $mysqli = connect();
 
     // Fetch phone details from the database
@@ -77,11 +78,11 @@ function reservePhone($phoneId, $quantity, $reserveDate) {
     // Now, you can use $totalPrice and $claimDate in your database insertion logic
 
     // For example, you can use an SQL query to insert data into your 'reservetbl' table
-    $sql = "INSERT INTO reservetbl (phoneID, phoneCount, totalPrice, reserveDate, pickupDate) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO reservetbl (phoneID, phoneCount, totalPrice, reserveDate, pickupDate, userID) VALUES (?, ?, ?, ?, ?, ?)";
     
     // Use prepared statement to prevent SQL injection
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("iiiss", $phoneId, $quantity, $totalPrice, $reserveDate, $claimDate);
+    $stmt->bind_param("iiissi", $phoneId, $quantity, $totalPrice, $reserveDate, $claimDate, $userID);
     
     // Execute the statement
     $stmt->execute();
@@ -169,7 +170,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     }
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType) VALUES (?, ?, ?, ?, ?, 'user')");
+    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType, userID) VALUES (?, ?, ?, ?, ?, 'user',?)");
     $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
     $stmt->execute();
 
