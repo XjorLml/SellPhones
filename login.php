@@ -1,15 +1,10 @@
 <?php
     require "functions.php";
-
     if(isset($_POST['submit'])){
-
         $response = loginUser($_POST['email'], $_POST['password'], $_POST['userType']);
 
     }
     ?>
-
-
-
 
 <head>
 
@@ -56,9 +51,7 @@
           <nav id="navbar" class="navbar">
             <ul>
               <li><a href="index.html">Home</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="products.php">Products</a></li>
-              <li><a href="shoppingCart.php">Reserved</a></li>
+              <li><a href="about.html">About</a></li>
               <li><a href="login.php" class="active">Log In</a></li>
             </ul>
           </nav><!-- .navbar -->
@@ -110,7 +103,7 @@
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <a href="#!" class="d-block" style="font-size: 13px;">Forgot password?</a>
+                                                        <a href="forgot-password.php" class="d-block" style="font-size: 13px;">Forgot password?</a>
                                                     </div>
                                                 </div>
                                                 <!-- Submit button -->
@@ -118,7 +111,6 @@
                                                 <button type="submit" name="submit" class="btn btn-primary btn-block">Log In</button>
 
                                             <p class="error"><?php echo @$response ?></p>
-
 
                                             </form>
 
@@ -138,12 +130,8 @@
         </div>
     </section>
 
-</main>
 </html>
-     <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <div id="preloader"></div>
-
+        </main>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>

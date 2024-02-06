@@ -1,3 +1,18 @@
+<?php 
+
+require "functions.php";
+
+if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
+  header("location: login.php");
+  exit();
+  }
+
+if (isset($_GET['logout'])) {
+    logoutUser();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,13 +50,10 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-</head>
-<body>
-    <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center">
+    <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="adminDashboard.html" class="logo d-flex align-items-center">
+      <a href="adminDashboard.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -50,16 +62,22 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="adminDashboard.html">Home</a></li>
+          <li><a href="adminDashboard.php">Home</a></li>
           <li><a href="adminReservation.php">Reservations</a></li>
           <li><a href="inventory.php" class="active">Inventory</a></li>
           <li><a href="userManagement.php">User Management</a></li>
-          <li><a href="reservations.html">Log out</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profile.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .navbar -->
 
     </div>
-  </header><!-- End Header -->
+</header>
 
    <!-- ======= Breadcrumbs ======= -->
    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
@@ -78,7 +96,7 @@
                     <th>phoneModel</th>
                     <th>phoneStorage</th>
                     <th>phoneColor</th>
-                    <th>phoneAvailability</th>
+                    <th>phoneStatus</th>
                     <th>phoneQuantity</th>
                     <th>phonePrice</th>
                     <th>phoneImage</th>
@@ -114,7 +132,7 @@
                         <td>$row[phoneModel]</td>
                         <td>$row[phoneStorage]</td>
                         <td>$row[phoneColor]</td>
-                        <td>$row[phoneAvailability]</td>
+                        <td>$row[phoneStatus]</td>
                         <td>$row[phoneQuantity]</td>
                         <td>$row[phonePrice]</td>
                         <td><img src='data:image/jpeg;base64," . base64_encode($row['phoneImage']) . "' width='50', 'height='50' /></td>

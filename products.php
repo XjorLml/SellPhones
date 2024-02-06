@@ -1,6 +1,15 @@
 <?php
   require "functions.php";
   $phones = getPhoneData();  
+
+  if (!isset($_SESSION["userID"])) {
+    header("location: login.php");
+    exit();
+    }
+  
+  if (isset($_GET['logout'])) {
+      logoutUser();
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,22 +83,33 @@
 
 <body>
 
-  <header id="header" class="header d-flex align-items-center">
+<header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
       <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
       </a>
+
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="products.html" class="active">Products</a></li>
+          <li><a href="index1.php" >Home</a></li>
+          <li><a href="about1.php">About</a></li>
+          <li><a href="products.php" class="active">Products</a></li>
           <li><a href="shoppingCart.php">Reserved</a></li>
-          <li><a href="login.php">Log In</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profileUser.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
+            </ul>
+          </li>
         </ul>
-      </nav>
+      </nav><!-- .navbar -->
+
     </div>
   </header>
 
