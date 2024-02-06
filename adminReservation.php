@@ -78,36 +78,114 @@ if (isset($_GET['logout'])) {
               <li><a href="?logout">Logout</a></li>
             </ul>
           </li>
+          <li><a href="?logout">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 
     </div>
-</header>
-
-  <main id="main">
-
+  </header><!-- End Header -->
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
+   <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
     </div><!-- End Breadcrumbs -->
 
-    <!-- ======= Contact Section ======= -->
-    <table>
-    <thead>
-      <tr>
-        <th>Reservation ID</th>
-        <th>Phone ID</th>
-        <th>Reservation Date</th>
-        <th>Pickup Date</th>
-      </tr>
-    </thead>
-      <tbody>
-        <?php
-        // Include the PHP file with the database query
-        include 'fetchReservations.php';
-        ?>
-      </tbody>
-    </table>
-    </main><!-- End #main -->
+  <div class="container my-5">
+    <div class="container my-5">
+        <h2>Inventory Managment</h2>
+        <a class ="btn btn-primary" href="inventoryCreate.php" role="button">New Phone</a>
+        <br>
+        <table class= "table">
+            <thead>
+                <tr>
+                    <th>reserveID</th>
+                    <th>phoneID</th>
+                    <th>UserID</th>
+                    <th>reserveDate</th>
+                    <th>pickupDate</th>
+                    <th>phoneCount</th>
+                    <th>reservationStatus</th>
+                    <th>totalPrice</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sellphone";
+
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Connection failed". $conn->connect_error);
+                }
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                  $reserveID = $_POST['reserveID'];
+                  $currentStatus = $_POST['currentStatus'];
+                  $newStatus = $currentStatus + 1;
+          
+                  $sql = "UPDATE reservetbl SET reservationStatus=$newStatus WHERE reserveID=$reserveID";
+          
+                  if ($conn->query($sql) === TRUE) {
+                      echo "Reservation status updated successfully";
+                  } else {
+                      echo "Error updating reservation status: " . $conn->error;
+                  }
+                }
+
+                $sql = "SELECT * FROM reservetbl ";
+                $result = $conn->query($sql);
+
+                if (!$result) {
+                    die("Invalid query". $conn->connect_error);
+                }
+
+                while ($row = $result->fetch_assoc()) {
+                    if ($row["reservationStatus"] ==='0') {
+                      echo "
+                      <tr>
+                          <td>$row[reserveID]</td>
+                          <td>$row[phoneID]</td>
+                          <td>$row[userID]</td>
+                          <td>$row[reserveDate]</td>
+                          <td>$row[pickupDate]</td>
+                          <td>$row[phoneCount]</td>
+                          <td>$row[reservationStatus]</td>
+                          <td>$row[totalPrice]</td>
+                          <td>
+                            <form method='post'>
+                              <input type='hidden' name='reserveID' value='$row[reserveID]'>
+                              <input type='hidden' name='currentStatus' value='$row[reservationStatus]'>
+                              <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
+                            </form>
+                              <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                          </td>
+                      </tr>
+                    ";
+                    }
+                    if ($row["reservationStatus"] === '1') {
+                      echo "
+                      CLAIMED
+                      <tr>
+                          <td>$row[reserveID]</td>
+                          <td>$row[phoneID]</td>
+                          <td>$row[userID]</td>
+                          <td>$row[reserveDate]</td>
+                          <td>$row[pickupDate]</td>
+                          <td>$row[phoneCount]</td>
+                          <td>$row[reservationStatus]</td>
+                          <td>$row[totalPrice]</td>
+                          <td>
+                              <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                          </td>
+                      </tr>
+                    ";
+                    }
+                }        
+              ?>     
+            </tbody>
+        </table>
+    </div>
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

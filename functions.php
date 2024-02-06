@@ -57,6 +57,7 @@ function getPhoneDetailsById($phoneId) {
     }
 }
 function reservePhone($phoneId, $quantity, $reserveDate) {
+    $userID = $_SESSION["userID"];
     $mysqli = connect();
 
     // Fetch phone details from the database
@@ -77,11 +78,11 @@ function reservePhone($phoneId, $quantity, $reserveDate) {
     // Now, you can use $totalPrice and $claimDate in your database insertion logic
 
     // For example, you can use an SQL query to insert data into your 'reservetbl' table
-    $sql = "INSERT INTO reservetbl (phoneID, phoneCount, totalPrice, reserveDate, pickupDate) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO reservetbl (phoneID, phoneCount, totalPrice, reserveDate, pickupDate, userID) VALUES (?, ?, ?, ?, ?, ?)";
     
     // Use prepared statement to prevent SQL injection
     $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param("iiiss", $phoneId, $quantity, $totalPrice, $reserveDate, $claimDate);
+    $stmt->bind_param("iiissi", $phoneId, $quantity, $totalPrice, $reserveDate, $claimDate, $userID);
     
     // Execute the statement
     $stmt->execute();
@@ -126,6 +127,34 @@ function addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity) {
     // Close connection
     $mysqli->close();
 }
+function getReservationsByUserID($userID) {
+    $mysqli = connect();
+    
+    if ($mysqli->connect_error) {
+        die("Connection failed: " . $mysqli->connect_error);
+    }
+
+    // Prepare SQL statement to fetch reservations by userID
+    $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId WHERE userID = $userID";
+    $result = $mysqli->query($sql);
+
+    // Check if query executed successfully
+    if ($result === false) {
+        die("Error executing query: " . $mysqli->error);
+    }
+
+    $reservations = array();
+
+    // Fetch reservations from the result set
+    while ($row = $result->fetch_assoc()) {
+        $reservations[] = $row;
+    }
+
+    // Close connection
+    $mysqli->close();
+
+    return $reservations;
+}
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
 
     $mysqli = connect();
@@ -169,7 +198,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     }
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType) VALUES (?, ?, ?, ?, ?, 'user')");
+    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType, userID) VALUES (?, ?, ?, ?, ?, 'user',?)");
     $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
     $stmt->execute();
 
