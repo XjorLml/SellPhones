@@ -78,7 +78,7 @@ if ($phoneDetails === null) {
     <header id="header" class="header d-flex align-items-center">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="index1.php" class="logo d-flex align-items-center">
                 <h1>SELLPHONE<span>.</span></h1>
             </a>
 

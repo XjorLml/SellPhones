@@ -17,7 +17,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Shop</title>
+    <title>SELLPHONE</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
@@ -38,13 +38,33 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+    .phone-image {
+      max-height: 300px; /* Set the maximum height for the images */
+      object-fit: contain; /* Use 'contain' to maintain aspect ratio without cropping */
+      width: 100%; /* Ensure the image takes the full width of its container */
+    }
+    .footer {
+      background-color: #333; /* Change this to your desired background color */
+      color: #fff; /* Change this to your desired font color */
+    }
+
+    .footer a {
+      color: #fff; /* Change this to your desired link color */
+    }
+
+    .footer a:hover {
+      color: #bbb; /* Change this to your desired link color on hover */
+    }
+
+  </style>
 </head>
 <body>
-        <!-- ======= Header ======= -->
-        <header id="header" class="header d-flex align-items-center">
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="adminDashboard.php" class="logo d-flex align-items-center">
+      <a href="index1.php" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1>SELLPHONE<span>.</span></h1>
@@ -71,8 +91,15 @@
 </header>
 
     <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
-        </div><!-- End Breadcrumbs -->
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
+      <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+        <h2>PRODUCTS</h2>
+        <ol>
+          <li><a href="index1.php">Home</a></li>
+          <li>Cellphones</li>
+        </ol>
+      </div>
+    </div>
     <div class="container my-5">
         <h2>PROFILE</h2>
         <table class= "table">
@@ -152,5 +179,67 @@
             </tbody>
         </table>
     </div>
+     <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+<div class="footer-content position-relative">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-info">
+          <h3>SellPhone</h3>
+          <p>
+            Vicente Cruz Street, Sampaloc <br>
+            Manila, Philippines<br><br>
+            <strong>Phone:</strong> +1 5589 55488 55<br>
+            <strong>Email:</strong> sellphone@gmail.com<br>
+          </p>
+          <div class="social-links d-flex mt-3">
+            <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="d-flex align-items-center justify-content-center"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End footer info column-->
+
+      <div class="col-lg-2 col-md-3 footer-links">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="#">Terms of service</a></li>
+          <li><a href="#">Privacy policy</a></li>
+        </ul>
+      </div><!-- End footer links column-->
+
+      <div class="col-lg-6 col-md-3 footer-links">
+        <h4>About Us</h4>
+        <p>
+          Welcome to SellPhone, your go-to destination for streamlined phone reservation and monitoring. At SellPhone, we're dedicated to simplifying your journey to secure the latest smartphones. Discover, reserve, and stay updated on phone availability effortlessly. Whether you're a tech enthusiast or seeking a reliable device, SellPhone is your one-click solution. Innovation meets simplicity at SellPhone – where your dream phone is just a click away.</p>
+      </div><!-- End footer links column-->
+    </div>
+  </div>
+</div>
+
+<div class="footer-legal text-center position-relative">
+  <div class="container">
+    <div class="copyright">
+      &copy; Copyright <strong><span>SellPhone</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/upconstruction-bootstrap-construction-website-template/ -->
+      Published by Power PUP Bois</a>
+    </div>
+  </div>
+</div>
+
+</footer>
+<!-- End Footer -->
 </body>
 </html>
