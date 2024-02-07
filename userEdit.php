@@ -157,7 +157,7 @@ else {
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
     </div><!-- End Breadcrumbs -->
     <div class="container my-5">
-        <h2>New Client</h2>
+        <h2>Edit User</h2>
 
         <?php
         if ( !empty($errorMessage) ) {

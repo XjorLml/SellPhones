@@ -147,7 +147,7 @@ else {
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/10/androidphones-2048px-4856-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
         </div><!-- End Breadcrumbs -->
     <div class="container my-5">
-        <h2>New Client</h2>
+        <h2>Update Profile</h2>
 
         <?php
         if ( !empty($errorMessage) ) {

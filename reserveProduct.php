@@ -11,6 +11,7 @@ if ($phoneId === null) {
 
 // Fetch phone details from the database
 $phoneDetails = getPhoneDetailsById($phoneId);
+$imagePath = $phoneDetails['phoneImage'];
 
 // Check if phone details are found
 if ($phoneDetails === null) {
@@ -74,28 +75,35 @@ if ($phoneDetails === null) {
 
 <body>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="header d-flex align-items-center">
-        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+<header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <a href="index1.php" class="logo d-flex align-items-center">
-                <h1>SELLPHONE<span>.</span></h1>
-            </a>
+      <a href="index1.php" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>SELLPHONE<span>.</span></h1>
+      </a>
 
-            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="products.php">Products</a></li>
-                    <li><a href="shoppingCart.php">Reserved</a></li>
-                    <li><a href="login.php">Login</a></li>
-                </ul>
-            </nav><!-- .navbar -->
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="index1.php" >Home</a></li>
+          <li><a href="about1.php">About</a></li>
+          <li><a href="products.php" class="active">Products</a></li>
+          <li><a href="shoppingCart.php">Reserved</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profileUser.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav><!-- .navbar -->
 
-        </div>
-    </header><!-- End Header -->
+    </div>
+  </header>
 
     <main id="main">
 
@@ -118,7 +126,7 @@ if ($phoneDetails === null) {
                     <!-- Left side with phone image -->
                     <div class="col-lg-6">
                         <div class="card mb-3">
-                            <img src="data:image/jpeg;base64,<?= base64_encode($phoneDetails['phoneImage']) ?>" alt="<?= $phoneDetails['phoneModel'] ?>" class="card-img-top">
+                        <img src="<?= $imagePath ?>" alt="<?= $phoneDetails['phoneModel'] ?>" class="card-img-top">
                         </div>
                     </div>
 
@@ -148,7 +156,7 @@ if ($phoneDetails === null) {
                                             <button class="btn btn-outline-secondary" type="button" id="plusBtn">+</button>
                                         </div>
                                         <div class="stock-info p-2">
-                                            <p class="card-text"><?= $stockStatus ?>: <?= $phoneDetails['phoneQuantity'] ?></p>
+                                            <p class="card-text"><?= $stockStatus ?>: <?= $phoneDetails['phoneQuantity'] ?></p> 
                                         </div>
                                     </div>
                                     <div>

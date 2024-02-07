@@ -78,7 +78,6 @@ if (isset($_GET['logout'])) {
               <li><a href="?logout">Logout</a></li>
             </ul>
           </li>
-          <li><a href="?logout">Log out</a></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -90,7 +89,7 @@ if (isset($_GET['logout'])) {
 
   <div class="container my-5">
     <div class="container my-5">
-        <h2>Inventory Managment</h2>
+        <h2>Reservation Management</h2>
         <a class ="btn btn-primary" href="inventoryCreate.php" role="button">New Phone</a>
         <br>
         <table class= "table">

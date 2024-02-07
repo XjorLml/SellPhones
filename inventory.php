@@ -137,8 +137,7 @@ if (isset($_GET['logout'])) {
                         <td>$row[phoneStatus]</td>
                         <td>$row[phoneQuantity]</td>
                         <td>$row[phonePrice]</td>
-                         <td>$row[phonePrice]</td>
-                        <td><img src='$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>
+                        <td><img src = '$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>
                         <td title='{$row['phoneDescription']}'>$truncatedDescription</td>
                         <td>
                             <a class='btn btn-primary btn-sm' href='inventoryEdit.php?phoneID=$row[phoneID]'>Edit</a>
