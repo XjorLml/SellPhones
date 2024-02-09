@@ -142,13 +142,30 @@
                         echo "<td>" . ($reservation['reservationStatus'] == 0 ? 'Reserved' : 'Claimed') . "</td>";
                         echo "<td>₱" . $reservation['totalPrice'] . "</td>";
                         echo "<td><img src = '$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>";
-                        echo "<td><a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=" . $reservation['reserveID'] . "'>Cancel</a></td>";
+                        echo "<td><button class='btn btn-danger btn-sm cancel-reservation' data-reserve-id='" . $reservation['reserveID'] . "'>Cancel</button></td>";
                         echo "</tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
+        <div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to cancel this reservation?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger" id="confirmCancelBtn">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
     
 
   </main><!-- End #main -->
@@ -215,6 +232,29 @@
   
     </footer>
     <!-- End Footer -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Handle click event on Cancel buttons
+        const cancelButtons = document.querySelectorAll('.cancel-reservation');
+        cancelButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const reserveId = button.getAttribute('data-reserve-id');
+            // Set the reserve ID in the confirmation modal
+            document.getElementById('confirmCancelBtn').setAttribute('data-reserve-id', reserveId);
+            // Show the confirmation modal
+            const confirmCancelModal = new bootstrap.Modal(document.getElementById('confirmCancelModal'));
+            confirmCancelModal.show();
+          });
+        });
+
+        // Handle click event on Confirm button in the confirmation modal
+        document.getElementById('confirmCancelBtn').addEventListener('click', function() {
+          const reserveId = this.getAttribute('data-reserve-id');
+          // Redirect to shoppingCartDelete.php with the reserveID parameter
+          window.location.href = 'shoppingCartDelete.php?reserveID=' + reserveId;
+        });
+      });
+    </script>
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
