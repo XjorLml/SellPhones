@@ -162,7 +162,11 @@ if ($phoneDetails === null) {
                                     <div>
                                         <p class="text-muted mt-2">Note: Maximum of 3 phones allowed per reservation.</p>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w3-button w3-right w3-blue" id="reserveNowBtn">Reserve Now</button>
+                                    <div class="mb-3">
+                                    <div>
+                                        <button type="button" class="btn btn-primary w3-button w3-right w3-blue" id="confirmReservationBtn">Reserve Now</button>
+                                    </div>
+                                </div>
                                 </form>
                             </div>
                         </div>
@@ -253,56 +257,63 @@ if ($phoneDetails === null) {
     <script src="assets/js/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Get elements
-            var quantityInput = document.getElementById("quantityInput");
-            var reserveNowBtn = document.getElementById("reserveNowBtn");
-            var plusBtn = document.getElementById("plusBtn");
-            var minusBtn = document.getElementById("minusBtn");
+        // Get elements
+        var quantityInput = document.getElementById("quantityInput");
+        var plusBtn = document.getElementById("plusBtn");
+        var minusBtn = document.getElementById("minusBtn");
+        var reserveNowBtn = document.getElementById("confirmReservationBtn"); // Updated this line
+        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
 
-            // Set maximum reservation quantity
-            var maxQuantity = 3;
+        // Set maximum reservation quantity
+        var maxQuantity = 3;
 
-            // Event listener for the plus button
-            plusBtn.addEventListener("click", function () {
-                var currentQuantity = parseInt(quantityInput.value);
-                if (currentQuantity < maxQuantity) {
-                    quantityInput.value = currentQuantity + 1;
-                }
-            });
-
-            // Event listener for the minus button
-            minusBtn.addEventListener("click", function () {
-                var currentQuantity = parseInt(quantityInput.value);
-                if (currentQuantity > 1) {
-                    quantityInput.value = currentQuantity - 1;
-                }
-            });
-
-            // Event listener for the reserve button
-            reserveNowBtn.addEventListener("click", function () {
-                var selectedQuantity = parseInt(quantityInput.value);
-
-                // You can perform validation here if needed
-
-                // AJAX request to handle the reservation process
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "reservePhone.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // Reservation successful
-                            alert("Reservation successful!");
-                        } else {
-                            // Reservation failed
-                            alert("Reservation failed. Please try again later.");
-                        }
-                    }
-                };
-                xhr.send("id=<?php echo $phoneId; ?>&quantity=" + selectedQuantity);
-            });
+        // Event listener for the plus button
+        plusBtn.addEventListener("click", function () {
+            var currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity < maxQuantity) {
+                quantityInput.value = currentQuantity + 1;
+            }
         });
+
+        // Event listener for the minus button
+        minusBtn.addEventListener("click", function () {
+            var currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+            }
+        });
+
+        // Event listener for the reserve button
+        reserveNowBtn.addEventListener("click", function () {
+            confirmationModal.show();
+        });
+
+        // Event listener for the confirmation modal
+        document.getElementById("confirmReservation").addEventListener("click", function () {
+            confirmationModal.hide();
+            document.getElementById("reservationForm").submit();
+        });
+    });
+
     </script>
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="confirmationModalLabel">Confirm Reservation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            You have 3 days to claim your reserved product. Are you sure you want to reserve this product?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmReservation">Confirm</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
 </body>
 
 </html>
