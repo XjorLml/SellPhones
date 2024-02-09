@@ -156,30 +156,30 @@ function getReservationsByUserID($userID) {
     return $reservations;
 }
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
-
+ 
     $mysqli = connect();
     $args = func_get_args();
-
+ 
     $args = array_map(function($value){
         return trim($value);
     }, $args);
-    
+   
     foreach ($args as $value){
         if(empty($value)){
             return "All Fields are required";
         }
     }
-
+ 
     foreach ($args as $value) {
         if(preg_match("/[<|>]/", $value)){
             return "<> characters are not allowed";
         }
     }
-
+ 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
         return "Email is not Valid";
     }
-
+ 
     $stmt = $mysqli->prepare("SELECT email FROM userTbl WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -188,21 +188,21 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     if($data != NULL){
         return "Email already exists, please use a different Email";
     }
-
+ 
     if(strlen($password) > 50){
         return "Password too long";      
     }
-
+ 
     if($password != $registerRepeatPassword){
         return "Passwords don't match";
     }
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType, userID) VALUES (?, ?, ?, ?, ?, 'user',?)");
+ 
+    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType) VALUES (?, ?, ?, ?, ?, 'user')");
     $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
     $stmt->execute();
-
-
+ 
+ 
     if ($stmt->affected_rows != 1) {
         return "An error occured. Please Try Again";
     } else {

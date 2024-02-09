@@ -52,8 +52,16 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
             break;
         }
 
+        if ($_FILES['phoneImage']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['phoneImage']['tmp_name'];
+            $img_name = $_FILES['phoneImage']['name'];
+            $img_path = "assets/" . $img_name; // Adjust the path as per your requirement
+            move_uploaded_file($tmp_name, $img_path);
+            $_SESSION['phoneImage'] = $img_path;
+        }
+
         $sql = "INSERT INTO phonetbl (phoneBrand, phoneModel, phoneStorage, phoneColor, phoneStatus, phoneQuantity, phonePrice, phoneImage, phoneDescription) " .
-            "VALUES ('$phoneBrand','$phoneModel', '$phoneStorage', '$phoneColor' , '$phoneStatus' , '$phoneQuantity' , '$phonePrice' , '$phoneImage' , '$phoneDescription')";
+            "VALUES ('$phoneBrand','$phoneModel', '$phoneStorage', '$phoneColor' , '$phoneStatus' , '$phoneQuantity' , '$phonePrice' , '$img_path' , '$phoneDescription')";
         $result = $conn->query($sql);
 
         if (!$result) {
@@ -213,7 +221,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">phoneImage</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="phoneImage" value="<?php echo $phoneImage; ?>">
+                    <input type="file" class="form-control" name="phoneImage">
                 </div>
             </div>
             <div class="row mb-3">

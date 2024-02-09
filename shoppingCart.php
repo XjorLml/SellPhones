@@ -61,8 +61,7 @@
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center">
+<header id="header" class="header d-flex align-items-center">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <a href="index1.php" class="logo d-flex align-items-center">
@@ -75,10 +74,10 @@
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="index1.php" >Home</a></li>
+          <li><a href="about1.php">About</a></li>
           <li><a href="products.php">Products</a></li>
-          <li><a href="shoppingCart.php" class="active">Reserved Cart</a></li>
+          <li><a href="shoppingCart.php" class="active">Reserved</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -131,6 +130,7 @@
 
                     // Loop through each reservation
                     foreach ($reservations as $reservation) {
+                      $imagePath = $reservation['phoneImage'];
                         // Display reservation details
                         echo "<tr>";
                         echo "<td>" . $reservation['phoneBrand'] . "</td>";
@@ -141,8 +141,8 @@
                         echo "<td>" . $reservation['pickupDate'] . "</td>";
                         echo "<td>" . ($reservation['reservationStatus'] == 0 ? 'Reserved' : 'Claimed') . "</td>";
                         echo "<td>₱" . $reservation['totalPrice'] . "</td>";
-                        echo "<td><img src='data:image/jpeg;base64," . base64_encode($reservation['phoneImage']) . "' width='50' height='50' /></td>";
-                        echo "<td><a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=" . $reservation['reserveID'] . "'>Delete</a></td>";
+                        echo "<td><img src = '$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>";
+                        echo "<td><a class='btn btn-danger btn-sm' href='shoppingCartDelete.php?reserveID=" . $reservation['reserveID'] . "'>Cancel</a></td>";
                         echo "</tr>";
                     }
                     ?>
@@ -181,8 +181,8 @@
             <div class="col-lg-2 col-md-3 footer-links">
               <h4>Useful Links</h4>
               <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index1.php">Home</a></li>
+                <li><a href="about1.php">About</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="#">Terms of service</a></li>
                 <li><a href="#">Privacy policy</a></li>

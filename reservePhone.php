@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Fetch phone details from the database
     $phoneDetails = getPhoneDetailsById($phoneId);
-
+    
     // Check if phone details are found
     if ($phoneDetails === null) {
         echo "Phone details not found.";

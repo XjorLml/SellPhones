@@ -140,13 +140,14 @@
         <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
           <?php
             foreach ($phones as $phone) {
+              $imagePath = $phone['phoneImage'];
               echo '<div class="col-lg-4 col-md-6 portfolio-item filter-' . strtolower($phone['phoneBrand']) . '">';
               echo '<div class="portfolio-content h-100">';
-              echo '<img src="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" class="img-fluid phone-image" alt="">';
+              echo '<img src="' . $imagePath . '" alt="Phone Image" class="img-fluid phone-image">';
               echo '<div class="portfolio-info">';
               echo '<h4>' . $phone['phoneModel'] . '</h4>';
               echo '<p>₱' . $phone['phonePrice'] . ' | ' . $phone['phoneStorage'] .  ' | ' . $phone['phoneColor'] . '</p>';
-              echo '<a href="data:image/jpeg;base64,' . base64_encode($phone['phoneImage']) . '" title="' . $phone['phoneModel'] . '" data-gallery="portfolio-gallery-' . strtolower($phone['phoneBrand']) . '" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>';
+              echo '<a href="' . $imagePath . '" title="' . $phone['phoneModel'] . '" data-gallery="portfolio-gallery-' . strtolower($phone['phoneBrand']) . '" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>';
               echo '<a href="reserveProduct.php? id=' . $phone['phoneID'] . '" title="More Details" class="details-link" onclick="redirectToDetails(' . htmlspecialchars(json_encode($phone), ENT_QUOTES, 'UTF-8') . ')"><i class="bi bi-cart"></i></a>';
               echo '</div></div></div>';
             }
@@ -220,6 +221,14 @@
 
   </footer>
   <!-- End Footer -->
+  <script>
+  // Initialize GLightbox
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = GLightbox({
+      selector: '.glightbox'
+    });
+  });
+</script>
   
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
