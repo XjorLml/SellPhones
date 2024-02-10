@@ -183,7 +183,7 @@
                 <p>
                   Vicente Cruz Street, Sampaloc <br>
                   Manila, Philippines<br><br>
-                  <strong>Phone:</strong> +1 5589 55488 55<br>
+                  <strong>Phone:</strong> +63 9672059239<br>
                   <strong>Email:</strong> sellphone@gmail.com<br>
                 </p>
                 <div class="social-links d-flex mt-3">
@@ -200,7 +200,7 @@
               <ul>
                 <li><a href="index1.php">Home</a></li>
                 <li><a href="about1.php">About</a></li>
-                <li><a href="products.html">Products</a></li>
+                <li><a href="products.php">Products</a></li>
                 <li><a href="#">Terms of service</a></li>
                 <li><a href="#">Privacy policy</a></li>
               </ul>
