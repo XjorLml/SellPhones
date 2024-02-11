@@ -1,10 +1,31 @@
 <?php
-    require "functions.php";
-    if(isset($_POST['submit'])){
-        $response = loginUser($_POST['email'], $_POST['password'], $_POST['userType']);
 
-    }
-    ?>
+require "functions.php";
+
+
+if(isset($_POST['submit'])){
+    $response = loginUser($_POST['email'], $_POST['password']);
+}   
+
+// Check if login attempts reached the limit and set a JavaScript variable accordingly
+$mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
+$ip_address = getUserIpAddr();  
+$time = time() - 30; // 30 sec  
+$check_attmp = mysqli_fetch_assoc(mysqli_query($mysqli, "SELECT count(*) as total_count FROM `attempt_count` WHERE `time_count` > $time AND `ip_address`='$ip_address'"));  
+$total_count = $check_attmp['total_count'];  
+
+$maxAttempts = 3; // Set your maximum login attempts here
+if ($total_count >= $maxAttempts) {
+    $_SESSION['disableButton'] = true; // Set session variable to indicate button should remain disabled
+    $_SESSION['disableTime'] = time(); // Store the time when the button was disabled
+    $disableButton = true;
+} else {
+    $_SESSION['disableButton'] = false;
+    $disableButton = false;
+}
+?>
+
+
 
 <head>
 
@@ -86,10 +107,10 @@
 
                                                 <!-- Password input -->
                                                 <!-- Password input -->
-<div class="mb-3">
-    <label for="loginPassword" class="form-label">Password</label>
-    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
-</div>
+                                                <div class="mb-3">
+                                                    <label for="loginPassword" class="form-label">Password</label>
+                                                    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                                                </div>
 
 
                                                 <!-- 2 column grid layout -->
@@ -107,17 +128,14 @@
                                                     </div>
                                                 </div>
                                                 <!-- Submit button -->
+                                                <button type="submit" name="submit" class="btn btn-primary btn-block" <?php if($disableButton) echo 'disabled'; ?>>Log In</button>
 
-                                                <button type="submit" name="submit" class="btn btn-primary btn-block">Log In</button>
+                                                    <p class="error"><?php echo @$response ?></p>
 
-                                            <p class="error"><?php echo @$response ?></p>
+                                                    </form>
 
-                                            </form>
-
-                                            
-
-                                            <div class="text-center mt-3">
-                                                <p>Not a member? <a href="signup.php">Sign Up</a></p>
+                                                    <div class="text-center mt-3">
+                                                        <p>Not a member? <a href="signup.php">Sign Up</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -130,8 +148,7 @@
         </div>
     </section>
 
-</html>
-        </main>
+
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
@@ -143,5 +160,13 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eAq2B5BzUjg3a0vTA2o49fgJrj2u9vAT9GTO4+m9PqEjLh6j8wtg1W6lgF5wo5JX" crossorigin="anonymous"></script>
+    <script>
+        // JavaScript to disable login button if login attempts limit is reached
+        var disableButton = <?php echo json_encode($disableButton); ?>;
+        if (disableButton) {
+            document.querySelector('button[name="submit"]').setAttribute('disabled', 'disabled');
+        }
+    </script>
+
 </body>
 </html>

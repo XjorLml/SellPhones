@@ -211,19 +211,42 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     }
 }
 
+function getUserIpAddr() {
+    // Check for shared Internet Protocol (IP)
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    // Check for proxy Internet Protocol (IP)
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    // Use the remote Internet Protocol (IP)
+    else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    // Validate and sanitize the IP address
+    $ip = filter_var($ip, FILTER_VALIDATE_IP);
+    return $ip;
+}
 
-function loginUser($email, $password, $userID) {
-    $mysqli = connect();
+
+function loginUser($email, $password) {
+    $mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
     $email = trim($email);
     $password = trim($password);
-    $userID = trim($userID);
 
-    if($email == "" || $password == "") {
-        return "Both fields are required";
+    if ($email == "" || $password == "") {
+        if ($email == "") {
+            return "<div class='alert alert-danger' role='alert'>Please Enter Your Email</div>";
+        }
+        
+        if ($password == "") {
+            return "<div class='alert alert-danger' role='alert'>Please Enter Your Password</div>";
+        }
     }
-
-    $email = filter_var($email, FILTER_UNSAFE_RAW);
-    $password = filter_var($password, FILTER_UNSAFE_RAW);
+    
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL); // Use FILTER_SANITIZE_EMAIL for email input
+    $password = filter_var($password, FILTER_SANITIZE_ENCODED); // Sanitize string input
 
     $sql = "SELECT email, password, userType, userID FROM userTBL WHERE email = ?";
     $stmt = $mysqli->prepare($sql);
@@ -233,12 +256,42 @@ function loginUser($email, $password, $userID) {
     $data = $result->fetch_assoc();
 
     // Check if the user exists and the password is correct
-    if ($result->num_rows === 1 && password_verify($password, $data["password"])) {
+    if ($result->num_rows !== 1 || !password_verify($password, $data["password"])) {
+        // If authentication fails, increment login attempt count
+        $ip_address = getUserIpAddr();  
+        $time = time() - 30; // 30 sec  
+    
+        $check_attmp = mysqli_fetch_assoc(mysqli_query($mysqli, "SELECT count(*) as total_count FROM `attempt_count` WHERE `time_count` > $time AND `ip_address`='$ip_address'"));  
+    
+        $total_count = $check_attmp['total_count'];  
+        $msg = ""; // Define $msg variable
+        
+        if ($total_count == 3) {  
+            $msg = "Your account is blocked. Please try after 30 sec";  
+        } else {  
+            $total_count++;   
+            $time_remain = 3 - $total_count;  
+            $time = time();  
+    
+            if ($time_remain == 0) {  
+                $msg = "You are currently blocked. Please try again after 30 seconds, then refresh the page.";  
+            } else {  
+                $msg = "Please enter valid login details. $time_remain attempts remain";  
+            }  
+            
+            $stmt = $mysqli->prepare("INSERT INTO `attempt_count` (`ip_address`, `time_count`) VALUES (?, ?)");
+            $stmt->bind_param("si", $ip_address, $time);
+            $stmt->execute();
+        }
+    
+        // Return the message to be displayed in the UI
+        return "<div class='alert alert-danger' role='alert'>$msg</div>";
+    } elseif ($result->num_rows === 1 && password_verify($password, $data["password"])) {
         // If authentication is successful,
         // set the user session and redirect to the appropriate dashboard.
         $_SESSION["userID"] = $data["userID"];
         $_SESSION["userType"] = $data["userType"];
-
+    
         if ($_SESSION["userType"] === "admin" ) {
             // Admin routes
             header("Location: adminDashboard.php");
@@ -247,13 +300,14 @@ function loginUser($email, $password, $userID) {
             // User routes
             header("Location: products.php");
             exit();
-        }
-    } else {
-        // If authentication fails, redirect to login page with an error message.
-        header('Location: login.php');
-        echo "Please log in or Wrong username or password";
+      }
     }
+    
 }
+
+
+    
+
 
 
 function logoutUser(){

@@ -125,25 +125,38 @@
                                             <!-- Password and Re-type Password inputs -->
                                             <!-- Password input with visibility toggle -->
                                            <!-- Password and Re-type Password inputs with visibility toggle -->
-                                                <div class="row mb-3">
-                                                    <div class="col-md-6">
-                                                        <label for="password" class="form-label">Password</label>
-                                                        <div class="input-group">
-                                                            <input type="password" id="password" name="password" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
-                                                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('password')">Show</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <label for="registerRepeatPassword" class="form-label">Re-type Password</label>
-                                                        <div class="input-group">
-                                                            <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" value="<?php echo @$_POST['registerRepeatPassword']; ?>" />
-                                                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('registerRepeatPassword')">Show</button>
-                                                        </div>
-                                                    </div>
+                                           <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label for="password" class="form-label">Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" id="password" name="password" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                    
                                                 </div>
+                                            </div>
 
+                                            <div class="col-md-6">
+                                                <label for="registerRepeatPassword" class="form-label">Re-type Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" id="registerRepeatPassword" name="registerRepeatPassword" class="form-control" value="<?php echo @$_POST['registerRepeatPassword']; ?>" />
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('registerRepeatPassword', 'password')">Show</button>
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <script>
+                                            function togglePasswordVisibility(targetId, otherId) {
+                                                var passwordField = document.getElementById(targetId);
+                                                var otherPasswordField = document.getElementById(otherId);
+
+                                                if (passwordField.type === "password") {
+                                                    passwordField.type = "text";
+                                                    otherPasswordField.type = "text";
+                                                } else {
+                                                    passwordField.type = "password";
+                                                    otherPasswordField.type = "password";
+                                                }
+                                            }
+                                        </script>
 
                                             <!-- Submit button -->
                                             <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
