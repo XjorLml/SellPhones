@@ -167,7 +167,6 @@
                // Display the user data
                echo "
                <tr>
-                   <td>$userID</td>
                    <td>$fName</td>
                    <td>$lName</td>
                    <td>$email</td>

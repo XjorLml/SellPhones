@@ -84,44 +84,88 @@ if (isset($_GET['logout'])) {
     </div>
 </header>
 
-  <main id="main">
 
-    <!-- ======= Breadcrumbs ======= -->
-    <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
-    </div><!-- End Breadcrumbs -->
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
+  </div><!-- End Breadcrumbs -->
 
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-          <div class="row gy-4">
-            <h1 class="text-center">NOTIFICATIONS</h1>
-            <div class="col-lg-6">
-              <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-                <i class="bi bi-map"></i>
-                <h2>RESERVATIONS</h2>
-                <p>Pasig City, Metro Manila</p>
-                <p>Fb.com/pogisilemnuel</p>
-                <?php 
-                echo "Welcome $_SESSION[userType], <p>yt.com/pogisilemnuel</p>";
-              ?>
+  <div class="container my-5">
+      <table class= "table">
+            <tbody>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sellphone";
 
-                <p>tiktok.com/pogisilemnuel</p>
-              </div>
-            </div>
-            
-            <div class="col-lg-6">
-                <div class="info-item  d-flex flex-column justify-content-center align-items-center">
-                  <i class="bi bi-map"></i>
-                  <h2>INVENTORY</h2>
-                  <p>Fb.com/pogisilemnuel</p>
-                  <p>yt.com/pogisilemnuel</p>
-                  <p>tiktok.com/pogisilemnuel</p>
-                </div>
-              </div>
-          </div>
-        </div>
-      </section>
-  </main><!-- End #main -->
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Connection failed". $conn->connect_error);
+                }
+
+                $sql = "SELECT COUNT(*) AS totalUsers FROM usertbl";
+                $result = $conn->query($sql);
+
+                $totalUsers = 0;
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        $totalUsers = $row["totalUsers"];
+                    }
+                }
+                echo "<h3>Total users: $totalUsers</h3>";
+
+                $conn->close();
+                ?>  
+            </tbody>
+        </table>
+        <table class= "table">
+            <thead>
+            <h2>User Logs</h2>
+                <tr>
+                    <th>logID</th>
+                    <th>userID</th>
+                    <th>userAction</th>
+                    <th>createdAt</th>
+                    <th>updatedAt</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "sellphone";
+
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Connection failed". $conn->connect_error);
+                }
+
+                $sql = "SELECT * FROM userlogs ";
+                $result = $conn->query($sql);
+
+                if (!$result) {
+                    die("Invalid query". $conn->connect_error);
+                }
+
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <tr>
+                        <td>$row[logID]</td>
+                        <td>$row[userID]</td>
+                        <td>$row[userAction]</td>
+                        <td>$row[createdAt]</td>
+                        <td>$row[updatedAt]</td>
+                    </tr>
+                    ";
+                }        
+                ?>     
+            </tbody>
+        </table>
+    </div>
 
   <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
