@@ -55,9 +55,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
         if ($_FILES['phoneImage']['error'] === UPLOAD_ERR_OK) {
             $tmp_name = $_FILES['phoneImage']['tmp_name'];
             $img_name = $_FILES['phoneImage']['name'];
-            $img_path = "assets/" . $img_name; // Adjust the path as per your requirement
+            $img_path = "assets/" . $img_name;
             move_uploaded_file($tmp_name, $img_path);
-            $_SESSION['phoneImage'] = $img_path;
         }
 
         $sql = "INSERT INTO phonetbl (phoneBrand, phoneModel, phoneStorage, phoneColor, phoneStatus, phoneQuantity, phonePrice, phoneImage, phoneDescription) " .
@@ -175,7 +174,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
         }
         ?>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">  
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">phoneBrand</label>
                 <div class="col-sm-6">

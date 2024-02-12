@@ -90,8 +90,7 @@ if (isset($_GET['logout'])) {
   <div class="container my-5">
     <div class="container my-5">
         <h2>Reservation Management</h2>
-        <a class ="btn btn-primary" href="inventoryCreate.php" role="button">New Phone</a>
-        <br>
+        <h3>Reservations:</h3>
         <table class= "table">
             <thead>
                 <tr>
@@ -106,82 +105,107 @@ if (isset($_GET['logout'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "sellphone";
+              <?php
+              $servername = "localhost";
+              $username = "root";
+              $password = "";
+              $dbname = "sellphone";
 
-                $conn = new mysqli($servername, $username, $password, $dbname);
+              $conn = new mysqli($servername, $username, $password, $dbname);
 
-                if ($conn->connect_error) {
-                    die("Connection failed". $conn->connect_error);
-                }
+              if ($conn->connect_error) {
+                  die("Connection failed" . $conn->connect_error);
+              }
 
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+              if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   $reserveID = $_POST['reserveID'];
                   $currentStatus = $_POST['currentStatus'];
                   $newStatus = $currentStatus + 1;
-          
+
                   $sql = "UPDATE reservetbl SET reservationStatus=$newStatus WHERE reserveID=$reserveID";
-          
+
                   if ($conn->query($sql) === TRUE) {
                       echo "Reservation status updated successfully";
                   } else {
                       echo "Error updating reservation status: " . $conn->error;
                   }
-                }
+              }
 
-                $sql = "SELECT * FROM reservetbl ";
-                $result = $conn->query($sql);
+              $sql = "SELECT * FROM reservetbl ";
+              $result = $conn->query($sql);
 
-                if (!$result) {
-                    die("Invalid query". $conn->connect_error);
-                }
+              if (!$result) {
+                  die("Invalid query" . $conn->connect_error);
+              }
 
+              while ($row = $result->fetch_assoc()) {
+                  if ($row["reservationStatus"] === '0') {
+                    $row["reservationStatus"] = "For pick up";
+                      echo "
+                          <tr>
+                              <td>$row[reserveID]</td>
+                              <td>$row[phoneID]</td>
+                              <td>$row[userID]</td>
+                              <td>$row[reserveDate]</td>
+                              <td>$row[pickupDate]</td>
+                              <td>$row[phoneCount]</td>
+                              <td>$row[reservationStatus]</td>
+                              <td>$row[totalPrice]</td>
+                              <td>
+                                  <form method='post'>
+                                      <input type='hidden' name='reserveID' value='$row[reserveID]'>
+                                      <input type='hidden' name='currentStatus' value='$row[reservationStatus]'>
+                                      <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
+                                  </form>
+                                  <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                              </td>
+                          </tr>
+                      ";
+                  }
+              }
+
+              ?>
+            </tbody>
+        </table>
+        <table class= "table">
+          <h3>Claimed:</h3>
+          <thead>
+                <tr>
+                    <th>reserveID</th>
+                    <th>phoneID</th>
+                    <th>UserID</th>
+                    <th>reserveDate</th>
+                    <th>pickupDate</th>
+                    <th>phoneCount</th>
+                    <th>reservationStatus</th>
+                    <th>totalPrice</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $result->data_seek(0); // Reset the pointer to the beginning of the result set
+                
                 while ($row = $result->fetch_assoc()) {
-                    if ($row["reservationStatus"] ==='0') {
-                      echo "
-                      <tr>
-                          <td>$row[reserveID]</td>
-                          <td>$row[phoneID]</td>
-                          <td>$row[userID]</td>
-                          <td>$row[reserveDate]</td>
-                          <td>$row[pickupDate]</td>
-                          <td>$row[phoneCount]</td>
-                          <td>$row[reservationStatus]</td>
-                          <td>$row[totalPrice]</td>
-                          <td>
-                            <form method='post'>
-                              <input type='hidden' name='reserveID' value='$row[reserveID]'>
-                              <input type='hidden' name='currentStatus' value='$row[reservationStatus]'>
-                              <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
-                            </form>
-                              <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
-                          </td>
-                      </tr>
-                    ";
-                    }
                     if ($row["reservationStatus"] === '1') {
-                      echo "
-                      CLAIMED
-                      <tr>
-                          <td>$row[reserveID]</td>
-                          <td>$row[phoneID]</td>
-                          <td>$row[userID]</td>
-                          <td>$row[reserveDate]</td>
-                          <td>$row[pickupDate]</td>
-                          <td>$row[phoneCount]</td>
-                          <td>$row[reservationStatus]</td>
-                          <td>$row[totalPrice]</td>
-                          <td>
-                              <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
-                          </td>
-                      </tr>
-                    ";
+                      $row["reservationStatus"] = "Claimed";
+                        echo "
+                            <tr>
+                                <td>$row[reserveID]</td>
+                                <td>$row[phoneID]</td>
+                                <td>$row[userID]</td>
+                                <td>$row[reserveDate]</td>
+                                <td>$row[pickupDate]</td>
+                                <td>$row[phoneCount]</td>
+                                <td>$row[reservationStatus]</td>
+                                <td>$row[totalPrice]</td>
+                                <td>
+                                    <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                                </td>
+                            </tr>
+                        ";
                     }
-                }        
-              ?>     
+                }
+                ?>
             </tbody>
         </table>
     </div>

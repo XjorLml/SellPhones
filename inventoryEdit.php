@@ -73,8 +73,8 @@ else {
     $phoneDescription = $_POST["phoneDescription"];
 
     do {
-        if ( empty($phoneBrand) || empty($phoneModel) || empty($phoneStorage) || empty($phoneColor) ) {
-            $errorMessage = "first four fields are required";
+        if ( empty($phoneBrand) || empty($phoneModel) || empty($phoneStorage) || empty($phoneColor) || empty($phoneImage)) {
+            $errorMessage = "first four fields and image is required";
             break;
         }
 
@@ -83,7 +83,6 @@ else {
             $img_name = $_FILES['phoneImage']['name'];
             $img_path = "assets/" . $img_name; // Adjust the path as per your requirement
             move_uploaded_file($tmp_name, $img_path);
-            $_SESSION['phoneImage'] = $img_path;
         }
 
         $sql =  "UPDATE phonetbl " .
