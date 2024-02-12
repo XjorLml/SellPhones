@@ -140,7 +140,7 @@ if (isset($_GET['logout'])) {
 
               while ($row = $result->fetch_assoc()) {
                   if ($row["reservationStatus"] === '0') {
-                    $row["reservationStatus"] = "For pick up";
+                    $pickup = "For pick up";
                       echo "
                           <tr>
                               <td>$row[reserveID]</td>
@@ -149,7 +149,7 @@ if (isset($_GET['logout'])) {
                               <td>$row[reserveDate]</td>
                               <td>$row[pickupDate]</td>
                               <td>$row[phoneCount]</td>
-                              <td>$row[reservationStatus]</td>
+                              <td>$pickup</td>
                               <td>$row[totalPrice]</td>
                               <td>
                                   <form method='post'>
@@ -187,7 +187,7 @@ if (isset($_GET['logout'])) {
                 
                 while ($row = $result->fetch_assoc()) {
                     if ($row["reservationStatus"] === '1') {
-                      $row["reservationStatus"] = "Claimed";
+                      $claim = "Claimed";
                         echo "
                             <tr>
                                 <td>$row[reserveID]</td>
@@ -196,7 +196,7 @@ if (isset($_GET['logout'])) {
                                 <td>$row[reserveDate]</td>
                                 <td>$row[pickupDate]</td>
                                 <td>$row[phoneCount]</td>
-                                <td>$row[reservationStatus]</td>
+                                <td>$claim</td>
                                 <td>$row[totalPrice]</td>
                                 <td>
                                     <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
