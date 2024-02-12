@@ -157,7 +157,7 @@ if (isset($_GET['logout'])) {
                                       <input type='hidden' name='currentStatus' value='$row[reservationStatus]'>
                                       <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
                                   </form>
-                                  <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                                  <a class='btn btn-danger btn-sm' href='adminReservationDelete.php?reserveID=$row[reserveID]'>Delete</a>
                               </td>
                           </tr>
                       ";
@@ -199,7 +199,7 @@ if (isset($_GET['logout'])) {
                                 <td>$claim</td>
                                 <td>$row[totalPrice]</td>
                                 <td>
-                                    <a class='btn btn-danger btn-sm' href='inventoryDelete.php?phoneID=$row[phoneID]'>Delete</a>
+                                    <a class='btn btn-danger btn-sm' href='adminReservationDelete.php?reserveID=$row[reserveID]'>Delete</a>
                                 </td>
                             </tr>
                         ";
