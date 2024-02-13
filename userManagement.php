@@ -1,5 +1,10 @@
 <?php 
+<<<<<<< HEAD
+
+require "userlogss.php";
+=======
 require "userLogss.php";
+>>>>>>> 15910c218097ae10b3670b72238afeb82ce193b0
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
