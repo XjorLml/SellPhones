@@ -2,7 +2,7 @@
 // shoppingCartDelete.php
 
 // Include the function definition
-require_once "functions.php";
+require_once "userLogss.php";
 
 // Database connection parameters
 $servername = "localhost";
@@ -11,6 +11,7 @@ $password = "";
 $dbname = "sellphone";
 
 // Create a new database connection
+$dbData = [$servername, $username, $password, $dbname];
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check if the connection is successful
@@ -44,6 +45,9 @@ if (isset($_GET['reserveID'])) {
     addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity);
 
     // Redirect the user back to the shopping cart page after successful deletion
+
+    $activityLog = new ActivityLog(...$dbData);
+    $activityLog->setAction($_SESSION['userID'], "User Canncelled an Order");
     header("Location: shoppingCart.php");
     exit();
 } else {
