@@ -129,6 +129,7 @@ if (isset($_GET['logout'])) {
                     <th>Date and time</th>
                     <th>Log ID</th>
                     <th>User ID</th>
+                    <th>User name</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -145,7 +146,12 @@ if (isset($_GET['logout'])) {
                     die("Connection failed". $conn->connect_error);
                 }
 
-                $sql = "SELECT * FROM site_activity_log_automation_tbl ";
+                $sql = "SELECT l.created_at, l.id, l.userID, l.action, u.fName 
+                        FROM site_activity_log_automation_tbl AS l 
+                        JOIN usertbl AS u 
+                        ON l.userID = u.userID 
+                        ORDER BY l.id DESC";
+
                 $result = $conn->query($sql);
 
                 if (!$result) {
@@ -155,13 +161,15 @@ if (isset($_GET['logout'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
                     <tr>
-                        <td>$row[created_at]</td>
-                        <td>$row[id]</td>
-                        <td>$row[userID]</td>
-                        <td>$row[action]</td>
+                        <td>{$row['created_at']}</td>
+                        <td>{$row['id']}</td>
+                        <td>{$row['userID']}</td>
+                        <td>{$row['fName']}</td>
+                        <td>{$row['action']}</td>
                     </tr>
                     ";
-                }        
+                }
+     
                 ?>     
             </tbody>
         </table>
