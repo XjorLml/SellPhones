@@ -1,6 +1,6 @@
 <?php 
 
-require "functions.php";
+require "userlogss.php";
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
