@@ -159,7 +159,7 @@ $userID = $_SESSION["userID"];
                         <th>Total Price</th>
                         <th>Phone Image</th>
                         <th>Status</th>
-                        <!-- <th>Action</th> -->
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,7 +177,7 @@ $userID = $_SESSION["userID"];
                         echo "<td>₱" . $reservation['totalPrice'] . "</td>";
                         echo "<td><img src='$imagePath' alt='Phone Image' style='max-height: 50px; max-width: 50px;'></td>";
                         echo "<td>Claimed</td>";
-                        //echo "<td><button class='btn btn-danger btn-sm delete-claimed' data-reserve-id='" . $reservation['reserveID'] . "'>Delete</button></td>";
+                        echo "<td><button class='btn btn-danger btn-sm delete-claimed' data-reserve-id='" . $reservation['reserveID'] . "'>Delete</button></td>";
                         echo "</tr>";
                     }
                     ?>
@@ -340,7 +340,7 @@ $userID = $_SESSION["userID"];
             data: { reserveID: reserveId, action: 'deleteClaimed' }, // Include reserveID and action
             success: function(response) {
                 // Reload the page to reflect the changes
-                window.location.reload();
+                window.location.href = 'shoppingCartDelete.php?reserveID=' + reserveId;
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);

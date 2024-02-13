@@ -1,7 +1,6 @@
 <?php
 // shoppingCartDelete.php
 
-// Include the function definition
 require_once "userLogss.php";
 
 // Database connection parameters
@@ -10,8 +9,9 @@ $username = "root";
 $password = "";
 $dbname = "sellphone";
 
-// Create a new database connection
 $dbData = [$servername, $username, $password, $dbname];
+
+// Create a new database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check if the connection is successful
@@ -19,41 +19,71 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if reserveID is set in GET parameters
-if (isset($_GET['reserveID'])) {
-    $reserveID = $_GET['reserveID'];
-
-    // SQL query to fetch phone ID and reserved quantity for the given reserveID
-    $getReservationSql = "SELECT phoneId, phoneCount FROM reservetbl WHERE reserveID = ?";
-    $stmt = $conn->prepare($getReservationSql);
-    $stmt->bind_param("i", $reserveID);
-    $stmt->execute();
-    $stmt->bind_result($phoneId, $reservedQuantity);
-
-    // Fetch the results
-    $stmt->fetch();
-    $stmt->close();
-
-    // Delete the reservation from the database
+// Function to delete a reservation by reserveID
+function deleteReservation($reserveID) {
+    global $conn;
     $deleteSql = "DELETE FROM reservetbl WHERE reserveID = ?";
     $stmt = $conn->prepare($deleteSql);
     $stmt->bind_param("i", $reserveID);
     $stmt->execute();
-    $activityLog = new ActivityLog(...$dbData);
-    $activityLog->setAction($_SESSION['userID'], "User Cancelled an Order");
     $stmt->close();
+}
 
-    // Add back the reserved quantity to the available quantity of the corresponding phone
-    addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity);
+// Function to delete a claimed item by reserveID
+function deleteClaimedItem($reserveID) {
+    global $conn;
+
+    echo "Deleting claimed item with reserveID: $reserveID<br>";
     
-    // Delete the claimed item from the claimed table
-    $deleteClaimedSql = "DELETE FROM reservetbl WHERE reserveID = ?";
-    $stmt = $conn->prepare($deleteClaimedSql);
+    $deleteSql1 = "DELETE FROM reservetbl WHERE reserveID = ?";
+    $stmt = $conn->prepare($deleteSql1);
+    $stmt->bind_param("i", $reserveID);
+    if ($stmt->execute()) {
+        // Check if any rows were affected (item was deleted)
+        if ($stmt->affected_rows > 0) {
+            echo "Claimed item deleted successfully.";
+        } else {
+            echo "No claimed item found with the provided reserveID.";
+        }
+    } else {
+        echo "Error deleting claimed item: " . $stmt->error;
+    }
+    $stmt->close();
+}
+
+// Check if reserveID is set in GET parameters
+if (isset($_GET['reserveID'])) {
+    $reserveID = $_GET['reserveID'];
+
+    // Check the status of the reservation
+    $getReservationSql = "SELECT reservationStatus, phoneId, phoneCount FROM reservetbl WHERE reserveID = ?";
+    $stmt = $conn->prepare($getReservationSql);
     $stmt->bind_param("i", $reserveID);
     $stmt->execute();
+    $stmt->bind_result($reservationStatus, $phoneId, $phoneCount);
+    $stmt->fetch();
     $stmt->close();
 
-    // Redirect the user back to the shopping cart page after successful deletion
+    // Delete the reservation or claimed item based on its status
+    if ($reservationStatus == 0) {
+        // Delete reservation
+        deleteReservation($reserveID);
+        // Add back the reserved quantity to the available quantity of the corresponding phone
+        // Assuming this function is defined elsewhere
+        // addBackPhoneQuantityAfterDeletion($phoneId, $phoneCount);
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "User Cancelled an Order");
+    } elseif ($reservationStatus == 1) {
+        // Delete claimed item
+        deleteClaimedItem($reserveID);
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "User Deleted Claimed Item");
+    } else {
+        // Handle error: Invalid reservation status
+        echo "Invalid reservation status.";
+    }
+
+    // Redirect to shopping cart
     header("Location: shoppingCart.php");
     exit();
 } else {
