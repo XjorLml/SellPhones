@@ -93,9 +93,6 @@ if (isset($_GET['logout'])) {
                $password = "";
                $dbname = "sellphone";
                
-               $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Profile Page");
                $conn = new mysqli($servername, $username, $password, $dbname);
                
                // Check connection
@@ -139,7 +136,6 @@ if (isset($_GET['logout'])) {
                // Display the user data
                echo "
                <tr>
-                   <td>$userID</td>
                    <td>$fName</td>
                    <td>$lName</td>
                    <td>$email</td>

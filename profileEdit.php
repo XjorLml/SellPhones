@@ -17,8 +17,6 @@ $password= "";
 $dbname= "sellphone";
 
 $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Profile Edit Page");
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $userID = "";
@@ -78,6 +76,8 @@ else {
         }
 
         $successMessage = "Client added correctly";
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "Edited Admin Profile");
         header("location: profile.php");
         exit;
 
@@ -116,32 +116,39 @@ else {
     <link href="assets/css/main.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container my-5">
-    <header id="header" class="header d-flex align-items-center">
-        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+    
+<header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-        <a href="adminDashboard.html" class="logo d-flex align-items-center">
-            <!-- Uncomment the line below if you also wish to use an image logo -->
-            <!-- <img src="assets/img/logo.png" alt=""> -->
-            <h1>SELLPHONE<span>.</span></h1>
-        </a>
-        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-        <nav id="navbar" class="navbar">
-            <ul>
-            <li><a href="adminDashboard.php">Home</a></li>
-            <li><a href="adminReservation.php">Reservations</a></li>
-            <li><a href="inventory">Inventory</a></li>
-            <li><a href="userManagement.php" class="active">User Management</a></li>
-            <li><a href="reservations.html">Log out</a></li>
+      <a href="adminDashboard.php" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1>SELLPHONE<span>.</span></h1>
+      </a>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="adminDashboard.php">Home</a></li>
+          <li><a href="adminReservation.php">Reservations</a></li>
+          <li><a href="inventory.php">Inventory</a></li>
+          <li><a href="userManagement.php">User Management</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" class="active">Profile<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="profile.php">Profile</a></li>
+              <li><a href="?logout">Logout</a></li>
             </ul>
-        </nav><!-- .navbar -->
-        </div>
-    </header><!-- End Header -->
+          </li>
+        </ul>
+      </nav><!-- .navbar -->
+
+    </div>
+</header>
 
     <!-- ======= Breadcrumbs ======= -->
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url('https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg');">
-        </div><!-- End Breadcrumbs -->
+    </div><!-- End Breadcrumbs -->
     <div class="container my-5">
         <h2>New Client</h2>
 

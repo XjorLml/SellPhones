@@ -110,8 +110,6 @@ if (isset($_GET['logout'])) {
               $password = "";
               $dbname = "sellphone";
               $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Reservation Page");
               $conn = new mysqli($servername, $username, $password, $dbname);
 
               if ($conn->connect_error) {
@@ -130,6 +128,8 @@ if (isset($_GET['logout'])) {
                   } else {
                       echo "Error updating reservation status: " . $conn->error;
                   }
+                  $activityLog = new ActivityLog(...$dbData);
+                  $activityLog->setAction($_SESSION['userID'], "Admin Claimed a Reserved Phone");
               }
 
               $sql = "SELECT * FROM reservetbl ";
