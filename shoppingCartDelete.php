@@ -39,15 +39,21 @@ if (isset($_GET['reserveID'])) {
     $stmt = $conn->prepare($deleteSql);
     $stmt->bind_param("i", $reserveID);
     $stmt->execute();
+    $activityLog = new ActivityLog(...$dbData);
+    $activityLog->setAction($_SESSION['userID'], "User Cancelled an Order");
     $stmt->close();
 
     // Add back the reserved quantity to the available quantity of the corresponding phone
     addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity);
+    
+    // Delete the claimed item from the claimed table
+    $deleteClaimedSql = "DELETE FROM reservetbl WHERE reserveID = ?";
+    $stmt = $conn->prepare($deleteClaimedSql);
+    $stmt->bind_param("i", $reserveID);
+    $stmt->execute();
+    $stmt->close();
 
     // Redirect the user back to the shopping cart page after successful deletion
-
-    $activityLog = new ActivityLog(...$dbData);
-    $activityLog->setAction($_SESSION['userID'], "User Canncelled an Order");
     header("Location: shoppingCart.php");
     exit();
 } else {
