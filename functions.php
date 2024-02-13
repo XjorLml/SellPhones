@@ -115,7 +115,7 @@ function addBackPhoneQuantityAfterDeletion($phoneId, $reservedQuantity) {
     }
 
     // Update phone quantity
-    $sql = "UPDATE phonetbl SET phoneQuantity = phoneQuantity + $reservedQuantity WHERE phoneId = $phoneId";
+    $sql = "UPDATE phonetbl SET phoneQuantity = phoneQuantity + $reservedQuantity WHERE phoneID = $phoneId";
     $result = $mysqli->query($sql);
 
     // Check for errors
@@ -134,7 +134,7 @@ function getReservationsByUserIDAndStatus($userID, $status) {
     }
 
     // Prepare SQL statement to fetch reservations by userID and status
-    $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId WHERE userID = ? AND reservationStatus = ?";
+    $sql = "SELECT * FROM reservetbl JOIN phonetbl ON reservetbl.phoneId = phonetbl.phoneId WHERE userID = ? AND reservationStatus = ? ORDER BY reserveID DESC";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("ii", $userID, $status);
     $stmt->execute();
