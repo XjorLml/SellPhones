@@ -1,7 +1,6 @@
 <?php  
+
 require "config.php";
-
-
 function includeBootstrap() {
     echo '
     <!-- Bootstrap CSS -->
@@ -262,9 +261,19 @@ function getUserIpAddr() {
 }
 
 function loginUser($email, $password) {
+
+
     $mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
     $email = trim($email);
     $password = trim($password);
+    $dbData = [
+        "localhost", // Hostname
+        "root",      // Username
+        "",          // Password
+        "sellphone"  // DBName
+    ];
+    $activityLog = new ActivityLog(...$dbData);
+    
 
     if ($email == "" || $password == "") {
         if ($email == "") {
@@ -285,6 +294,7 @@ function loginUser($email, $password) {
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
+
 
     // Check if the user exists and the password is correct
     if ($result->num_rows !== 1 || !password_verify($password, $data["password"])) {
@@ -322,16 +332,17 @@ function loginUser($email, $password) {
         // set the user session and redirect to the appropriate dashboard.
         $_SESSION["userID"] = $data["userID"];
         $_SESSION["userType"] = $data["userType"];
-
-
+       
     
         if ($_SESSION["userType"] === "admin" ) {
             // Admin routes
             header("Location: adminDashboard.php");
+            $activityLog->setAction($_SESSION['userID'], "successfully logged-in");
             exit();
         } elseif ($_SESSION["userType"] === "user") {
             // User routes
             header("Location: products.php");
+            $activityLog->setAction($_SESSION['userID'], "successfully logged-in");
             exit();
       }
     }
@@ -339,10 +350,25 @@ function loginUser($email, $password) {
 }
 
 function logoutUser(){
+
+    $dbData = [
+        "localhost", // Hostname
+        "root",      // Username
+        "",          // Password
+        "sellphone"  // DBName
+    ];
+
+   
+    $activityLog = new ActivityLog(...$dbData);
+    $activityLog->setAction($_SESSION['userID'], "successfully logged-out");
+    // Destroy session
     session_destroy();
+
+    // Redirect to login page
     header("location: login.php");
     exit();
 }
+
 
 function passwordReset($email){
     $mysqli = connect();

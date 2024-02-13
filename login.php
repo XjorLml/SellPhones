@@ -1,10 +1,8 @@
 <?php
-
-require "functions.php";
-
-
+require "userLogss.php";
 if(isset($_POST['submit'])){
     $response = loginUser($_POST['email'], $_POST['password']);
+
 }   
 
 // Check if login attempts reached the limit and set a JavaScript variable accordingly
