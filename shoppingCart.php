@@ -1,5 +1,5 @@
 <?php
-require "functions.php";
+require "userLogss.php";
 $phones_reserved = getReservationsByUserIDAndStatus($_SESSION["userID"], 0);
 $phones_claimed = getReservationsByUserIDAndStatus($_SESSION["userID"], 1);
 

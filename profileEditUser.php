@@ -26,7 +26,6 @@ $fName = "";
 $lName = "";
 $email = "";
 $phoneNumber = "";
-
 $errorMessage = "";
 $successMessage = "";
 
