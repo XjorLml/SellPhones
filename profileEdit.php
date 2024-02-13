@@ -17,8 +17,8 @@ $password= "";
 $dbname= "sellphone";
 
 $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Profile Edit Page");
+    $activityLog = new ActivityLog(...$dbData);
+     $activityLog->setAction($_SESSION['userID'], "accessed the Profile Edit Page");
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $userID = "";
