@@ -1,6 +1,6 @@
 <?php 
 
-require "functions.php";
+require "userLogss.php";
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
@@ -10,7 +10,6 @@ if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
 if (isset($_GET['logout'])) {
     logoutUser();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +109,9 @@ if (isset($_GET['logout'])) {
               $username = "root";
               $password = "";
               $dbname = "sellphone";
-
+              $dbData = [$servername, $username, $password, $dbname];
+              $activityLog = new ActivityLog(...$dbData);
+              $activityLog->setAction($_SESSION['userID'], "accessed the Reservation Page");
               $conn = new mysqli($servername, $username, $password, $dbname);
 
               if ($conn->connect_error) {

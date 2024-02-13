@@ -1,7 +1,7 @@
 <?php
 
- 
-require "functions.php";
+require "userLogss.php";
+
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
@@ -16,7 +16,9 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 
-
+$dbData = [$servername, $username, $password, $dbname];
+              $activityLog = new ActivityLog(...$dbData);
+              $activityLog->setAction($_SESSION['userID'], "accessed the Profile Edit Page");
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $userID = "";

@@ -155,6 +155,7 @@ function getReservationsByUserID($userID) {
 
     return $reservations;
 }
+
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
  
     $mysqli = connect();
@@ -229,7 +230,6 @@ function getUserIpAddr() {
     return $ip;
 }
 
-
 function loginUser($email, $password) {
     $mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
     $email = trim($email);
@@ -291,6 +291,8 @@ function loginUser($email, $password) {
         // set the user session and redirect to the appropriate dashboard.
         $_SESSION["userID"] = $data["userID"];
         $_SESSION["userType"] = $data["userType"];
+
+
     
         if ($_SESSION["userType"] === "admin" ) {
             // Admin routes
@@ -304,11 +306,6 @@ function loginUser($email, $password) {
     }
     
 }
-
-
-    
-
-
 
 function logoutUser(){
     session_destroy();
@@ -363,5 +360,10 @@ function passwordReset($email){
         }
     }
 }
+
+
+
+
+
 
 

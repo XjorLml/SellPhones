@@ -1,6 +1,6 @@
 <?php
  
-require "functions.php";
+require "userLogss.php";
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
@@ -17,8 +17,10 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
+        $dbData = [$servername, $username, $password, $dbname];
+              $activityLog = new ActivityLog(...$dbData);
+              $activityLog->setAction($_SESSION['userID'], "accessed the Inventory Create Page");
+                    $conn = new mysqli($servername, $username, $password, $dbname);
 
 
 $phoneBrand = "";

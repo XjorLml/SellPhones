@@ -1,5 +1,5 @@
 <?php
-  require "functions.php";
+  require "userLogss.php";
   $phones = getPhoneData();  
 
   if (!isset($_SESSION["userID"])) {
@@ -123,7 +123,9 @@
                $password = "";
                $dbname = "sellphone";
                
-               // Create connection
+               $dbData = [$servername, $username, $password, $dbname];
+              $activityLog = new ActivityLog(...$dbData);
+              $activityLog->setAction($_SESSION['userID'], "accessed the Profile User Page");
                $conn = new mysqli($servername, $username, $password, $dbname);
                
                // Check connection

@@ -1,11 +1,13 @@
 <?php 
-
 require "functions.php";
+
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
   exit();
   }
+
+ 
 
 if (isset($_GET['logout'])) {
     logoutUser();
@@ -93,12 +95,12 @@ if (isset($_GET['logout'])) {
       <table class= "table">
             <tbody>
                 <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "sellphone";
+                 $servername = "localhost";
+                 $username = "root";
+                 $password = "";
+                 $dbname = "sellphone";
 
-                $conn = new mysqli($servername, $username, $password, $dbname);
+                 $conn = new mysqli($servername, $username, $password, $dbname);
 
                 if ($conn->connect_error) {
                     die("Connection failed". $conn->connect_error);
@@ -124,11 +126,10 @@ if (isset($_GET['logout'])) {
             <thead>
             <h2>User Logs</h2>
                 <tr>
-                    <th>logID</th>
-                    <th>userID</th>
-                    <th>userAction</th>
-                    <th>createdAt</th>
-                    <th>updatedAt</th>
+                    <th>Date and time</th>
+                    <th>Log ID</th>
+                    <th>User ID</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -144,7 +145,7 @@ if (isset($_GET['logout'])) {
                     die("Connection failed". $conn->connect_error);
                 }
 
-                $sql = "SELECT * FROM userlogs ";
+                $sql = "SELECT * FROM site_activity_log_automation_tbl ";
                 $result = $conn->query($sql);
 
                 if (!$result) {
@@ -154,11 +155,10 @@ if (isset($_GET['logout'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
                     <tr>
-                        <td>$row[logID]</td>
+                        <td>$row[created_at]</td>
+                        <td>$row[id]</td>
                         <td>$row[userID]</td>
-                        <td>$row[userAction]</td>
-                        <td>$row[createdAt]</td>
-                        <td>$row[updatedAt]</td>
+                        <td>$row[action]</td>
                     </tr>
                     ";
                 }        
