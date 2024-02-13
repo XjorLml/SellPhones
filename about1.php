@@ -70,7 +70,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index1.php">Home</a></li>
-          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="about1.php" class="active">About</a></li>
           <li><a href="products.php" >Products</a></li>
           <li><a href="shoppingCart.php">Reserved</a></li>
           <li class="dropdown">

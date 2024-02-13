@@ -17,10 +17,8 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 
-        $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Inventory Create Page");
-                    $conn = new mysqli($servername, $username, $password, $dbname);
+    $dbData = [$servername, $username, $password, $dbname];
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
 
 $phoneBrand = "";
@@ -80,6 +78,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
         $phoneImage = "";
         $phoneDescription = "";
 
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "created an inventory");
         $successMessage = "Client added correctly";
         header("location: inventory.php");
         exit;

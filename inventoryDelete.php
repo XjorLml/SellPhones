@@ -1,23 +1,32 @@
 <?php
 require "userLogss.php";
-if ( isset( $_GET['phoneID']) ) {
+if (isset($_GET['phoneID'])) {
     $phoneID = $_GET['phoneID'];
 
-    $servername= "localhost";
-    $username= "root";
-    $password= "";
-    $dbname= "sellphone";
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "sellphone";
 
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
     $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Inventory Delete Page");
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $sql = "DELETE FROM phonetbl WHERE phoneID=$phoneID";
-    $conn->query($sql);
+    // Check if the phoneID is being used in another table
+    $sql_check = "SELECT * FROM reservetbl WHERE phoneID=$phoneID";
+    $result_check = $conn->query($sql_check);
+    if ($result_check->num_rows > 0) {
+        // PhoneID is being used, show a prompt
+        echo "<script>alert('Cannot delete inventory. PhoneID is being used.');</script>";
+    } else {
+        // PhoneID is not being used, proceed with deletion
+        $sql = "DELETE FROM phonetbl WHERE phoneID=$phoneID";
+        $conn->query($sql);
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "Deleted Inventory ");
+    }
 }
 
 header("location: inventory.php");
 exit;
+
 ?>

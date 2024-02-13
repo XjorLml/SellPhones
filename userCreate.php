@@ -1,7 +1,7 @@
 <?php
 
  
-require "functions.php";
+require "userLogss.php";
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
@@ -17,7 +17,7 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 
-
+$dbData = [$servername, $username, $password, $dbname];
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 
@@ -56,6 +56,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST'){
         $phoneNumber = "";
 
         $successMessage = "Client added correctly";
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "Admin created a new user");
         header("location: userManagement.php");
         exit;
 

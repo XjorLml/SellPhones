@@ -1,6 +1,13 @@
 <?php
-require_once "functions.php";
+require_once "userLogss.php";
 
+
+$servername= "localhost";
+$username= "root";
+$password= "";
+$dbname= "sellphone";
+
+$dbData = [$servername, $username, $password, $dbname];
 // Check if the user is logged in
 if (!isset($_SESSION["userID"])) {
     header("location: login.php");
@@ -52,6 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     updatePhoneQuantity($phoneId, $quantity);
 
     // Redirect to a confirmation page or any other desired page
+
+    $activityLog = new ActivityLog(...$dbData);
+    $activityLog->setAction($_SESSION['userID'], "User Reserved a Product");
     header("Location: shoppingCart.php");
     exit;
 } else {
