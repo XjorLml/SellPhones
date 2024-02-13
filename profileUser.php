@@ -123,9 +123,6 @@
                $password = "";
                $dbname = "sellphone";
                
-               $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Profile User Page");
                $conn = new mysqli($servername, $username, $password, $dbname);
                
                // Check connection
