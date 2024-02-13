@@ -1,6 +1,6 @@
 <?php
 
-require "functions.php";
+require "userLogss.php";
 
 if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
   header("location: login.php");
@@ -16,7 +16,7 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 
-
+$dbData = [$servername, $username, $password, $dbname];
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $userID = "";
@@ -76,6 +76,8 @@ else {
         }
 
         $successMessage = "Client added correctly";
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "Admin Edited a user's profile");
         header("location: userManagement.php");
         exit;
 

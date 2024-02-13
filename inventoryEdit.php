@@ -16,8 +16,7 @@ $username= "root";
 $password= "";
 $dbname= "sellphone";
 $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Inventory Edit Page");
+              
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -75,7 +74,7 @@ else {
     $phoneDescription = $_POST["phoneDescription"];
 
     do {
-        if ( empty($phoneBrand) || empty($phoneModel) || empty($phoneStorage) || empty($phoneColor) || empty($phoneImage)) {
+        if ( empty($phoneBrand) || empty($phoneModel) || empty($phoneStorage) || empty($phoneColor)) {
             $errorMessage = "first four fields and image is required";
             break;
         }
@@ -86,6 +85,7 @@ else {
             $img_path = "assets/" . $img_name; // Adjust the path as per your requirement
             move_uploaded_file($tmp_name, $img_path);
         }
+   
 
         $sql =  "UPDATE phonetbl " .
                 "SET phoneBrand = '$phoneBrand', phoneModel = '$phoneModel', phoneStorage = '$phoneStorage', phoneColor = '$phoneColor', phoneStatus = '$phoneStatus', phoneQuantity = '$phoneQuantity', phonePrice = '$phonePrice', phoneImage = '$img_path', phoneDescription = '$phoneDescription' " .
@@ -99,6 +99,8 @@ else {
         }
 
         $successMessage = "Phone added correctly";
+        $activityLog = new ActivityLog(...$dbData);
+        $activityLog->setAction($_SESSION['userID'], "Edited Inventory");
         header("location: inventory.php");
         exit;
 

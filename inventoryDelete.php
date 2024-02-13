@@ -8,14 +8,14 @@ if ( isset( $_GET['phoneID']) ) {
     $password= "";
     $dbname= "sellphone";
 
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
     $dbData = [$servername, $username, $password, $dbname];
-              $activityLog = new ActivityLog(...$dbData);
-              $activityLog->setAction($_SESSION['userID'], "accessed the Inventory Delete Page");
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
 
     $sql = "DELETE FROM phonetbl WHERE phoneID=$phoneID";
     $conn->query($sql);
+    $activityLog = new ActivityLog(...$dbData);
+    $activityLog->setAction($_SESSION['userID'], "Deleted Inventory ");
 }
 
 header("location: inventory.php");
