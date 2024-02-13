@@ -107,9 +107,26 @@ if ($total_count >= $maxAttempts) {
                                                 <!-- Password input -->
                                                 <div class="mb-3">
                                                     <label for="loginPassword" class="form-label">Password</label>
-                                                    <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                                                    <div class="input-group">
+                                                        <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
+                                                        <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('loginPassword', 'password')">Show</button>
+                                                    </div>
                                                 </div>
 
+                                                <script>
+                                                    function togglePasswordVisibility(targetId, otherId) {
+                                                        var passwordField = document.getElementById(targetId);
+                                                        var otherPasswordField = document.getElementById(otherId);
+
+                                                        if (passwordField.type === "password") {
+                                                            passwordField.type = "text";
+                                                            otherPasswordField.type = "text";
+                                                        } else {
+                                                            passwordField.type = "password";
+                                                            otherPasswordField.type = "password";
+                                                        }
+                                                    }
+                                                </script>
 
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
