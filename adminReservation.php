@@ -96,6 +96,7 @@ if (isset($_GET['logout'])) {
                     <th>reserveID</th>
                     <th>phoneID</th>
                     <th>UserID</th>
+                    <th>Name</th>
                     <th>reserveDate</th>
                     <th>pickupDate</th>
                     <th>phoneCount</th>
@@ -132,7 +133,11 @@ if (isset($_GET['logout'])) {
                   $activityLog->setAction($_SESSION['userID'], "Admin Claimed a Reserved Phone");
               }
 
-              $sql = "SELECT * FROM reservetbl ";
+              $sql = "SELECT r.reserveID, r.phoneID, r.userID, r.reserveDate, r.pickupDate, r.phoneCount, r.reservationStatus, r.totalPrice, u.fName AS fName
+                      FROM reservetbl AS r
+                      JOIN usertbl AS u
+                      ON r.userID = u.userID
+                      ORDER BY r.reserveID DESC";
               $result = $conn->query($sql);
 
               if (!$result) {
@@ -140,29 +145,30 @@ if (isset($_GET['logout'])) {
               }
 
               while ($row = $result->fetch_assoc()) {
-                  if ($row["reservationStatus"] === '0') {
-                    $pickup = "For pick up";
-                      echo "
-                          <tr>
-                              <td>$row[reserveID]</td>
-                              <td>$row[phoneID]</td>
-                              <td>$row[userID]</td>
-                              <td>$row[reserveDate]</td>
-                              <td>$row[pickupDate]</td>
-                              <td>$row[phoneCount]</td>
-                              <td>$pickup</td>
-                              <td>$row[totalPrice]</td>
-                              <td>
-                                  <form method='post'>
-                                      <input type='hidden' name='reserveID' value='$row[reserveID]'>
-                                      <input type='hidden' name='currentStatus' value='$row[reservationStatus]'>
-                                      <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
-                                  </form>
-                                  <a class='btn btn-danger btn-sm' href='adminReservationDelete.php?reserveID=$row[reserveID]'>Delete</a>
-                              </td>
-                          </tr>
-                      ";
-                  }
+                if ($row["reservationStatus"] === '0') {
+                  $pickup = "For pick up";
+                  echo "
+                      <tr>
+                          <td>{$row['reserveID']}</td>
+                          <td>{$row['phoneID']}</td>
+                          <td>{$row['userID']}</td>
+                          <td>{$row['fName']}</td>
+                          <td>{$row['reserveDate']}</td>
+                          <td>{$row['pickupDate']}</td>
+                          <td>{$row['phoneCount']}</td>
+                          <td>$pickup</td>
+                          <td>{$row['totalPrice']}</td>
+                          <td>
+                              <form method='post'>
+                                  <input type='hidden' name='reserveID' value='{$row['reserveID']}'>
+                                  <input type='hidden' name='currentStatus' value='{$row['reservationStatus']}'>
+                                  <button type='submit' class='btn btn-primary btn-sm'>Claimed</button>
+                              </form>
+                              <a class='btn btn-danger btn-sm' href='adminReservationDelete.php?reserveID={$row['reserveID']}'>Delete</a>
+                          </td>
+                      </tr>
+                  ";
+                }
               }
 
               ?>
@@ -175,6 +181,7 @@ if (isset($_GET['logout'])) {
                     <th>reserveID</th>
                     <th>phoneID</th>
                     <th>UserID</th>
+                    <th>Name</th>
                     <th>reserveDate</th>
                     <th>pickupDate</th>
                     <th>phoneCount</th>
@@ -194,6 +201,7 @@ if (isset($_GET['logout'])) {
                                 <td>$row[reserveID]</td>
                                 <td>$row[phoneID]</td>
                                 <td>$row[userID]</td>
+                                <td>{$row['fName']}</td>
                                 <td>$row[reserveDate]</td>
                                 <td>$row[pickupDate]</td>
                                 <td>$row[phoneCount]</td>
