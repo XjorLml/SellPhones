@@ -5,6 +5,7 @@ if(isset($_POST['submit'])){
 
 }   
 
+
 // Check if login attempts reached the limit and set a JavaScript variable accordingly
 $mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
 $ip_address = getUserIpAddr();  
