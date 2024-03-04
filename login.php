@@ -1,9 +1,23 @@
 <?php
 require "userLogss.php";
+
+if(isset($_SESSION["userID"])) {
+    if($_SESSION["userType"] === "admin" ) {
+        // Redirect admins to admin dashboard
+        header("Location: adminDashboard.php");
+        exit();
+    } elseif ($_SESSION["userType"] === "user") {
+        // Redirect users to products page
+        header("Location: products.php");
+        exit();
+    }
+}
+
 if(isset($_POST['submit'])){
     $response = loginUser($_POST['email'], $_POST['password']);
-
-}   
+    exit;
+}
+   
 
 
 // Check if login attempts reached the limit and set a JavaScript variable accordingly
@@ -52,6 +66,8 @@ if ($total_count >= $maxAttempts) {
 
  <!-- Template Main CSS File -->
  <link href="assets/css/main.css" rel="stylesheet">
+ 
+  
 
 </head>
 
