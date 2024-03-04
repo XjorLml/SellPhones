@@ -221,7 +221,11 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     }
  
     if(strlen($password) > 50){
-        return "Password too long";      
+        return "Password too Strong!";      
+    }
+    
+    if(strlen($password) < 12){
+        return "Password too Weak!";      
     }
  
     if($password != $registerRepeatPassword){
