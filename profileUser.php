@@ -6,22 +6,22 @@
         // Redirect admins to admin dashboard
         header("Location: adminDashboard.php");
         exit();
-    } elseif ($_SESSION["userType"] === "user") {
-        // Redirect users to products page
-        header("Location: products.php");
-        exit();
-    }
+    } 
+}
+
+if (!isset($_SESSION["userID"])) {
+    header("location: login.php");
+    exit();
+}
+
+if (isset($_GET['logout'])) {
+  logoutUser();
 }
   $phones = getPhoneData();  
 
-  if (!isset($_SESSION["userID"])) {
-    header("location: login.php");
-    exit();
-    }
   
-  if (isset($_GET['logout'])) {
-      logoutUser();
-  }
+  
+ 
   // Get the userID of the currently logged-in user
   $userID = $_SESSION["userID"];
 ?>

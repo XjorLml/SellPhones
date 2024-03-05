@@ -1,28 +1,30 @@
 <?php
 require "userLogss.php";
 
+
 if(isset($_SESSION["userID"])) {
     if($_SESSION["userType"] === "admin" ) {
         // Redirect admins to admin dashboard
         header("Location: adminDashboard.php");
         exit();
-    } elseif ($_SESSION["userType"] === "user") {
-        // Redirect users to products page
-        header("Location: products.php");
-        exit();
-    }
+    } 
 }
-$phones_reserved = getReservationsByUserIDAndStatus($_SESSION["userID"], 0);
-$phones_claimed = getReservationsByUserIDAndStatus($_SESSION["userID"], 1);
 
 if (!isset($_SESSION["userID"])) {
     header("location: login.php");
     exit();
 }
 
+
 if (isset($_GET['logout'])) {
     logoutUser();
 }
+
+$phones_reserved = getReservationsByUserIDAndStatus($_SESSION["userID"], 0);
+$phones_claimed = getReservationsByUserIDAndStatus($_SESSION["userID"], 1);
+
+
+
 // Get the userID of the currently logged-in user
 $userID = $_SESSION["userID"];
 ?>
