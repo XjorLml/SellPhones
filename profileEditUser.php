@@ -1,6 +1,18 @@
 <?php
   require "userLogss.php";
   $phones = getPhoneData();  
+  
+  if(isset($_SESSION["userID"])) {
+    if($_SESSION["userType"] === "admin" ) {
+        // Redirect admins to admin dashboard
+        header("Location: adminDashboard.php");
+        exit();
+    } elseif ($_SESSION["userType"] === "user") {
+        // Redirect users to products page
+        header("Location: products.php");
+        exit();
+    }
+}
 
   if (!isset($_SESSION["userID"])) {
     header("location: login.php");

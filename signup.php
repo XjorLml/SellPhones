@@ -1,14 +1,23 @@
 <?php
     require "functions.php";
 
+    if(isset($_SESSION["userID"])) {
+        if($_SESSION["userType"] === "admin" ) {
+            // Redirect admins to admin dashboard
+            header("Location: adminDashboard.php");
+            exit();
+        } elseif ($_SESSION["userType"] === "user") {
+            // Redirect users to products page
+            header("Location: products.php");
+            exit();
+        }
+    }
+
     if(isset($_POST['submit'])){
         $response = registerUser($_POST['email'], $_POST['fName'], $_POST['lName'], $_POST['phoneNumber'], $_POST['password'], $_POST['registerRepeatPassword']);
         
         }
 
-        
-
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +102,7 @@
                                             }
                                         }
                                         ?>
-                                        <form action="signup.php" method="post" autocomplete="off">
+                                        <form action="signup.php" method="post" autocomplete="off" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>>
 
                                             <!-- First Name and Last Name inputs -->
                                             <div class="row mb-3">
