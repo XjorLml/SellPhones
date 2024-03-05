@@ -392,7 +392,6 @@ function logoutUser(){
     exit();
 }
 
-
 function passwordReset($email){
     $mysqli = connect();
     $email = trim($email);
