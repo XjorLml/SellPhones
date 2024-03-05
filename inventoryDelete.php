@@ -1,5 +1,17 @@
 <?php
 require "userLogss.php";
+
+
+if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
+    header("location: login.php");
+    exit();
+    }
+  
+  if (isset($_GET['logout'])) {
+      logoutUser();
+  }
+  
+
 if (isset($_GET['phoneID'])) {
     $phoneID = $_GET['phoneID'];
 

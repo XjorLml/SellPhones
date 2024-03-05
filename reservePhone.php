@@ -1,17 +1,6 @@
 <?php
 require_once "userLogss.php";
 
-if(isset($_SESSION["userID"])) {
-    if($_SESSION["userType"] === "admin" ) {
-        // Redirect admins to admin dashboard
-        header("Location: adminDashboard.php");
-        exit();
-    } elseif ($_SESSION["userType"] === "user") {
-        // Redirect users to products page
-        header("Location: products.php");
-        exit();
-    }
-}
 
 $servername= "localhost";
 $username= "root";
