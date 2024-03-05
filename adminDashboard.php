@@ -146,16 +146,16 @@ if (isset($_GET['logout'])) {
                     die("Connection failed". $conn->connect_error);
                 }
 
-                $sql = "SELECT l.created_at, l.id, l.userID, l.action, u.fName 
-                        FROM site_activity_log_automation_tbl AS l 
-                        JOIN usertbl AS u 
-                        ON l.userID = u.userID 
-                        ORDER BY l.id DESC";
+                $sql = "SELECT l.created_at, l.id, l.userID, l.action, u.fName, u.userUFID
+                FROM site_activity_log_automation_tbl AS l 
+                JOIN usertbl AS u 
+                ON l.userID = u.userID 
+                ORDER BY l.id DESC";
 
                 $result = $conn->query($sql);
 
                 if (!$result) {
-                    die("Invalid query". $conn->connect_error);
+                    die("Invalid query: " . $conn->error);
                 }
 
                 while ($row = $result->fetch_assoc()) {
@@ -163,7 +163,7 @@ if (isset($_GET['logout'])) {
                     <tr>
                         <td>{$row['created_at']}</td>
                         <td>{$row['id']}</td>
-                        <td>{$row['userID']}</td>
+                        <td>{$row['userUFID']}</td>
                         <td>{$row['fName']}</td>
                         <td>{$row['action']}</td>
                     </tr>

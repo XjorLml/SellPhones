@@ -18,6 +18,7 @@ if (!isset($_SESSION["userID"])) {
       logoutUser();
   }
 
+
 // Check if the form is submitted via POST
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

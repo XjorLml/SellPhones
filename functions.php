@@ -186,65 +186,84 @@ function getReservationsByUserID($userID) {
     return $reservations;
 }
 
-function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword){
- 
-    $mysqli = connect();
-    $args = func_get_args();
- 
-    $args = array_map(function($value){
-        return trim($value);
-    }, $args);
-   
-    foreach ($args as $value){
-        if(empty($value)){
-            return "All Fields are required";
-        }
+function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword) {
+
+    $mysqli = connect(); // Replace with your connection logic
+
+    // Check for missing arguments (optional)
+    if (func_num_args() != 6) {
+        return "Invalid number of arguments provided";
     }
- 
+
+    $args = func_get_args(); // Avoid unnecessary variable assignment
+
+    // Input validation
     foreach ($args as $value) {
-        if(preg_match("/[<|>]/", $value)){
+        if (empty($value)) {
+            return "All fields are required";
+        }
+        if (preg_match("/[<|>]/", $value)) {
             return "<> characters are not allowed";
         }
     }
- 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        return "Email is not Valid";
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return "Invalid email format";
     }
- 
+
+    // Check email existence
     $stmt = $mysqli->prepare("SELECT email FROM userTbl WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
-    if($data != NULL){
-        return "Email already exists, please use a different Email";
+    if ($data) {
+        return "Email already exists. Please choose a different one.";
     }
- 
-    if(strlen($password) > 50){
-        return "Password too Strong!";      
+
+    // Password validation (consider using a password library for more complex rules)
+    if (strlen($password) < 12) {
+        return "Password is too weak. It must be at least 12 characters long.";
     }
-    
-    if(strlen($password) < 12){
-        return "Password too Weak!";      
+    if ($password !== $registerRepeatPassword) {
+        return "Passwords do not match";
     }
- 
-    if($password != $registerRepeatPassword){
-        return "Passwords don't match";
-    }
+
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
- 
-    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType) VALUES (?, ?, ?, ?, ?, 'user')");
-    $stmt->bind_param("sssss", $hashed_password,$fname, $lname, $email,$phoneNumber);
+
+    // Insert user with secure password
+    $stmt = $mysqli->prepare("INSERT INTO userTbl (password, fName, lName, email, phoneNumber, userType)
+                                 VALUES (?, ?, ?, ?, ?, 'user')");
+    $stmt->bind_param("sssss", $hashed_password, $fname, $lname, $email, $phoneNumber);
     $stmt->execute();
- 
- 
-    if ($stmt->affected_rows != 1) {
-        return "An error occured. Please Try Again";
-    } else {
+
+    // Check for errors during insertion
+    if ($mysqli->error) {
+        return "Registration failed: " . $mysqli->error;
+    }
+
+    // Get the last inserted ID (optional, depending on your needs)
+    $last_id = mysqli_insert_id($mysqli);
+
+    // Generate UFID and update the user record (optional, based on your requirements)
+    // Consider using a more secure approach for generating unique IDs
+    if ($last_id) {
+        $code = rand(1, 999999);
+        $userUFID = "2024-PUI" . $code . "-" . $last_id;
+        $query = "UPDATE userTbl SET userUFID = '$userUFID' WHERE userID = '$last_id'";
+        $mysqli->query($query);
+    }
+
+    // Redirect or return appropriate message based on success or failure
+    if ($stmt->affected_rows === 1) {
+        // Consider using prepared statements to prevent SQL injection in the redirect
         header("Location: login.php");
-        return "Success ";
+        return "Success"; // This won't be executed due to the header redirect
+    } else {
+        return "An error occurred during registration. Please try again.";
     }
 }
+
 
 function getUserIpAddr() {
     // Check for shared Internet Protocol (IP)
@@ -372,7 +391,6 @@ function logoutUser(){
     header("location: login.php");
     exit();
 }
-
 
 function passwordReset($email){
     $mysqli = connect();

@@ -1,15 +1,27 @@
 <?php
-  require "userLogss.php";
-  $phones = getPhoneData();  
+  require "userLogss.php"; 
 
-  if (!isset($_SESSION["userID"])) {
+  if(isset($_SESSION["userID"])) {
+    if($_SESSION["userType"] === "admin" ) {
+        // Redirect admins to admin dashboard
+        header("Location: adminDashboard.php");
+        exit();
+    } 
+}
+
+if (!isset($_SESSION["userID"])) {
     header("location: login.php");
     exit();
-    }
+}
+
+if (isset($_GET['logout'])) {
+  logoutUser();
+}
+
+$phones = getPhoneData();  
   
-  if (isset($_GET['logout'])) {
-      logoutUser();
-  }
+ 
+ 
 
 $servername= "localhost";
 $username= "root";

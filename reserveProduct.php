@@ -1,6 +1,21 @@
 <?php
 require "userLogss.php";
 
+
+
+if(isset($_SESSION["userID"])) {
+    if($_SESSION["userType"] === "admin" ) {
+        // Redirect admins to admin dashboard
+        header("Location: adminDashboard.php");
+        exit();
+    } 
+}
+
+if (!isset($_SESSION["userID"])) {
+    header("location: login.php");
+    exit();
+}
+
 // Get phone ID from URL parameter
 $phoneId = isset($_GET['id']) ? $_GET['id'] : null;
 
