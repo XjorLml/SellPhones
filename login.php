@@ -15,10 +15,8 @@ if(isset($_SESSION["userID"])) {
 
 if(isset($_POST['submit'])){
     $response = loginUser($_POST['email'], $_POST['password']);
-    exit;
-}
-   
 
+}   
 
 // Check if login attempts reached the limit and set a JavaScript variable accordingly
 $mysqli = connect(); // Assuming you have a connect() function that returns a MySQLi object
@@ -66,8 +64,6 @@ if ($total_count >= $maxAttempts) {
 
  <!-- Template Main CSS File -->
  <link href="assets/css/main.css" rel="stylesheet">
- 
-  
 
 </head>
 
