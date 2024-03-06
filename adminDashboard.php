@@ -129,6 +129,7 @@ if (isset($_GET['logout'])) {
                     <th>Date and time</th>
                     <th>Log ID</th>
                     <th>User ID</th>
+                    <!-- <th>User ID</th> -->
                     <th>User name</th>
                     <th>Action</th>
                 </tr>

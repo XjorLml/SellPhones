@@ -124,7 +124,7 @@ if (isset($_GET['logout'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
                     <tr>
-                        <td>$row[userID]</td>
+                        <td>$row[userUFID]</td>
                         <td>$row[fName]</td>
                         <td>$row[lName]</td>
                         <td>$row[email]</td>
