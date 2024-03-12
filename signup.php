@@ -152,21 +152,6 @@
                                             </div>
                                         </div>
 
-                                        <script>
-                                            function togglePasswordVisibility(targetId, otherId) {
-                                                var passwordField = document.getElementById(targetId);
-                                                var otherPasswordField = document.getElementById(otherId);
-
-                                                if (passwordField.type === "password") {
-                                                    passwordField.type = "text";
-                                                    otherPasswordField.type = "text";
-                                                } else {
-                                                    passwordField.type = "password";
-                                                    otherPasswordField.type = "password";
-                                                }
-                                            }
-                                        </script>
-
                                             <!-- Submit button -->
                                             <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
 
@@ -196,4 +181,5 @@
         </div>
     </div>
 </section>
+<script src="script.js"></script>
 

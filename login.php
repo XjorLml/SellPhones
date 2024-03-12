@@ -126,21 +126,6 @@ if ($total_count >= $maxAttempts) {
                                                     </div>
                                                 </div>
 
-                                                <script>
-                                                    function togglePasswordVisibility(targetId, otherId) {
-                                                        var passwordField = document.getElementById(targetId);
-                                                        var otherPasswordField = document.getElementById(otherId);
-
-                                                        if (passwordField.type === "password") {
-                                                            passwordField.type = "text";
-                                                            otherPasswordField.type = "text";
-                                                        } else {
-                                                            passwordField.type = "password";
-                                                            otherPasswordField.type = "password";
-                                                        }
-                                                    }
-                                                </script>
-
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
@@ -186,6 +171,7 @@ if ($total_count >= $maxAttempts) {
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eAq2B5BzUjg3a0vTA2o49fgJrj2u9vAT9GTO4+m9PqEjLh6j8wtg1W6lgF5wo5JX" crossorigin="anonymous"></script>
     <script>
         // JavaScript to disable login button if login attempts limit is reached
