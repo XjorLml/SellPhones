@@ -125,7 +125,22 @@ if ($total_count >= $maxAttempts) {
                                                             <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('loginPassword', 'password')" <?php if($disableButton) echo 'disabled'; ?>>Show</button>
                                                         </div>
                                                     </div>
+                                                </div>
 
+                                                <script>
+                                                    function togglePasswordVisibility(targetId, otherId) {
+                                                        var passwordField = document.getElementById(targetId);
+                                                        var otherPasswordField = document.getElementById(otherId);
+
+                                                        if (passwordField.type === "password") {
+                                                            passwordField.type = "text";
+                                                            otherPasswordField.type = "text";
+                                                        } else {
+                                                            passwordField.type = "password";
+                                                            otherPasswordField.type = "password";
+                                                        }
+                                                    }
+                                                </script>
 
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">

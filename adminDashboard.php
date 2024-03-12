@@ -129,8 +129,8 @@ if (isset($_GET['logout'])) {
                     <th>Log ID</th>
                     <th>User ID</th>
                     <!-- <th>User ID</th> -->
+                    <th>User name</th>
                     <th>Action</th>
-                    <th>Date and Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,10 +161,11 @@ if (isset($_GET['logout'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
                     <tr>
-                         <td>{$row['id']}</td>
-                         <td>{$row['userUFID']}</td>
-                         <td>{$row['action']}</td>
                         <td>{$row['created_at']}</td>
+                        <td>{$row['id']}</td>
+                        <td>{$row['userUFID']}</td>
+                        <td>{$row['fName']}</td>
+                        <td>{$row['action']}</td>
                     </tr>
                     ";
                 }
