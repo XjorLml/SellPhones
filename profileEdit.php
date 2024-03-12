@@ -3,10 +3,11 @@
 require "userLogss.php";
 
 
-if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
-  header("location: login.php");
-  exit();
-  }
+
+if (!isset($_SESSION["userID"]) && $_SESSION["userUFID"] !== "2024-PUI149206-1") {
+    header("location: login.php");
+    exit();
+    }
 
 if (isset($_GET['logout'])) {
     logoutUser();

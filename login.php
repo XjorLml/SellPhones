@@ -111,35 +111,21 @@ if ($total_count >= $maxAttempts) {
 
                                             <form action="" method="post" autocomplete="off">
                                                 <!-- Email input -->
-                                                <div class="mb-3">
-                                                    <label for="loginEmail" class="form-label">Email</label>
-                                                    <input type="text" name="email" id="loginEmail" class="form-control" value="<?php echo @$_POST['email']; ?>"/>
-                                                </div>
-
-                                                <!-- Password input -->
-                                                <!-- Password input -->
-                                                <div class="mb-3">
-                                                    <label for="loginPassword" class="form-label">Password</label>
-                                                    <div class="input-group">
-                                                        <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>"/>
-                                                        <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('loginPassword', 'password')">Show</button>
+                                                <!-- Email input -->
+                                                    <div class="mb-3">
+                                                        <label for="loginEmail" class="form-label">Email</label>
+                                                        <input type="text" name="email" id="loginEmail" class="form-control" value="<?php echo @$_POST['email']; ?>" <?php if($disableButton) echo 'readonly'; ?> />
                                                     </div>
-                                                </div>
 
-                                                <script>
-                                                    function togglePasswordVisibility(targetId, otherId) {
-                                                        var passwordField = document.getElementById(targetId);
-                                                        var otherPasswordField = document.getElementById(otherId);
+                                                    <!-- Password input -->
+                                                    <div class="mb-3">
+                                                        <label for="loginPassword" class="form-label">Password</label>
+                                                        <div class="input-group">
+                                                            <input type="password" name="password" id="loginPassword" class="form-control" value="<?php echo @$_POST['password']; ?>" <?php if($disableButton) echo 'readonly'; ?> />
+                                                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('loginPassword', 'password')" <?php if($disableButton) echo 'disabled'; ?>>Show</button>
+                                                        </div>
+                                                    </div>
 
-                                                        if (passwordField.type === "password") {
-                                                            passwordField.type = "text";
-                                                            otherPasswordField.type = "text";
-                                                        } else {
-                                                            passwordField.type = "password";
-                                                            otherPasswordField.type = "password";
-                                                        }
-                                                    }
-                                                </script>
 
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
@@ -186,6 +172,7 @@ if ($total_count >= $maxAttempts) {
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eAq2B5BzUjg3a0vTA2o49fgJrj2u9vAT9GTO4+m9PqEjLh6j8wtg1W6lgF5wo5JX" crossorigin="anonymous"></script>
     <script>
         // JavaScript to disable login button if login attempts limit is reached

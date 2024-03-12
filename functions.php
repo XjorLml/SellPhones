@@ -187,7 +187,6 @@ function getReservationsByUserID($userID) {
 }
 
 function registerUser($email, $fname, $lname, $phoneNumber, $password, $registerRepeatPassword) {
-
     $mysqli = connect(); // Replace with your connection logic
 
     // Check for missing arguments (optional)
@@ -208,7 +207,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return "Invalid email format";
+        return " <div class='alert alert-danger' role='alert'> Invalid email format </div>";
     }
 
     // Check email existence
@@ -218,15 +217,18 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
     $result = $stmt->get_result();
     $data = $result->fetch_assoc();
     if ($data) {
-        return "Email already exists. Please choose a different one.";
+        return "<div class='alert alert-danger' role='alert'> Email already exists. Please choose a different one. </div>";
     }
 
-    // Password validation (consider using a password library for more complex rules)
+    // Password validation
     if (strlen($password) < 12) {
-        return "Password is too weak. It must be at least 12 characters long.";
+        return "<div class='alert alert-danger' role='alert'>Password is too weak. It must be at least 12 characters long. </div>";
+    }
+    if (!preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $password) || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        return "<div class='alert alert-danger' role='alert'>Password must contain at least one special character, one uppercase letter, and one number.</div>";
     }
     if ($password !== $registerRepeatPassword) {
-        return "Passwords do not match";
+        return "<div class='alert alert-danger' role='alert'> Passwords do not match </div>";
     }
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -263,6 +265,7 @@ function registerUser($email, $fname, $lname, $phoneNumber, $password, $register
         return "An error occurred during registration. Please try again.";
     }
 }
+
 
 
 function getUserIpAddr() {

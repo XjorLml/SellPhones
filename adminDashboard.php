@@ -2,7 +2,7 @@
 require "userLogss.php";
 
 
-if (!isset($_SESSION["userID"]) || $_SESSION["userID"] !== 1) {
+if (!isset($_SESSION["userID"]) && $_SESSION["userUFID"] !== "2024-PUI149206-1") {
   header("location: login.php");
   exit();
   }
@@ -126,12 +126,11 @@ if (isset($_GET['logout'])) {
             <thead>
             <h2>User Logs</h2>
                 <tr>
-                    <th>Date and time</th>
                     <th>Log ID</th>
                     <th>User ID</th>
                     <!-- <th>User ID</th> -->
-                    <th>User name</th>
                     <th>Action</th>
+                    <th>Date and Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -162,11 +161,10 @@ if (isset($_GET['logout'])) {
                 while ($row = $result->fetch_assoc()) {
                     echo "
                     <tr>
+                         <td>{$row['id']}</td>
+                         <td>{$row['userUFID']}</td>
+                         <td>{$row['action']}</td>
                         <td>{$row['created_at']}</td>
-                        <td>{$row['id']}</td>
-                        <td>{$row['userUFID']}</td>
-                        <td>{$row['fName']}</td>
-                        <td>{$row['action']}</td>
                     </tr>
                     ";
                 }
