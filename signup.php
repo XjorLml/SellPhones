@@ -46,20 +46,6 @@
     <link href="assets/css/main.css" rel="stylesheet">
 
     <!-- JavaScript for password visibility toggle -->
-<script>
-    function togglePasswordVisibility(inputId) {
-        var passwordInput = document.getElementById(inputId);
-        var visibilityButton = document.querySelector(`#${inputId} + .input-group .btn`);
-
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            visibilityButton.textContent = "Hide";
-        } else {
-            passwordInput.type = "password";
-            visibilityButton.textContent = "Show";
-        }
-    }
-</script>
 
 </head>
 <body>
@@ -151,22 +137,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <script>
-                                            function togglePasswordVisibility(targetId, otherId) {
-                                                var passwordField = document.getElementById(targetId);
-                                                var otherPasswordField = document.getElementById(otherId);
-
-                                                if (passwordField.type === "password") {
-                                                    passwordField.type = "text";
-                                                    otherPasswordField.type = "text";
-                                                } else {
-                                                    passwordField.type = "password";
-                                                    otherPasswordField.type = "password";
-                                                }
-                                            }
-                                        </script>
-
                                             <!-- Submit button -->
                                             <button type="submit" name="submit" class="btn btn-primary btn-block">Sign Up</button>
 
@@ -196,4 +166,4 @@
         </div>
     </div>
 </section>
-
+<script src="script.js"></script>

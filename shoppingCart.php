@@ -307,73 +307,11 @@ $userID = $_SESSION["userID"];
     <!-- End Footer -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    // Handle click event on Cancel buttons
-    const cancelButtons = document.querySelectorAll('.cancel-reservation');
-    cancelButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const reserveId = button.getAttribute('data-reserve-id');
-            // Set the reserve ID in the confirmation modal
-            document.getElementById('confirmCancelBtn').setAttribute('data-reserve-id', reserveId);
-            // Show the confirmation modal
-            const confirmCancelModal = new bootstrap.Modal(document.getElementById('confirmCancelModal'));
-            confirmCancelModal.show();
-        });
-    });
-
-    // Handle click event on Confirm button in the cancellation confirmation modal
-    document.getElementById('confirmCancelBtn').addEventListener('click', function() {
-        const reserveId = this.getAttribute('data-reserve-id');
-        // Redirect to shoppingCartDelete.php with the reserveID parameter
-        window.location.href = 'shoppingCartDelete.php?reserveID=' + reserveId;
-    });
-
-    // Handle click event on Delete buttons for claimed items
-    const deleteButtons = document.querySelectorAll('.delete-claimed');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            console.log("Delete button clicked"); // Check if this message is logged when you click the delete button
-            const reserveId = button.getAttribute('data-reserve-id');
-            // Show the confirmation modal
-            const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
-            confirmDeleteModal.show();
-            // Set the reserve ID in the confirmation modal
-            document.getElementById('confirmDeleteBtn').setAttribute('data-reserve-id', reserveId);
-        });
-    });
-
-    // Set event listener for Confirm button in the confirmation modal
-    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-        console.log("Confirm deletion button clicked"); // Check if this message is logged when you click the confirm deletion button
-        const reserveId = this.getAttribute('data-reserve-id');
-        // Send an AJAX request to delete the claimed item
-        $.ajax({
-            url: 'shoppingCartDelete.php',
-            method: 'POST', // Use POST method to send parameters
-            data: { reserveID: reserveId, action: 'deleteClaimed' }, // Include reserveID and action
-            success: function(response) {
-                // Reload the page to reflect the changes
-                window.location.href = 'shoppingCartDelete.php?reserveID=' + reserveId;
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                // Handle error, such as displaying an alert to the user
-                alert('An error occurred while deleting the claimed item.');
-            }
-        });
-    });
-});
-      
-    </script>
 
     <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
     <div id="preloader"></div>
-
-
-
     <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
@@ -382,9 +320,11 @@ $userID = $_SESSION["userID"];
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
+    
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <script src="shoppingCartFunctions.js"></script>
 
 </body>
 

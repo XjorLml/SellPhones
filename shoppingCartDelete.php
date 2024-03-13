@@ -72,7 +72,7 @@ if (isset($_GET['reserveID'])) {
         deleteReservation($reserveID);
         // Add back the reserved quantity to the available quantity of the corresponding phone
         // Assuming this function is defined elsewhere
-        // addBackPhoneQuantityAfterDeletion($phoneId, $phoneCount);
+        addBackPhoneQuantityAfterDeletion($phoneId, $phoneCount);
         $activityLog = new ActivityLog(...$dbData);
         $activityLog->setAction($_SESSION['userID'], "User Cancelled an Order");
     } elseif ($reservationStatus == 1) {

@@ -127,21 +127,6 @@ if ($total_count >= $maxAttempts) {
                                                     </div>
                                                 </div>
 
-                                                <script>
-                                                    function togglePasswordVisibility(targetId, otherId) {
-                                                        var passwordField = document.getElementById(targetId);
-                                                        var otherPasswordField = document.getElementById(otherId);
-
-                                                        if (passwordField.type === "password") {
-                                                            passwordField.type = "text";
-                                                            otherPasswordField.type = "text";
-                                                        } else {
-                                                            passwordField.type = "password";
-                                                            otherPasswordField.type = "password";
-                                                        }
-                                                    }
-                                                </script>
-
                                                 <!-- 2 column grid layout -->
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
@@ -152,9 +137,9 @@ if ($total_count >= $maxAttempts) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
+                                                    <!-- <div class="col-md-6">
                                                         <a href="forgot-password.php" class="d-block" style="font-size: 13px;">Forgot password?</a>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <!-- Submit button -->
                                                 <button type="submit" name="submit" class="btn btn-primary btn-block" <?php if($disableButton) echo 'disabled'; ?>>Log In</button>

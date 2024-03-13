@@ -72,20 +72,7 @@
 
   </style>
   <script>
-  function redirectToDetails(phoneData) {
-    const form = document.createElement('form');
-    form.method = 'post';
-    form.action = 'reserveProduct.html';
-
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'phoneData';
-    input.value = phoneData;
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
-  }
+ 
 </script>
 </head>
 
@@ -231,11 +218,7 @@
   <!-- End Footer -->
   <script>
   // Initialize GLightbox
-  document.addEventListener('DOMContentLoaded', () => {
-    const lightbox = GLightbox({
-      selector: '.glightbox'
-    });
-  });
+ 
 </script>
   
 
@@ -254,6 +237,7 @@
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="productFunction.js"></script>
 </body>
 
 </html>
